@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import { Container } from 'reactstrap';
 
-import Header from './Header';
-import Sidebar from './Sidebar/';
-import Breadcrumb from './Breadcrumb';
-import Aside from './Aside/';
-import Footer from './Footer/';
 import Dashboard from './Dashboard';
+import Header from './Layout/Header';
+import Sidebar from './Layout/Sidebar';
+import Breadcrumb from './Layout/Breadcrumb';
+import Aside from './Layout/Aside';
+import Footer from './Layout/Footer';
 
 class App extends Component {
   render() {
