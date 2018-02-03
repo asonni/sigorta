@@ -1,7 +1,23 @@
 {
   "name": "sigorta-server",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "~1.18.2",
+    "concurrently": "^3.5.1",
+    "cors": "^2.8.4",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "jwt-simple": "^0.5.1",
+    "mongoose": "^5.0.3",
+    "morgan": "~1.9.0",
+    "nodemon": "^1.14.11",
+    "passport": "^0.4.0",
+    "passport-jwt": "^3.0.1",
+    "passport-local": "^1.0.0",
+    "serve-favicon": "~2.4.5"
+  },
   "scripts": {
     "start": "NODE_ENV=production node ./bin/www",
     "server": "nodemon ./bin/www",
@@ -9,15 +25,5 @@
     "build": "npm run build --prefix ../client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "prod": "concurrently \"npm run start\" \"npm run build\""
-  },
-  "dependencies": {
-    "body-parser": "~1.18.2",
-    "concurrently": "^3.5.1",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "express": "~4.15.5",
-    "morgan": "~1.9.0",
-    "nodemon": "^1.14.11",
-    "serve-favicon": "~2.4.5"
   }
 }
