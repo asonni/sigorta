@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { Container } from 'reactstrap';
 
 import Dashboard from './Dashboard';
@@ -13,7 +13,7 @@ class Admin extends Component {
   render() {
     return (
       <div className="app">
-        <Header />
+        <Header {...this.props} />
         <div className="app-body">
           <Sidebar {...this.props} />
           <main className="main">
@@ -25,7 +25,7 @@ class Admin extends Component {
                   name="Dashboard"
                   component={Dashboard}
                 />
-                <Redirect from="/admin" to="/admin/dashboard" />
+                <Redirect exact from="/admin" to="/admin/dashboard" />
               </Switch>
             </Container>
           </main>

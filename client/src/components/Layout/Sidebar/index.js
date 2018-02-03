@@ -111,7 +111,7 @@ class Sidebar extends Component {
         <li key={key} className={activeRoute(item.url, props)}>
           <a
             className="nav-link nav-dropdown-toggle"
-            href="#"
+            href=""
             onClick={handleClick.bind(this)}
           >
             <i className={item.icon} />
