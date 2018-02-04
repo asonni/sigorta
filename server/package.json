@@ -17,17 +17,9 @@
     "postbuild": "node ./server.js",
     "eslint": "./node_modules/.bin/eslint ./ --quiet --ignore-path .gitignore"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/getsigorta/backend.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/sigorta/backend/issues"
-  },
-  "homepage": "https://github.com/sigorta/backend#readme",
   "dependencies": {
     "aws-sdk": "^2.90.0",
     "bcrypt": "^1.0.2",
