@@ -1,0 +1,12 @@
+deployment:
+  production:
+    branch: master
+    heroku:
+      appname: frank-be
+  staging:
+    branch: staging
+    heroku:
+      appname: trymason-staging
+machine:
+  node:
+    version: 7.10.0

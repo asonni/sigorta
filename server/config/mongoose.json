@@ -1,0 +1,13 @@
+{
+  "development": {
+    "database": "sigorta_development",
+    "host": "localhost"
+  },
+  "test": {
+    "database": "sigorta_test",
+    "host": "localhost"
+  },
+  "production": {
+    "use_env_variable": "MONGODB_URI"
+  }
+}
