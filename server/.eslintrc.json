@@ -1,0 +1,32 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "indent": [
+      "error",
+      2,
+      { "SwitchCase": 1,  "MemberExpression": 0  }
+    ],
+    "keyword-spacing": ["error", { "after": true }],
+    "object-curly-spacing": ["error", "always"],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "semi": ["error", "never"],
+    "curly": "error"
+  }
+}

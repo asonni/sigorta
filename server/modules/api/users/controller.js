@@ -96,6 +96,8 @@ class UsersAPIController {
     const { email, password } = req.body
     const service = new Service(req)
 
+    console.log(req.body)
+
     if (!email || !password) {
       return res.status(400).json("You must send the email and the password.")
     }

@@ -8,33 +8,13 @@ module.exports = () => {
   console.log('Creating Users')
   let users = []
   users.push( new User({
-    fname: 'Tom',
-    lname: 'Mclaughlin',
-    email: 'tom@frankapp.com',
+    fname: 'Ahmed',
+    lname: 'Fituri',
+    email: 'ahmed.fituri@gmail.com',
     password: '111111',
     components: []
   }))
-  users.push( new User({
-    fname: 'Cody',
-    lname: 'Borden',
-    email: 'cody@frankapp.com',
-    password: '111111',
-    components: []
-  }))
-  users.push( new User({
-    fname: 'Kareem',
-    lname: 'Sabri',
-    email: 'kareem.sabri@gmail.com',
-    password: '111111',
-    components: []
-  }))
-  users.push( new User({
-    fname: 'Not',
-    lname: 'Whitelisted',
-    email: 'tim5046@gmail.com',
-    password: '111111',
-    components: []
-  }))
+  
   for (let i = 0; i < 5; i++) {
     let user = new User({
       fname: faker.name.firstName(),
@@ -50,7 +30,7 @@ module.exports = () => {
   // Finish
   // ----------------------------------------
   let promises = [];
-  [users, admins, components].forEach(collection => {
+  [users].forEach(collection => {
     collection.forEach(model => {
       promises.push(model.save())
     })
