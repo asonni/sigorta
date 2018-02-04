@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "sigorta",
   "main": "index.js",
+  "engines": {
+    "node": "9.4.0"
+  },
   "scripts": {
     "c": "node utils/repl.js",
     "seed": "node models/mongoose/seeds",
