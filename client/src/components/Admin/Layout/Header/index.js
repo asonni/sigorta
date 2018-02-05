@@ -1,15 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import {
-  Nav,
-  NavbarBrand,
-  NavbarToggler,
-  NavItem,
-  NavLink,
-  Badge,
-  Button
-} from 'reactstrap';
+import { Nav, NavbarBrand, NavbarToggler, Button } from 'reactstrap';
 import HeaderNotificationsDropdown from './HeaderNotificationsDropdown';
 
 class Header extends Component {
@@ -49,7 +39,7 @@ class Header extends Component {
             type="button"
             color="danger"
             style={{ marginRight: '10px', marginLeft: '10px' }}
-            onClick={() => this.props.history.push('/')}
+            onClick={() => this.props.history.push('/logout')}
           >
             <i className="fa fa-lock fa-lg" />
           </Button>

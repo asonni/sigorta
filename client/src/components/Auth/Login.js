@@ -1,49 +1,94 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
 import {
   Container,
   Row,
   Col,
-  CardGroup,
   Card,
+  Form,
   CardBody,
   Button,
-  Input,
   InputGroup,
-  InputGroupAddon
+  InputGroupAddon,
+  Alert
 } from 'reactstrap';
 
+import { InputField } from '../Common';
+import { loginUser } from '../../actions/admin/Auth';
+
 class Login extends Component {
+  state = {
+    alertVisible: false,
+    loginLoading: false
+  };
+
+  onSubmintLogin = values => {
+    this.setState({ loginLoading: true, alertVisible: true });
+    this.props.loginUser(values, callback => {
+      if (callback) {
+        this.props.history.push('/admin/dashboard');
+      } else {
+        this.setState({ loginLoading: false });
+      }
+    });
+  };
+
+  onAlertDismiss = () => {
+    this.setState({ alertVisible: false });
+  };
+
   render() {
+    const { handleSubmit, message } = this.props;
     return (
       <div className="app flex-row align-items-center">
         <Container>
           <Row className="justify-content-center">
-            <Col md="8">
-              <CardGroup>
-                <Card className="p-4">
+            <Col md="5">
+              <Card className="p-4">
+                <Form onSubmit={handleSubmit(this.onSubmintLogin)}>
                   <CardBody>
                     <h1>Login</h1>
                     <p className="text-muted">Sign In to your account</p>
+                    {message && (
+                      <Alert
+                        color="danger"
+                        isOpen={this.state.alertVisible}
+                        toggle={this.onAlertDismiss}
+                      >
+                        {message}
+                      </Alert>
+                    )}
                     <InputGroup className="mb-3">
                       <InputGroupAddon>
                         <i className="icon-user" />
                       </InputGroupAddon>
-                      <Input type="text" placeholder="Username" />
+                      <Field
+                        placeholder="Username"
+                        type="text"
+                        name="email"
+                        component={InputField}
+                      />
                     </InputGroup>
                     <InputGroup className="mb-4">
                       <InputGroupAddon>
                         <i className="icon-lock" />
                       </InputGroupAddon>
-                      <Input type="password" placeholder="Password" />
+                      <Field
+                        placeholder="Password"
+                        type="password"
+                        name="password"
+                        component={InputField}
+                      />
                     </InputGroup>
                     <Row>
                       <Col xs="6">
-                        <Button
-                          color="primary"
-                          className="px-4"
-                          onClick={() => this.props.history.push('/admin')}
-                        >
-                          Login
+                        <Button type="submit" color="primary" className="px-4">
+                          {this.state.loginLoading ? (
+                            <i className="fa fa-circle-o-notch fa-spin fa-lg" />
+                          ) : (
+                            'Login'
+                          )}
                         </Button>
                       </Col>
                       <Col xs="6" className="text-right">
@@ -53,31 +98,8 @@ class Login extends Component {
                       </Col>
                     </Row>
                   </CardBody>
-                </Card>
-                <Card
-                  className="text-white bg-primary py-5 d-md-down-none"
-                  style={{ width: 44 + '%' }}
-                >
-                  <CardBody className="text-center">
-                    <div>
-                      <h2>Sign up</h2>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit, sed do eiusmod tempor incididunt ut labore et
-                        dolore magna aliqua.
-                      </p>
-                      <Button
-                        color="primary"
-                        className="mt-3"
-                        active
-                        onClick={() => this.props.history.push('/register')}
-                      >
-                        Register Now!
-                      </Button>
-                    </div>
-                  </CardBody>
-                </Card>
-              </CardGroup>
+                </Form>
+              </Card>
             </Col>
           </Row>
         </Container>
@@ -86,4 +108,10 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => {
+  return { message: state.auth.message };
+};
+
+const LgoinForm = reduxForm({ form: 'login' })(Login);
+
+export default connect(mapStateToProps, { loginUser })(LgoinForm);

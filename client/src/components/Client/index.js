@@ -3,14 +3,13 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { Container } from 'reactstrap';
 
 import Dashboard from './Dashboard';
-import UserList from './User/UserList';
 import Header from './Layout/Header';
 import Sidebar from './Layout/Sidebar';
 import Breadcrumb from './Layout/Breadcrumb';
 import Aside from './Layout/Aside';
 import Footer from './Layout/Footer';
 
-class Admin extends Component {
+class Client extends Component {
   render() {
     return (
       <div className="app">
@@ -22,12 +21,11 @@ class Admin extends Component {
             <Container fluid>
               <Switch>
                 <Route
-                  path="/admin/dashboard"
+                  path="/client/dashboard"
                   name="Dashboard"
                   component={Dashboard}
                 />
-                <Route path="/admin/users" name="Users" component={UserList} />
-                <Redirect exact from="/admin" to="/admin/dashboard" />
+                <Redirect exact from="/client" to="/client/dashboard" />
               </Switch>
             </Container>
           </main>
@@ -38,4 +36,4 @@ class Admin extends Component {
     );
   }
 }
-export default Admin;
+export default Client;

@@ -4,9 +4,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  Dropdown,
-  NavItem,
-  NavLink
+  Dropdown
 } from 'reactstrap';
 
 class HeaderNotificationsDropdown extends Component {

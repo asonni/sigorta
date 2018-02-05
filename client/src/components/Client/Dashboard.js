@@ -23,8 +23,6 @@ import {
   Table
 } from 'reactstrap';
 
-const USA = require('../../assets/img/flags/USA.png');
-
 const brandPrimary = '#20a8d8';
 const brandSuccess = '#4dbd74';
 const brandInfo = '#63c2de';
