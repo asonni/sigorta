@@ -1,5 +1,5 @@
 // Disable all application logging while running tests
-//console.log = function() {}
+console.log = function() {}
 
 const app = require("../server")
 const request = require("request")
@@ -34,7 +34,7 @@ describe("User", () => {
   beforeEach(done => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
 
-    user = new User(getUserObj())
+    user = new User(getUserObj('TesterFirst', 'TesterLast', 'dev1@sigorta.com', '111111'))
     user.isAdmin = true
     user
     .save()

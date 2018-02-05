@@ -1,12 +1,12 @@
 const request = require("request")
 
 module.exports = {
-  getUserObj: () => {
+  getUserObj: (fname, lname, email, password) => {
     return {
-      fname: "TesterFirst",
-      lname: "TesterLast",
-      email: "dev1@sigorta.com",
-      password: "111111",
+      fname,
+      lname,
+      email,
+      password,
       phone: "094847474774"
     }
   },

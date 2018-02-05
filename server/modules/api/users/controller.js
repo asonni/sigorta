@@ -73,7 +73,7 @@ class UsersAPIController {
 
     updateUser.then(() => res.status(200).json({ data: 'OK' }))
     .catch(e => {
-      console.log(`Error at POST /users/${id}`, e)
+      console.log(`Error at PUT /users/${id}`, e)
       res.status(400).json({ error: e })
     })
   }
@@ -95,8 +95,6 @@ class UsersAPIController {
     const { User } = req.models
     const { email, password } = req.body
     const service = new Service(req)
-
-    console.log(req.body)
 
     if (!email || !password) {
       return res.status(400).json("You must send the email and the password.")
