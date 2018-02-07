@@ -8,12 +8,19 @@ export default {
     {
       name: 'Users',
       url: '/admin/users',
-      icon: 'fa fa-address-book-o'
+      icon: 'fa fa-address-book-o',
+      children: [
+        {
+          name: 'View Users',
+          url: '/admin/users/view',
+          icon: 'fa fa-list'
+        },
+        {
+          name: 'New User',
+          url: '/admin/users/new',
+          icon: 'fa fa-plus'
+        }
+      ]
     }
-    // {
-    //   name: 'Clients',
-    //   url: '/admin/clients',
-    //   icon: 'fa fa-users'
-    // }
   ]
 };

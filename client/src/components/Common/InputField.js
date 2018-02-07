@@ -4,7 +4,7 @@ import { Aux } from './Hoc';
 
 const InputField = field => {
   const { label, type, placeholder, input, meta: { touched, error } } = field;
-  const valid = touched && error ? false : true;
+  const valid = touched && error ? false : null;
   return (
     <Aux>
       {label ? (

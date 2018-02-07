@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
 import {
   Container,
   Row,
@@ -22,6 +22,13 @@ class Login extends Component {
     alertVisible: false,
     loginLoading: false
   };
+
+  componentWillMount() {
+    document.title = 'Sigorta | Edit User';
+    if (localStorage.getItem('si_token')) {
+      this.props.history.push('/admin');
+    }
+  }
 
   onSubmintLogin = values => {
     this.setState({ loginLoading: true, alertVisible: true });
@@ -109,7 +116,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => {
-  return { message: state.auth.message };
+  return { message: state.authStore.message };
 };
 
 const LgoinForm = reduxForm({ form: 'login' })(Login);

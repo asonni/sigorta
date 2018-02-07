@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
-import auth from './admin/auth';
-import user from './admin/user';
+import authStore from './admin/auth';
+import userStore from './admin/user';
 
 const rootReducer = combineReducers({
   form,
-  auth,
-  user
+  authStore,
+  userStore
 });
 
 export default rootReducer;

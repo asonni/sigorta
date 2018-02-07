@@ -474,20 +474,19 @@ const mainChartOpts = {
 };
 
 class Dashboard extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    dropdownOpen: false
+  };
 
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      dropdownOpen: false
-    };
+  componentWillMount() {
+    document.title = 'Sigorta | Dashboard';
   }
 
-  toggle() {
+  toggle = () => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
     });
-  }
+  };
 
   render() {
     return (

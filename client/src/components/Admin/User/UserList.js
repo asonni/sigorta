@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Moment from 'react-moment';
 import {
   Badge,
   Row,
@@ -7,14 +9,96 @@ import {
   CardHeader,
   CardBody,
   Table,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
+  ButtonGroup,
   Button,
   Input
 } from 'reactstrap';
+import { LoadingContent, TimeoutMessage } from '../../Common';
+import { fetchUsers } from '../../../actions/admin/User';
+import DeleteUser from './DeleteUser';
 
 class UserList extends Component {
+  componentWillMount() {
+    document.title = 'Sigorta | View Users';
+    this.props.fetchUsers();
+  }
+
+  renderUsersBody = () =>
+    this.props.users.map((user, index) => {
+      const { _id, fname, lname, email, createdAt, isAdmin } = user;
+      return (
+        <tr key={index}>
+          <td className="text-center">{index + 1}</td>
+          <td>{`${fname} ${lname}`}</td>
+          <td>{email}</td>
+          <td className="text-center">
+            <Moment format="YYYY/MM/DD">{createdAt}</Moment>
+          </td>
+          <td className="text-center">{isAdmin ? 'Admin' : 'Client'}</td>
+          <td className="text-center">
+            <h5>
+              <Badge color="success">Active</Badge>
+            </h5>
+          </td>
+          <td className="text-center">
+            <ButtonGroup size="sm">
+              <Button
+                color="info"
+                onClick={() =>
+                  this.props.history.push(`/admin/users/edit/${_id}`)
+                }
+              >
+                <i className="fa fa-pencil-square-o" aria-hidden="true" />
+                <span className="hidden-xs-down">&nbsp;Edit</span>
+              </Button>
+              <DeleteUser
+                userId={_id}
+                userFullName={`${fname} ${lname}`}
+                userEmail={email}
+              />
+            </ButtonGroup>
+          </td>
+        </tr>
+      );
+    });
+
+  renderUsers = () => {
+    const { users, loading, errors } = this.props;
+    if (loading) {
+      return <LoadingContent />;
+    }
+    if (errors) {
+      return <TimeoutMessage />;
+    }
+    // if (errors.authenticated === false) {
+    //   return <AuthorizedMessage />;
+    // }
+    if (users.length === 0) {
+      return (
+        <div className="text-center">
+          <h2>No Users Found</h2>
+          <p>Add some new users to get started.</p>
+        </div>
+      );
+    }
+    return (
+      <Table responsive hover>
+        <thead>
+          <tr>
+            <th className="text-center">#</th>
+            <th>Full Name</th>
+            <th>Email Address</th>
+            <th className="text-center">Date Registered</th>
+            <th className="text-center">Role</th>
+            <th className="text-center">Status</th>
+            <th className="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>{this.renderUsersBody()}</tbody>
+      </Table>
+    );
+  };
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -24,7 +108,13 @@ class UserList extends Component {
               <CardHeader>
                 <Row>
                   <Col lg="2" className="pt-1">
-                    <Button color="primary" size="sm">
+                    <Button
+                      color="primary"
+                      size="sm"
+                      onClick={() =>
+                        this.props.history.push('/admin/users/new')
+                      }
+                    >
                       <i className="fa fa-user-plus" aria-hidden="true" /> New
                       User
                     </Button>
@@ -35,59 +125,8 @@ class UserList extends Component {
                 </Row>
               </CardHeader>
               <CardBody>
-                <Table responsive striped>
-                  <thead>
-                    <tr>
-                      <th>Username</th>
-                      <th>Date registered</th>
-                      <th>Role</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Yiorgos Avraamu</td>
-                      <td>2012/01/01</td>
-                      <td>Member</td>
-                      <td>
-                        <Badge color="success">Active</Badge>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Avram Tarasios</td>
-                      <td>2012/02/01</td>
-                      <td>Staff</td>
-                      <td>
-                        <Badge color="danger">Banned</Badge>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Quintin Ed</td>
-                      <td>2012/02/01</td>
-                      <td>Admin</td>
-                      <td>
-                        <Badge color="secondary">Inactive</Badge>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Enéas Kwadwo</td>
-                      <td>2012/03/01</td>
-                      <td>Member</td>
-                      <td>
-                        <Badge color="warning">Pending</Badge>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Agapetus Tadeáš</td>
-                      <td>2012/01/21</td>
-                      <td>Staff</td>
-                      <td>
-                        <Badge color="success">Active</Badge>
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
-                <Pagination>
+                {this.renderUsers()}
+                {/* <Pagination>
                   <PaginationItem disabled>
                     <PaginationLink previous href="#">
                       Prev
@@ -110,7 +149,7 @@ class UserList extends Component {
                       Next
                     </PaginationLink>
                   </PaginationItem>
-                </Pagination>
+                </Pagination> */}
               </CardBody>
             </Card>
           </Col>
@@ -120,4 +159,9 @@ class UserList extends Component {
   }
 }
 
-export default UserList;
+const mapStateToProps = ({ userStore }) => {
+  const { users, loading, errors } = userStore;
+  return { users, loading, errors };
+};
+
+export default connect(mapStateToProps, { fetchUsers })(UserList);

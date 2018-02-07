@@ -1,0 +1,13 @@
+.btn-info,
+.btn-secondary {
+  color: #ffffff;
+}
+.btn-info:hover,
+.btn-info:active,
+.btn-secondary:hover,
+.btn-secondary:active {
+  color: #ffffff !important;
+}
+.ui.form {
+  font-size: 14px !important;
+}

@@ -26,7 +26,7 @@ const RequireAuth = WeappedComponent => {
   }
 
   const mapStateToProps = state => {
-    return { authenticated: state.auth.authenticated };
+    return { authenticated: state.authStore.authenticated };
   };
 
   return connect(mapStateToProps)(Authentication);
