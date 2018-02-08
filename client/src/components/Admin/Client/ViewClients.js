@@ -1,60 +1,57 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Moment from 'react-moment';
 import {
-  Badge,
   Row,
   Col,
   Card,
-  CardHeader,
-  CardBody,
+  Input,
   Table,
-  ButtonGroup,
   Button,
-  Input
+  CardBody,
+  CardHeader,
+  ButtonGroup
 } from 'reactstrap';
+import DeleteClient from './DeleteClient';
 import { LoadingContent, TimeoutMessage } from '../../Common';
-import { fetchUsers } from '../../../actions/admin/User';
-import DeleteUser from './DeleteUser';
+import { fetchClients } from '../../../actions/admin/client';
 
-class UserList extends Component {
+class ViewClients extends Component {
   componentWillMount() {
-    document.title = 'Sigorta | View Users';
-    this.props.fetchUsers();
+    document.title = 'Sigorta | View Clients';
+    this.props.fetchClients();
   }
 
-  renderUsersBody = () =>
-    this.props.users.map((user, index) => {
-      const { _id, fname, lname, email, createdAt, isAdmin } = user;
+  renderClientsBody = () =>
+    this.props.clients.map((client, index) => {
+      const {
+        _id,
+        user: { fname, lname, email, phone },
+        name,
+        discount
+      } = client;
       return (
         <tr key={index}>
           <td className="text-center">{index + 1}</td>
+          <td className="text-center">{name}</td>
+          <td className="text-center">{`${discount}%`}</td>
           <td>{`${fname} ${lname}`}</td>
           <td>{email}</td>
-          <td className="text-center">
-            <Moment format="YYYY/MM/DD">{createdAt}</Moment>
-          </td>
-          <td className="text-center">{isAdmin ? 'Admin' : 'Client'}</td>
-          <td className="text-center">
-            <h5>
-              <Badge color="success">Active</Badge>
-            </h5>
-          </td>
+          <td className="text-center">{phone || 'N/A'}</td>
           <td className="text-center">
             <ButtonGroup size="sm">
               <Button
                 color="info"
                 onClick={() =>
-                  this.props.history.push(`/admin/users/edit/${_id}`)
+                  this.props.history.push(`/admin/clients/edit/${_id}`)
                 }
               >
                 <i className="fa fa-pencil-square-o" aria-hidden="true" />
                 <span className="hidden-xs-down">&nbsp;Edit</span>
               </Button>
-              <DeleteUser
-                userId={_id}
-                userFullName={`${fname} ${lname}`}
-                userEmail={email}
+              <DeleteClient
+                clientId={_id}
+                clientName={name}
+                clinetUserEmail={email}
               />
             </ButtonGroup>
           </td>
@@ -62,8 +59,8 @@ class UserList extends Component {
       );
     });
 
-  renderUsers = () => {
-    const { users, loading, errors } = this.props;
+  renderClients = () => {
+    const { clients, loading, errors } = this.props;
     if (loading) {
       return <LoadingContent />;
     }
@@ -73,11 +70,11 @@ class UserList extends Component {
     // if (errors.authenticated === false) {
     //   return <AuthorizedMessage />;
     // }
-    if (users.length === 0) {
+    if (clients.length === 0) {
       return (
         <div className="text-center">
-          <h2>No Users Found</h2>
-          <p>Add some new users to get started.</p>
+          <h2>No Clients Found</h2>
+          <p>Add some new clients to get started.</p>
         </div>
       );
     }
@@ -86,15 +83,15 @@ class UserList extends Component {
         <thead>
           <tr>
             <th className="text-center">#</th>
-            <th>Full Name</th>
-            <th>Email Address</th>
-            <th className="text-center">Date Registered</th>
-            <th className="text-center">Role</th>
-            <th className="text-center">Status</th>
+            <th className="text-center">Clinet Name</th>
+            <th className="text-center">Discount</th>
+            <th>User Full Name</th>
+            <th>User Email</th>
+            <th className="text-center">User Phone</th>
             <th className="text-center">Actions</th>
           </tr>
         </thead>
-        <tbody>{this.renderUsersBody()}</tbody>
+        <tbody>{this.renderClientsBody()}</tbody>
       </Table>
     );
   };
@@ -112,11 +109,11 @@ class UserList extends Component {
                       color="primary"
                       size="sm"
                       onClick={() =>
-                        this.props.history.push('/admin/users/new')
+                        this.props.history.push('/admin/clients/new')
                       }
                     >
                       <i className="fa fa-user-plus" aria-hidden="true" /> New
-                      User
+                      Clinet
                     </Button>
                   </Col>
                   <Col lg={{ size: 4, offset: 6 }}>
@@ -125,7 +122,7 @@ class UserList extends Component {
                 </Row>
               </CardHeader>
               <CardBody>
-                {this.renderUsers()}
+                {this.renderClients()}
                 {/* <Pagination>
                   <PaginationItem disabled>
                     <PaginationLink previous href="#">
@@ -159,9 +156,9 @@ class UserList extends Component {
   }
 }
 
-const mapStateToProps = ({ userStore }) => {
-  const { users, loading, errors } = userStore;
-  return { users, loading, errors };
+const mapStateToProps = ({ clientStore }) => {
+  const { clients, loading, errors } = clientStore;
+  return { clients, loading, errors };
 };
 
-export default connect(mapStateToProps, { fetchUsers })(UserList);
+export default connect(mapStateToProps, { fetchClients })(ViewClients);

@@ -17,7 +17,7 @@ import {
   DELETE_USER_PENDING,
   DELETE_USER_FULFILLED,
   DELETE_USER_REJECTED
-} from './Types';
+} from './types';
 
 const headers = {
   Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,

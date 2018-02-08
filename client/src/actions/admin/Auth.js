@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { reset } from 'redux-form';
 import { ROOT_URL, API_URL } from '../baseUrl';
-import { AUTH_USER, AUTH_MESSAGE, UNAUTH_USER } from './Types';
+import { AUTH_USER, AUTH_MESSAGE, UNAUTH_USER } from './types';
 
 export const loginUser = ({ email, password }, callback) => async dispatch => {
   try {

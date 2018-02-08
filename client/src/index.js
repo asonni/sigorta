@@ -8,7 +8,7 @@ import registerServiceWorker from './registerServiceWorker';
 // Import Font Awesome Icons Set
 import 'font-awesome/css/font-awesome.min.css';
 // Import Simple Line Icons Set
-import 'semantic-ui-css/components/form.min.css';
+import 'semantic-ui-css/components/loader.min.css';
 import 'simple-line-icons/css/simple-line-icons.css';
 // Import Main styles for this application
 import './assets/css/main.css';

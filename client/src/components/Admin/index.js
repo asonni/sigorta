@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { ModalContainer, ModalRoute } from 'react-router-modal';
 
-import Dashboard from './Dashboard';
-import UserList from './User/UserList';
-import NewUser from './User/NewUser';
-import EditUser from './User/EditUser';
-import DeleteUser from './User/DeleteUser';
 import Header from './Layout/Header';
 import Sidebar from './Layout/Sidebar';
 import Breadcrumb from './Layout/Breadcrumb';
+import Dashboard from './Dashboard';
+import ViewUsers from './User/ViewUsers';
+import NewUser from './User/NewUser';
+import EditUser from './User/EditUser';
+import ViewClients from './Client/ViewClients';
+import NewClinet from './Client/NewClinet';
+import EditClinet from './Client/EditClinet';
 import Aside from './Layout/Aside';
 import Footer from './Layout/Footer';
 
@@ -26,27 +27,33 @@ class Admin extends Component {
             <Container fluid>
               <Switch>
                 <Route exact path="/admin/dashboard" component={Dashboard} />
-                <Route exact path="/admin/users/view" component={UserList} />
+                <Route exact path="/admin/users/view" component={ViewUsers} />
                 <Route exact path="/admin/users/new" component={NewUser} />
                 <Route
                   exact
                   path="/admin/users/edit/:id"
                   component={EditUser}
                 />
-                <ModalRoute
+                <Route
                   exact
-                  path="/admin/users/delete/:id"
-                  component={DeleteUser}
+                  path="/admin/clients/view"
+                  component={ViewClients}
+                />
+                <Route exact path="/admin/clients/new" component={NewClinet} />
+                <Route
+                  exact
+                  path="/admin/clients/edit/:id"
+                  component={EditClinet}
                 />
                 <Redirect exact from="/admin" to="/admin/dashboard" />
                 <Redirect exact from="/admin/users" to="/admin/dashboard" />
+                <Redirect exact from="/admin/clients" to="/admin/dashboard" />
               </Switch>
             </Container>
           </main>
           <Aside />
         </div>
         <Footer />
-        <ModalContainer />
       </div>
     );
   }

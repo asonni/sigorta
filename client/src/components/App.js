@@ -11,7 +11,7 @@ import Logout from './Auth/Logout';
 import Admin from './Admin';
 import Client from './Client';
 import { RequireAuth } from './Common';
-import { AUTH_USER } from '../actions/admin/Types';
+import { AUTH_USER } from '../actions/admin/types';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk, ReduxPromise)(
   createStore

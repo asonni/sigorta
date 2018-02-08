@@ -15,7 +15,7 @@ import {
 } from 'reactstrap';
 
 import { InputField } from '../Common';
-import { loginUser } from '../../actions/admin/Auth';
+import { loginUser } from '../../actions/admin/auth';
 
 class Login extends Component {
   state = {

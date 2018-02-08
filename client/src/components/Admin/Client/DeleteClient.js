@@ -3,19 +3,20 @@ import { connect } from 'react-redux';
 import { reduxForm, SubmissionError } from 'redux-form';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-import { deleteUser } from '../../../actions/admin/user';
+import { deleteClient } from '../../../actions/admin/client';
 import { Aux } from '../../Common';
 
-class DeleteUser extends Component {
-  state = { deleteUserModal: false };
+class DeleteClient extends Component {
+  state = { deleteClientModal: false };
 
   toggle = () => {
-    this.setState({ deleteUserModal: !this.state.deleteUserModal });
+    console.log(this.state.deleteClientModal);
+    this.setState({ deleteClientModal: !this.state.deleteClientModal });
   };
 
-  onSubmitDeleteUser = async () => {
+  onSubmitDeleteClient = async () => {
     try {
-      await this.props.deleteUser(this.props.userId);
+      await this.props.deleteClient(this.props.clientId);
       this.toggle();
     } catch (err) {
       this.toggle();
@@ -24,21 +25,26 @@ class DeleteUser extends Component {
   };
 
   render() {
-    const { userFullName, userEmail, handleSubmit, submitting } = this.props;
+    const {
+      clientName,
+      clinetUserEmail,
+      handleSubmit,
+      submitting
+    } = this.props;
     return (
       <Aux>
         <Button color="danger" onClick={this.toggle}>
           <i className="fa fa-trash" aria-hidden="true" />
           <span className="hidden-xs-down">&nbsp;Delete</span>
         </Button>
-        <Modal isOpen={this.state.deleteUserModal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Delete User Warning!</ModalHeader>
+        <Modal isOpen={this.state.deleteClientModal} toggle={this.toggle}>
+          <ModalHeader toggle={this.toggle}>Delete Client Warning!</ModalHeader>
           <ModalBody className="text-center">
-            <h5>Are you sure you want to delete this user information?</h5>
+            <h5>Are you sure you want to delete this client information?</h5>
             <br />
             <p>
-              <strong>Name:</strong> {userFullName}, <strong>Email:</strong>{' '}
-              {userEmail}
+              <strong>Client Name:</strong> {clientName},{' '}
+              <strong>Client Email:</strong> {clinetUserEmail}
             </p>
           </ModalBody>
           <ModalFooter>
@@ -46,7 +52,7 @@ class DeleteUser extends Component {
               type="button"
               color="danger"
               disabled={submitting}
-              onClick={handleSubmit(this.onSubmitDeleteUser)}
+              onClick={handleSubmit(this.onSubmitDeleteClient)}
             >
               {submitting ? (
                 <Aux>
@@ -69,11 +75,11 @@ class DeleteUser extends Component {
   }
 }
 
-const mapStateToProps = ({ userStore }) => {
-  const { loading, errors } = userStore;
+const mapStateToProps = ({ clientStore }) => {
+  const { loading, errors } = clientStore;
   return { loading, errors };
 };
 
-const DeleteUserForm = reduxForm({ form: 'deleteUser' })(DeleteUser);
+const DeleteClientForm = reduxForm({ form: 'deleteClient' })(DeleteClient);
 
-export default connect(mapStateToProps, { deleteUser })(DeleteUserForm);
+export default connect(mapStateToProps, { deleteClient })(DeleteClientForm);

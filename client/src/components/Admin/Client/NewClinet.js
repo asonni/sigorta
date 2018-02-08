@@ -14,34 +14,25 @@ import {
 } from 'reactstrap';
 
 import validate from './validate';
-import { Aux, InputField, TimeoutMessage } from '../../Common';
-import { fetchUser, editUser } from '../../../actions/admin/user';
+import { Aux, InputField, SelectField } from '../../Common';
+import { newClinet } from '../../../actions/admin/client';
+import { fetchUsers } from '../../../actions/admin/user';
 
-class EditUser extends Component {
+class NewClinet extends Component {
   state = { alertVisible: false };
 
   componentWillMount() {
-    document.title = 'Sigorta | Edit User';
-    const { id } = this.props.match.params;
-    this.props.fetchUser(id);
+    document.title = 'Sigorta | New Clinet';
+    this.props.fetchUsers();
   }
 
-  componentWillReceiveProps(nextProps) {
-    // Load Contact Asynchronously
-    const { user } = nextProps;
-    if (user._id !== this.props.user._id) {
-      // Initialize form only once
-      this.props.initialize(user);
-    }
-  }
-
-  onSubmintEditUser = async values => {
+  onSubmintNewClient = async values => {
     try {
-      await this.props.editUser(values);
-      this.props.history.push('/admin/users/view');
+      await this.props.newClinet(values);
+      this.props.history.push('/admin/clients/view');
     } catch (err) {
       this.setState({ alertVisible: true });
-      throw new SubmissionError(this.props.errors);
+      throw new SubmissionError(this.props.clientErrors);
     }
   };
 
@@ -50,50 +41,65 @@ class EditUser extends Component {
   };
 
   render() {
-    const { handleSubmit, loading, errors, pristine, submitting } = this.props;
+    const {
+      handleSubmit,
+      users,
+      userErrors,
+      userLoading,
+      clientErrors,
+      pristine,
+      submitting
+    } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
           <Col xs="12" md={{ size: 6, offset: 3 }}>
             <Card>
               <CardHeader>
-                <i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit
-                User
+                <i className="fa fa-user-plus" aria-hidden="true" /> New Clinet
               </CardHeader>
               <Form
-                onSubmit={handleSubmit(this.onSubmintEditUser)}
-                loading={loading}
+                onSubmit={handleSubmit(this.onSubmintNewClient)}
+                loading={userLoading}
               >
                 <CardBody>
-                  {errors && (
+                  {clientErrors && (
                     <Alert
                       color="danger"
                       isOpen={this.state.alertVisible}
                       toggle={this.onAlertDismiss}
                     >
-                      <TimeoutMessage />
+                      {clientErrors}
+                    </Alert>
+                  )}
+                  {userErrors && (
+                    <Alert
+                      color="danger"
+                      isOpen={this.state.alertVisible}
+                      toggle={this.onAlertDismiss}
+                    >
+                      {userErrors}
                     </Alert>
                   )}
                   <Field
-                    label="First Name"
-                    placeholder="John"
+                    label="Clinet Name"
+                    placeholder="type any clinet name"
                     type="text"
-                    name="fname"
+                    name="name"
                     component={InputField}
                   />
                   <Field
-                    label="Last Name"
-                    placeholder="Doe"
+                    label="Discount"
+                    placeholder="type any discount"
                     type="text"
-                    name="lname"
+                    name="discount"
                     component={InputField}
                   />
                   <Field
-                    label="Email Address"
-                    placeholder="john.doe@example.com"
-                    type="text"
-                    name="email"
-                    component={InputField}
+                    label="User Name"
+                    name="user"
+                    items={users}
+                    component={SelectField}
                   />
                 </CardBody>
                 <CardFooter>
@@ -117,7 +123,9 @@ class EditUser extends Component {
                   <Button
                     size="sm"
                     color="secondary"
-                    onClick={() => this.props.history.push('/admin/users/view')}
+                    onClick={() =>
+                      this.props.history.push('/admin/clients/view')
+                    }
                   >
                     <i className="fa fa-ban" /> Cancel
                   </Button>
@@ -131,11 +139,18 @@ class EditUser extends Component {
   }
 }
 
-const mapStateToProps = ({ userStore }) => {
-  const { user, loading, errors } = userStore;
-  return { user, loading, errors };
+const mapStateToProps = ({ clientStore, userStore }) => {
+  return {
+    clientLoading: clientStore.loading,
+    clientErrors: clientStore.errors,
+    users: userStore.users,
+    userLoading: userStore.loading,
+    userErrors: userStore.errors
+  };
 };
 
-const EditUserForm = reduxForm({ form: 'editUser', validate })(EditUser);
+const NewClinetForm = reduxForm({ form: 'newUser', validate })(NewClinet);
 
-export default connect(mapStateToProps, { fetchUser, editUser })(EditUserForm);
+export default connect(mapStateToProps, { newClinet, fetchUsers })(
+  NewClinetForm
+);

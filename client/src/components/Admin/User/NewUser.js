@@ -15,7 +15,7 @@ import {
 
 import validate from './validate';
 import { Aux, InputField } from '../../Common';
-import { newUser } from '../../../actions/admin/User';
+import { newUser } from '../../../actions/admin/user';
 
 class NewUser extends Component {
   state = { alertVisible: false };
