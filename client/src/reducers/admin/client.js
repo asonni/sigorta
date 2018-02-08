@@ -41,7 +41,7 @@ export default (state = initState, { type, payload }) => {
       return { ...state, loading: false, errors: payload };
 
     case FETCH_CLINET_PENDING:
-      return { ...state, loading: true, errors: '' };
+      return { ...state, loading: true, client: {}, errors: '' };
 
     case FETCH_CLINET_FULFILLED:
       return {
@@ -56,6 +56,7 @@ export default (state = initState, { type, payload }) => {
       return {
         ...state,
         loading: false,
+        client: {},
         errors: message ? message : 'error'
       };
 

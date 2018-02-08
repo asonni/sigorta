@@ -37,7 +37,7 @@ class EditClinet extends Component {
         _id: client._id,
         name: client.name,
         discount: client.discount,
-        user: client.user._id
+        user: client.user ? client.user._id : null
       });
     }
   }
@@ -169,7 +169,6 @@ const mapStateToProps = ({ clientStore, userStore }) => {
 
 const EditClinetForm = reduxForm({
   form: 'editUser',
-  // destroyOnUnmount: false,
   validate
 })(EditClinet);
 

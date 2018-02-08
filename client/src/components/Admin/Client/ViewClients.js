@@ -23,6 +23,7 @@ class ViewClients extends Component {
 
   renderClientsBody = () =>
     this.props.clients.map((client, index) => {
+      // console.log(client);
       const {
         _id,
         user: { fname, lname, email, phone },

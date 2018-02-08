@@ -27,7 +27,7 @@ const initState = {
 export default (state = initState, { type, payload }) => {
   switch (type) {
     case FETCH_USERS_PENDING:
-      return { ...state, loading: true, errors: '' };
+      return { ...state, loading: true, users: [], errors: '' };
 
     case FETCH_USERS_FULFILLED:
       return {
@@ -38,10 +38,10 @@ export default (state = initState, { type, payload }) => {
       };
 
     case FETCH_USERS_REJECTED:
-      return { ...state, loading: false, errors: payload };
+      return { ...state, loading: false, users: [], errors: payload };
 
     case FETCH_USER_PENDING:
-      return { ...state, loading: true, errors: '' };
+      return { ...state, loading: true, user: {}, errors: '' };
 
     case FETCH_USER_FULFILLED:
       return {
@@ -56,6 +56,7 @@ export default (state = initState, { type, payload }) => {
       return {
         ...state,
         loading: false,
+        user: {},
         errors: message ? message : 'error'
       };
 
