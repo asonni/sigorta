@@ -1,20 +1,9 @@
 import React, { Component } from 'react';
-import { Field, reduxForm, SubmissionError } from 'redux-form';
-import { Form } from 'semantic-ui-react';
+import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
-import {
-  Row,
-  Col,
-  Card,
-  Alert,
-  Button,
-  CardBody,
-  CardHeader,
-  CardFooter
-} from 'reactstrap';
+import { Row, Col, Card, CardHeader } from 'reactstrap';
 
-import validate from './validate';
-import { Aux, InputField, SelectField } from '../../Common';
+import ClientForm from './ClientForm';
 import { newClinet } from '../../../actions/admin/client';
 import { fetchUsers } from '../../../actions/admin/user';
 
@@ -32,7 +21,7 @@ class NewClinet extends Component {
       this.props.history.push('/admin/clients/view');
     } catch (err) {
       this.setState({ alertVisible: true });
-      throw new SubmissionError(this.props.clientErrors);
+      throw new SubmissionError(this.props.clientError);
     }
   };
 
@@ -40,16 +29,25 @@ class NewClinet extends Component {
     this.setState({ alertVisible: false });
   };
 
+  renderUsers = () =>
+    this.props.users.map(item => ({
+      value: item._id,
+      label: `Name: ${item.fname} ${item.lname}, Email: ${item.email}`,
+      user: {
+        name: `${item.fname} ${item.lname}`,
+        email: item.email
+      }
+    }));
+
+  itemComponent = ({ item }) => (
+    <span>
+      <strong>Name:</strong> {item.user.name}, <strong>Email:</strong>{' '}
+      {item.user.email}
+    </span>
+  );
+
   render() {
-    const {
-      handleSubmit,
-      users,
-      userErrors,
-      userLoading,
-      clientErrors,
-      pristine,
-      submitting
-    } = this.props;
+    const { userLoading } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -58,79 +56,15 @@ class NewClinet extends Component {
               <CardHeader>
                 <i className="fa fa-user-plus" aria-hidden="true" /> New Clinet
               </CardHeader>
-              <Form
-                onSubmit={handleSubmit(this.onSubmintNewClient)}
+              <ClientForm
+                {...this.props}
                 loading={userLoading}
-              >
-                <CardBody>
-                  {clientErrors && (
-                    <Alert
-                      color="danger"
-                      isOpen={this.state.alertVisible}
-                      toggle={this.onAlertDismiss}
-                    >
-                      {clientErrors}
-                    </Alert>
-                  )}
-                  {userErrors && (
-                    <Alert
-                      color="danger"
-                      isOpen={this.state.alertVisible}
-                      toggle={this.onAlertDismiss}
-                    >
-                      {userErrors}
-                    </Alert>
-                  )}
-                  <Field
-                    label="Clinet Name"
-                    placeholder="type any clinet name"
-                    type="text"
-                    name="name"
-                    component={InputField}
-                  />
-                  <Field
-                    label="Discount"
-                    placeholder="type any discount"
-                    type="text"
-                    name="discount"
-                    component={InputField}
-                  />
-                  <Field
-                    label="User Name"
-                    name="user"
-                    items={users}
-                    component={SelectField}
-                  />
-                </CardBody>
-                <CardFooter>
-                  <Button
-                    type="submit"
-                    size="sm"
-                    color="primary"
-                    disabled={pristine || submitting}
-                  >
-                    {submitting ? (
-                      <Aux>
-                        <i className="fa fa-circle-o-notch fa-spin" />{' '}
-                        Submitting
-                      </Aux>
-                    ) : (
-                      <Aux>
-                        <i className="fa fa-dot-circle-o" /> Submit
-                      </Aux>
-                    )}
-                  </Button>{' '}
-                  <Button
-                    size="sm"
-                    color="secondary"
-                    onClick={() =>
-                      this.props.history.push('/admin/clients/view')
-                    }
-                  >
-                    <i className="fa fa-ban" /> Cancel
-                  </Button>
-                </CardFooter>
-              </Form>
+                onSubmit={this.onSubmintNewClient}
+                renderUsers={this.renderUsers()}
+                itemComponent={this.itemComponent}
+                onAlertDismiss={this.onAlertDismiss}
+                alertVisible={this.state.alertVisible}
+              />
             </Card>
           </Col>
         </Row>
@@ -142,15 +76,11 @@ class NewClinet extends Component {
 const mapStateToProps = ({ clientStore, userStore }) => {
   return {
     clientLoading: clientStore.loading,
-    clientErrors: clientStore.errors,
+    clientError: clientStore.error,
     users: userStore.users,
     userLoading: userStore.loading,
-    userErrors: userStore.errors
+    userError: userStore.error
   };
 };
 
-const NewClinetForm = reduxForm({ form: 'newUser', validate })(NewClinet);
-
-export default connect(mapStateToProps, { newClinet, fetchUsers })(
-  NewClinetForm
-);
+export default connect(mapStateToProps, { newClinet, fetchUsers })(NewClinet);

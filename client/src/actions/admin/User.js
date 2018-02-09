@@ -31,9 +31,8 @@ export const fetchUsers = () => async dispatch => {
       headers
     });
     dispatch({ type: FETCH_USERS_FULFILLED, payload: response });
-  } catch ({ response }) {
-    console.log(response);
-    dispatch({ type: FETCH_USERS_REJECTED, payload: response });
+  } catch ({ error }) {
+    dispatch({ type: FETCH_USERS_REJECTED, payload: error });
   }
 };
 
@@ -44,8 +43,8 @@ export const fetchUser = id => async dispatch => {
       headers
     });
     dispatch({ type: FETCH_USER_FULFILLED, payload: response });
-  } catch ({ response }) {
-    dispatch({ type: FETCH_USER_REJECTED, payload: response });
+  } catch ({ error }) {
+    dispatch({ type: FETCH_USER_REJECTED, payload: error });
   }
 };
 
@@ -65,9 +64,9 @@ export const newUser = ({
       }
     );
     dispatch({ type: NEW_USER_FULFILLED, payload: response });
-  } catch ({ response }) {
+  } catch ({ error }) {
     dispatch(reset('newUser'));
-    dispatch({ type: NEW_USER_REJECTED, payload: response });
+    dispatch({ type: NEW_USER_REJECTED, payload: error });
   }
 };
 
@@ -82,8 +81,8 @@ export const editUser = values => async dispatch => {
       }
     );
     dispatch({ type: EDIT_USER_FULFILLED, payload: response });
-  } catch ({ response }) {
-    dispatch({ type: EDIT_USER_REJECTED, payload: response });
+  } catch ({ error }) {
+    dispatch({ type: EDIT_USER_REJECTED, payload: error });
   }
 };
 
@@ -94,10 +93,10 @@ export const deleteUser = id => async dispatch => {
       headers
     });
     dispatch({ type: DELETE_USER_FULFILLED, payload: response });
-  } catch ({ response }) {
+  } catch ({ error }) {
     dispatch({
       type: DELETE_USER_REJECTED,
-      payload: response
+      payload: error
     });
   }
 };

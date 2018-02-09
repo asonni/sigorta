@@ -1,3 +1,13 @@
+.Select-placeholder,
+.Select--single > .Select-control .Select-value {
+  color: #526b78;
+}
+.rw-placeholder {
+  color: #526b78;
+}
+.valid-border {
+  border-color: #f86c6b !important;
+}
 .btn-info,
 .btn-secondary {
   color: #ffffff;
@@ -7,6 +17,34 @@
 .btn-secondary:hover,
 .btn-secondary:active {
   color: #ffffff !important;
+}
+.table th,
+.table td {
+  vertical-align: middle;
+}
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+  z-index: 3;
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #337ab7;
+  cursor: default;
+}
+.pagination > li > a,
+.pagination > li > span {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  line-height: 1.42857143;
+  text-decoration: none;
+  color: #337ab7;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  margin-left: -1px;
 }
 /*--------------
     Loading

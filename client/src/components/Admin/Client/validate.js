@@ -9,11 +9,13 @@ const validate = values => {
   }
 
   if (!discount) {
-    errors.discount = 'Please type a discount';
+    errors.discount = 'Please type a discount number';
+  } else if (!Number(discount)) {
+    errors.discount = 'Please type a discount number in digits only';
   }
 
   if (!user) {
-    errors.userId = 'Please select a user';
+    errors.user = 'Please select any user info';
   }
   return errors;
 };

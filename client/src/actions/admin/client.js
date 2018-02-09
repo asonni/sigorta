@@ -31,8 +31,8 @@ export const fetchClients = () => async dispatch => {
       headers
     });
     dispatch({ type: FETCH_CLINETS_FULFILLED, payload: response });
-  } catch ({ response }) {
-    dispatch({ type: FETCH_CLINETS_REJECTED, payload: response });
+  } catch ({ error }) {
+    dispatch({ type: FETCH_CLINETS_REJECTED, payload: error });
   }
 };
 
@@ -43,41 +43,50 @@ export const fetchClient = id => async dispatch => {
       headers
     });
     dispatch({ type: FETCH_CLINET_FULFILLED, payload: response });
-  } catch ({ response }) {
-    dispatch({ type: FETCH_CLINET_REJECTED, payload: response });
+  } catch ({ error }) {
+    dispatch({ type: FETCH_CLINET_REJECTED, payload: error });
   }
 };
 
-export const newClinet = values => async dispatch => {
+export const newClinet = ({ name, discount, user }) => async dispatch => {
   dispatch({ type: NEW_CLINET_PENDING });
   try {
     const response = await axios.post(
       `${ROOT_URL}/${API_URL}/clients`,
-      values,
+      {
+        name,
+        discount,
+        user: user.value
+      },
       {
         headers
       }
     );
     dispatch({ type: NEW_CLINET_FULFILLED, payload: response });
-  } catch ({ response }) {
-    dispatch(reset('newUser'));
-    dispatch({ type: NEW_CLINET_REJECTED, payload: response });
+  } catch ({ error }) {
+    dispatch(reset('clinet'));
+    dispatch({ type: NEW_CLINET_REJECTED, payload: error });
   }
 };
 
-export const editClinet = values => async dispatch => {
+export const editClinet = ({ _id, name, discount, user }) => async dispatch => {
   dispatch({ type: EDIT_CLINET_PENDING });
   try {
     const response = await axios.put(
-      `${ROOT_URL}/${API_URL}/clients/${values._id}`,
-      values,
+      `${ROOT_URL}/${API_URL}/clients/${_id}`,
+      {
+        name,
+        discount,
+        user: user.value
+      },
       {
         headers
       }
     );
     dispatch({ type: EDIT_CLINET_FULFILLED, payload: response });
-  } catch ({ response }) {
-    dispatch({ type: EDIT_CLINET_REJECTED, payload: response });
+  } catch ({ error }) {
+    dispatch(reset('clinet'));
+    dispatch({ type: EDIT_CLINET_REJECTED, payload: error });
   }
 };
 
@@ -91,10 +100,10 @@ export const deleteClient = id => async dispatch => {
       }
     );
     dispatch({ type: DELETE_CLINET_FULFILLED, payload: response });
-  } catch ({ response }) {
+  } catch ({ error }) {
     dispatch({
       type: DELETE_CLINET_REJECTED,
-      payload: response
+      payload: error
     });
   }
 };

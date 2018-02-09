@@ -10,6 +10,7 @@ import Login from './Auth/Login';
 import Logout from './Auth/Logout';
 import Admin from './Admin';
 import Client from './Client';
+import Page404 from './Page404';
 import { RequireAuth } from './Common';
 import { AUTH_USER } from '../actions/admin/types';
 
@@ -33,6 +34,7 @@ const App = () => (
         <Route path="/logout" component={Logout} />
         <Route path="/admin" component={RequireAuth(Admin)} />
         <Route path="/client" component={Client} />
+        <Route component={Page404} />
       </Switch>
     </BrowserRouter>
   </Provider>

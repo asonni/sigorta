@@ -7,30 +7,28 @@ import { deleteClient } from '../../../actions/admin/client';
 import { Aux } from '../../Common';
 
 class DeleteClient extends Component {
-  state = { deleteClientModal: false };
+  state = { deleteClientModal: false, loading: false };
 
   toggle = () => {
-    console.log(this.state.deleteClientModal);
-    this.setState({ deleteClientModal: !this.state.deleteClientModal });
+    this.setState({
+      deleteClientModal: !this.state.deleteClientModal,
+      loading: false
+    });
   };
 
   onSubmitDeleteClient = async () => {
+    this.setState({ loading: true });
     try {
       await this.props.deleteClient(this.props.clientId);
       this.toggle();
     } catch (err) {
       this.toggle();
-      throw new SubmissionError(this.props.errors);
+      throw new SubmissionError(this.props.error);
     }
   };
 
   render() {
-    const {
-      clientName,
-      clinetUserEmail,
-      handleSubmit,
-      submitting
-    } = this.props;
+    const { clientName, clinetUserEmail, handleSubmit } = this.props;
     return (
       <Aux>
         <Button color="danger" onClick={this.toggle}>
@@ -51,10 +49,10 @@ class DeleteClient extends Component {
             <Button
               type="button"
               color="danger"
-              disabled={submitting}
+              disabled={this.state.loading}
               onClick={handleSubmit(this.onSubmitDeleteClient)}
             >
-              {submitting ? (
+              {this.state.loading ? (
                 <Aux>
                   <i className="fa fa-circle-o-notch fa-spin" />&nbsp;Deleteing
                 </Aux>
@@ -66,7 +64,7 @@ class DeleteClient extends Component {
             </Button>{' '}
             <Button color="secondary" onClick={this.toggle}>
               <i className="fa fa-times-circle" aria-hidden="true" />&nbsp;
-              {submitting ? 'Cancel' : 'No'}
+              {this.state.loading ? 'Cancel' : 'No'}
             </Button>
           </ModalFooter>
         </Modal>
@@ -76,8 +74,8 @@ class DeleteClient extends Component {
 }
 
 const mapStateToProps = ({ clientStore }) => {
-  const { loading, errors } = clientStore;
-  return { loading, errors };
+  const { loading, error } = clientStore;
+  return { loading, error };
 };
 
 const DeleteClientForm = reduxForm({ form: 'deleteClient' })(DeleteClient);

@@ -24,7 +24,7 @@ class Login extends Component {
   };
 
   componentWillMount() {
-    document.title = 'Sigorta | Edit User';
+    document.title = 'Sigorta | Login';
     if (localStorage.getItem('si_token')) {
       this.props.history.push('/admin');
     }
@@ -90,7 +90,12 @@ class Login extends Component {
                     </InputGroup>
                     <Row>
                       <Col xs="6">
-                        <Button type="submit" color="primary" className="px-4">
+                        <Button
+                          type="submit"
+                          color="primary"
+                          className="px-4"
+                          disabled={this.state.loginLoading}
+                        >
                           {this.state.loginLoading ? (
                             <i className="fa fa-circle-o-notch fa-spin fa-lg" />
                           ) : (

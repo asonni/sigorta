@@ -23,9 +23,9 @@ export const loginUser = ({ email, password }, callback) => async dispatch => {
     // If request is bad...
     // - Show an error to the user
     if (response && response.data.error) {
-      dispatch(authMessage(response.data.error));
+      dispatch(authMessage('Authentication failed'));
     } else {
-      dispatch(authMessage(response.data));
+      dispatch(authMessage('You must provide the email and the password'));
     }
     dispatch(reset('login'));
     callback(false);

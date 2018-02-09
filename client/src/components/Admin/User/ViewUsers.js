@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
+import Pagination from 'react-js-pagination';
 import {
   Badge,
   Row,
@@ -13,15 +14,26 @@ import {
   Button,
   Input
 } from 'reactstrap';
-import { LoadingContent, TimeoutMessage } from '../../Common';
+import { Aux, LoadingContent, TimeoutMessage } from '../../Common';
 import { fetchUsers } from '../../../actions/admin/user';
 import DeleteUser from './DeleteUser';
 
 class ViewUsers extends Component {
+  state = {
+    activePage: 1,
+    itemsCountPerPage: 10,
+    totalItemsCount: 450,
+    pageRangeDisplayed: 5
+  };
+
   componentWillMount() {
     document.title = 'Sigorta | View Users';
     this.props.fetchUsers();
   }
+
+  onChangePage = activePage => {
+    this.setState({ activePage });
+  };
 
   renderUsersBody = () =>
     this.props.users.map((user, index) => {
@@ -29,16 +41,22 @@ class ViewUsers extends Component {
       return (
         <tr key={index}>
           <td className="text-center">{index + 1}</td>
-          <td>{`${fname} ${lname}`}</td>
+          <td>
+            <div>{`${fname} ${lname}`}</div>
+            <div className="small text-muted">
+              <span>{isAdmin ? 'Admin' : 'Client'}</span> | Registered:{' '}
+              <Moment format="MMMM DD, YYYY">{createdAt}</Moment>
+            </div>
+          </td>
           <td>{email}</td>
           <td className="text-center">
-            <Moment format="YYYY/MM/DD">{createdAt}</Moment>
+            <Moment format="DD/MM/YYYY">{createdAt}</Moment>
           </td>
           <td className="text-center">{isAdmin ? 'Admin' : 'Client'}</td>
           <td className="text-center">
-            <h5>
+            <span>
               <Badge color="success">Active</Badge>
-            </h5>
+            </span>
           </td>
           <td className="text-center">
             <ButtonGroup size="sm">
@@ -63,14 +81,20 @@ class ViewUsers extends Component {
     });
 
   renderUsers = () => {
-    const { users, loading, errors } = this.props;
+    const { users, loading, error } = this.props;
+    const {
+      activePage,
+      itemsCountPerPage,
+      totalItemsCount,
+      pageRangeDisplayed
+    } = this.state;
     if (loading) {
       return <LoadingContent />;
     }
-    if (errors) {
+    if (error) {
       return <TimeoutMessage />;
     }
-    // if (errors.authenticated === false) {
+    // if (error.authenticated === false) {
     //   return <AuthorizedMessage />;
     // }
     if (users.length === 0) {
@@ -82,20 +106,36 @@ class ViewUsers extends Component {
       );
     }
     return (
-      <Table responsive hover>
-        <thead>
-          <tr>
-            <th className="text-center">#</th>
-            <th>Full Name</th>
-            <th>Email Address</th>
-            <th className="text-center">Date Registered</th>
-            <th className="text-center">Role</th>
-            <th className="text-center">Status</th>
-            <th className="text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>{this.renderUsersBody()}</tbody>
-      </Table>
+      <Aux>
+        <Table
+          responsive
+          hover
+          className="table-outline mb-0 d-none d-sm-table"
+        >
+          <thead className="thead-light">
+            <tr>
+              <th className="text-center" width="5%">
+                #
+              </th>
+              <th>Full Name</th>
+              <th>Email Address</th>
+              <th className="text-center">Date Registered</th>
+              <th className="text-center">Role</th>
+              <th className="text-center">Status</th>
+              <th className="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>{this.renderUsersBody()}</tbody>
+        </Table>
+        <br />
+        <Pagination
+          activePage={activePage}
+          itemsCountPerPage={itemsCountPerPage}
+          totalItemsCount={totalItemsCount}
+          pageRangeDisplayed={pageRangeDisplayed}
+          onChange={this.onChangePage}
+        />
+      </Aux>
     );
   };
 
@@ -124,33 +164,7 @@ class ViewUsers extends Component {
                   </Col>
                 </Row>
               </CardHeader>
-              <CardBody>
-                {this.renderUsers()}
-                {/* <Pagination>
-                  <PaginationItem disabled>
-                    <PaginationLink previous href="#">
-                      Prev
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem active>
-                    <PaginationLink href="#">1</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">2</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">3</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">4</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink next href="#">
-                      Next
-                    </PaginationLink>
-                  </PaginationItem>
-                </Pagination> */}
-              </CardBody>
+              <CardBody>{this.renderUsers()}</CardBody>
             </Card>
           </Col>
         </Row>
@@ -160,8 +174,8 @@ class ViewUsers extends Component {
 }
 
 const mapStateToProps = ({ userStore }) => {
-  const { users, loading, errors } = userStore;
-  return { users, loading, errors };
+  const { users, loading, error } = userStore;
+  return { users, loading, error };
 };
 
 export default connect(mapStateToProps, { fetchUsers })(ViewUsers);

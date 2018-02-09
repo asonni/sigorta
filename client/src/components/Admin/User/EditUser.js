@@ -1,20 +1,9 @@
 import React, { Component } from 'react';
-import { Field, reduxForm, SubmissionError } from 'redux-form';
-import { Form } from 'semantic-ui-react';
+import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
-import {
-  Row,
-  Col,
-  Card,
-  Alert,
-  Button,
-  CardBody,
-  CardHeader,
-  CardFooter
-} from 'reactstrap';
+import { Row, Col, Card, CardHeader } from 'reactstrap';
 
-import validate from './validate';
-import { Aux, InputField, TimeoutMessage } from '../../Common';
+import UserForm from './UserForm';
 import { fetchUser, editUser } from '../../../actions/admin/user';
 
 class EditUser extends Component {
@@ -26,22 +15,13 @@ class EditUser extends Component {
     this.props.fetchUser(id);
   }
 
-  componentWillReceiveProps(nextProps) {
-    // Load Contact Asynchronously
-    const { user } = nextProps;
-    if (user._id !== this.props.user._id) {
-      // Initialize form only once
-      this.props.initialize(user);
-    }
-  }
-
   onSubmintEditUser = async values => {
     try {
       await this.props.editUser(values);
       this.props.history.push('/admin/users/view');
     } catch (err) {
       this.setState({ alertVisible: true });
-      throw new SubmissionError(this.props.errors);
+      throw new SubmissionError(this.props.error);
     }
   };
 
@@ -50,7 +30,6 @@ class EditUser extends Component {
   };
 
   render() {
-    const { handleSubmit, loading, errors, pristine, submitting } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -60,69 +39,12 @@ class EditUser extends Component {
                 <i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit
                 User
               </CardHeader>
-              <Form
-                onSubmit={handleSubmit(this.onSubmintEditUser)}
-                loading={loading}
-              >
-                <CardBody>
-                  {errors && (
-                    <Alert
-                      color="danger"
-                      isOpen={this.state.alertVisible}
-                      toggle={this.onAlertDismiss}
-                    >
-                      <TimeoutMessage />
-                    </Alert>
-                  )}
-                  <Field
-                    label="First Name"
-                    placeholder="John"
-                    type="text"
-                    name="fname"
-                    component={InputField}
-                  />
-                  <Field
-                    label="Last Name"
-                    placeholder="Doe"
-                    type="text"
-                    name="lname"
-                    component={InputField}
-                  />
-                  <Field
-                    label="Email Address"
-                    placeholder="john.doe@example.com"
-                    type="text"
-                    name="email"
-                    component={InputField}
-                  />
-                </CardBody>
-                <CardFooter>
-                  <Button
-                    type="submit"
-                    size="sm"
-                    color="primary"
-                    disabled={pristine || submitting}
-                  >
-                    {submitting ? (
-                      <Aux>
-                        <i className="fa fa-circle-o-notch fa-spin" />{' '}
-                        Submitting
-                      </Aux>
-                    ) : (
-                      <Aux>
-                        <i className="fa fa-dot-circle-o" /> Submit
-                      </Aux>
-                    )}
-                  </Button>{' '}
-                  <Button
-                    size="sm"
-                    color="secondary"
-                    onClick={() => this.props.history.push('/admin/users/view')}
-                  >
-                    <i className="fa fa-ban" /> Cancel
-                  </Button>
-                </CardFooter>
-              </Form>
+              <UserForm
+                {...this.props}
+                onSubmit={this.onSubmintEditUser}
+                onAlertDismiss={this.onAlertDismiss}
+                alertVisible={this.state.alertVisible}
+              />
             </Card>
           </Col>
         </Row>
@@ -132,10 +54,8 @@ class EditUser extends Component {
 }
 
 const mapStateToProps = ({ userStore }) => {
-  const { user, loading, errors } = userStore;
-  return { user, loading, errors };
+  const { user, loading, error } = userStore;
+  return { user, loading, error };
 };
 
-const EditUserForm = reduxForm({ form: 'editUser', validate })(EditUser);
-
-export default connect(mapStateToProps, { fetchUser, editUser })(EditUserForm);
+export default connect(mapStateToProps, { fetchUser, editUser })(EditUser);

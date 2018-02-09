@@ -20,35 +20,35 @@ import {
 const initState = {
   user: {},
   users: [],
-  errors: '',
+  error: null,
   loading: false
 };
 
 export default (state = initState, { type, payload }) => {
   switch (type) {
     case FETCH_USERS_PENDING:
-      return { ...state, loading: true, users: [], errors: '' };
+      return { ...state, loading: true, users: [], error: null };
 
     case FETCH_USERS_FULFILLED:
       return {
         ...state,
         users: _.orderBy(payload.data.users, '_id', 'asc'),
         loading: false,
-        errors: ''
+        error: null
       };
 
     case FETCH_USERS_REJECTED:
-      return { ...state, loading: false, users: [], errors: payload };
+      return { ...state, loading: false, users: [], error: payload };
 
     case FETCH_USER_PENDING:
-      return { ...state, loading: true, user: {}, errors: '' };
+      return { ...state, loading: true, user: {}, error: null };
 
     case FETCH_USER_FULFILLED:
       return {
         ...state,
         user: payload.data.user,
         loading: false,
-        errors: ''
+        error: null
       };
 
     case FETCH_USER_REJECTED:
@@ -57,23 +57,22 @@ export default (state = initState, { type, payload }) => {
         ...state,
         loading: false,
         user: {},
-        errors: message ? message : 'error'
+        error: message ? message : 'error'
       };
 
     case NEW_USER_PENDING:
-      return { ...state, loading: true, errors: '' };
+      return { ...state, loading: true, error: null };
 
     case NEW_USER_FULFILLED:
-      console.log(payload.data);
       return {
         ...state,
         users: [...state.users, payload.data],
         loading: false,
-        errors: ''
+        error: null
       };
 
     case NEW_USER_REJECTED:
-      return { ...state, loading: false, errors: payload.data.error };
+      return { ...state, loading: false, error: payload.data.error };
 
     case EDIT_USER_PENDING:
       return { ...state, loading: true };
@@ -84,11 +83,11 @@ export default (state = initState, { type, payload }) => {
         ...state,
         users: state.users.map(item => (item.id === user.id ? user : item)),
         loading: false,
-        errors: ''
+        error: null
       };
 
     case EDIT_USER_REJECTED:
-      return { ...state, loading: false, errors: payload };
+      return { ...state, loading: false, error: payload };
 
     case DELETE_USER_PENDING:
       return { ...state, loading: true };
@@ -99,11 +98,11 @@ export default (state = initState, { type, payload }) => {
         ...state,
         users: state.users.filter(item => item.id !== id),
         loading: false,
-        errors: ''
+        error: null
       };
 
     case DELETE_USER_REJECTED:
-      return { ...state, loading: false, errors: payload };
+      return { ...state, loading: false, error: payload };
 
     default:
       return state;

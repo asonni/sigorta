@@ -1,25 +1,14 @@
 import React, { Component } from 'react';
-import { Field, reduxForm, SubmissionError } from 'redux-form';
-import { Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import {
-  Row,
-  Col,
-  Card,
-  Alert,
-  Button,
-  CardBody,
-  CardHeader,
-  CardFooter
-} from 'reactstrap';
+import { SubmissionError } from 'redux-form';
+import { Row, Col, Card, CardHeader } from 'reactstrap';
 
-import validate from './validate';
-import { Aux, InputField, SelectField } from '../../Common';
+import ClientForm from './ClientForm';
 import { fetchClient, editClinet } from '../../../actions/admin/client';
 import { fetchUsers } from '../../../actions/admin/user';
 
 class EditClinet extends Component {
-  state = { alertVisible: false };
+  state = { alertVisible: true };
 
   componentWillMount() {
     document.title = 'Sigorta | Edit Clinet';
@@ -28,27 +17,13 @@ class EditClinet extends Component {
     this.props.fetchUsers();
   }
 
-  componentWillReceiveProps(nextProps) {
-    // Load Contact Asynchronously
-    const { client } = nextProps;
-    if (client._id !== this.props.client._id) {
-      // Initialize form only once
-      this.props.initialize({
-        _id: client._id,
-        name: client.name,
-        discount: client.discount,
-        user: client.user ? client.user._id : null
-      });
-    }
-  }
-
   onSubmintEditClient = async values => {
     try {
       await this.props.editClinet(values);
       this.props.history.push('/admin/clients/view');
     } catch (err) {
       this.setState({ alertVisible: true });
-      throw new SubmissionError(this.props.clientErrors);
+      throw new SubmissionError(this.props.clientError);
     }
   };
 
@@ -56,17 +31,25 @@ class EditClinet extends Component {
     this.setState({ alertVisible: false });
   };
 
+  renderUsers = () =>
+    this.props.users.map(item => ({
+      value: item._id,
+      label: `Name: ${item.fname} ${item.lname}, Email: ${item.email}`,
+      user: {
+        name: `${item.fname} ${item.lname}`,
+        email: item.email
+      }
+    }));
+
+  itemComponent = ({ item }) => (
+    <span>
+      <strong>Name:</strong> {item.user.name}, <strong>Email:</strong>{' '}
+      {item.user.email}
+    </span>
+  );
+
   render() {
-    const {
-      handleSubmit,
-      clientLoading,
-      clientErrors,
-      users,
-      userErrors,
-      userLoading,
-      pristine,
-      submitting
-    } = this.props;
+    const { clientLoading, userLoading } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -75,79 +58,15 @@ class EditClinet extends Component {
               <CardHeader>
                 <i className="fa fa-user-plus" aria-hidden="true" /> Edit Clinet
               </CardHeader>
-              <Form
-                onSubmit={handleSubmit(this.onSubmintEditClient)}
+              <ClientForm
+                {...this.props}
                 loading={clientLoading && userLoading}
-              >
-                <CardBody>
-                  {clientErrors && (
-                    <Alert
-                      color="danger"
-                      isOpen={this.state.alertVisible}
-                      toggle={this.onAlertDismiss}
-                    >
-                      {clientErrors}
-                    </Alert>
-                  )}
-                  {userErrors && (
-                    <Alert
-                      color="danger"
-                      isOpen={this.state.alertVisible}
-                      toggle={this.onAlertDismiss}
-                    >
-                      {userErrors}
-                    </Alert>
-                  )}
-                  <Field
-                    label="Clinet Name"
-                    placeholder="type any clinet name"
-                    type="text"
-                    name="name"
-                    component={InputField}
-                  />
-                  <Field
-                    label="Discount"
-                    placeholder="type any discount"
-                    type="text"
-                    name="discount"
-                    component={InputField}
-                  />
-                  <Field
-                    label="User Name"
-                    name="user"
-                    items={users}
-                    component={SelectField}
-                  />
-                </CardBody>
-                <CardFooter>
-                  <Button
-                    type="submit"
-                    size="sm"
-                    color="primary"
-                    disabled={pristine || submitting}
-                  >
-                    {submitting ? (
-                      <Aux>
-                        <i className="fa fa-circle-o-notch fa-spin" />{' '}
-                        Submitting
-                      </Aux>
-                    ) : (
-                      <Aux>
-                        <i className="fa fa-dot-circle-o" /> Submit
-                      </Aux>
-                    )}
-                  </Button>{' '}
-                  <Button
-                    size="sm"
-                    color="secondary"
-                    onClick={() =>
-                      this.props.history.push('/admin/clients/view')
-                    }
-                  >
-                    <i className="fa fa-ban" /> Cancel
-                  </Button>
-                </CardFooter>
-              </Form>
+                onSubmit={this.onSubmintEditClient}
+                renderUsers={this.renderUsers()}
+                itemComponent={this.itemComponent}
+                onAlertDismiss={this.onAlertDismiss}
+                alertVisible={this.state.alertVisible}
+              />
             </Card>
           </Col>
         </Row>
@@ -160,20 +79,15 @@ const mapStateToProps = ({ clientStore, userStore }) => {
   return {
     client: clientStore.client,
     clientLoading: clientStore.loading,
-    clientErrors: clientStore.errors,
+    clientError: clientStore.error,
     users: userStore.users,
     userLoading: userStore.loading,
-    userErrors: userStore.errors
+    userError: userStore.error
   };
 };
-
-const EditClinetForm = reduxForm({
-  form: 'editUser',
-  validate
-})(EditClinet);
 
 export default connect(mapStateToProps, {
   fetchClient,
   editClinet,
   fetchUsers
-})(EditClinetForm);
+})(EditClinet);

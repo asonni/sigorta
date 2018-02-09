@@ -12,6 +12,7 @@ import EditUser from './User/EditUser';
 import ViewClients from './Client/ViewClients';
 import NewClinet from './Client/NewClinet';
 import EditClinet from './Client/EditClinet';
+import Page404 from './Page404';
 import Aside from './Layout/Aside';
 import Footer from './Layout/Footer';
 
@@ -26,6 +27,9 @@ class Admin extends Component {
             <Breadcrumb />
             <Container fluid>
               <Switch>
+                <Redirect exact from="/admin" to="/admin/dashboard" />
+                <Redirect exact from="/admin/users" to="/admin/dashboard" />
+                <Redirect exact from="/admin/clients" to="/admin/dashboard" />
                 <Route exact path="/admin/dashboard" component={Dashboard} />
                 <Route exact path="/admin/users/view" component={ViewUsers} />
                 <Route exact path="/admin/users/new" component={NewUser} />
@@ -45,9 +49,7 @@ class Admin extends Component {
                   path="/admin/clients/edit/:id"
                   component={EditClinet}
                 />
-                <Redirect exact from="/admin" to="/admin/dashboard" />
-                <Redirect exact from="/admin/users" to="/admin/dashboard" />
-                <Redirect exact from="/admin/clients" to="/admin/dashboard" />
+                <Route component={Page404} />
               </Switch>
             </Container>
           </main>

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Moment from 'react-moment';
+import Pagination from 'react-js-pagination';
 import {
   Row,
   Col,
@@ -12,28 +14,46 @@ import {
   ButtonGroup
 } from 'reactstrap';
 import DeleteClient from './DeleteClient';
-import { LoadingContent, TimeoutMessage } from '../../Common';
+import { Aux, LoadingContent, TimeoutMessage } from '../../Common';
 import { fetchClients } from '../../../actions/admin/client';
 
 class ViewClients extends Component {
+  state = {
+    activePage: 1,
+    itemsCountPerPage: 10,
+    totalItemsCount: 450,
+    pageRangeDisplayed: 5
+  };
+
   componentWillMount() {
     document.title = 'Sigorta | View Clients';
     this.props.fetchClients();
   }
 
+  onChangePage = activePage => {
+    this.setState({ activePage });
+  };
+
   renderClientsBody = () =>
     this.props.clients.map((client, index) => {
-      // console.log(client);
       const {
         _id,
         user: { fname, lname, email, phone },
         name,
-        discount
+        discount,
+        createdAt
       } = client;
       return (
         <tr key={index}>
-          <td className="text-center">{index + 1}</td>
-          <td className="text-center">{name}</td>
+          <td className="text-center" width="5%">
+            {index + 1}
+          </td>
+          <td>
+            <div>{name}</div>
+            <div className="small text-muted">
+              Created: <Moment format="MMMM DD, YYYY">{createdAt}</Moment>
+            </div>
+          </td>
           <td className="text-center">{`${discount}%`}</td>
           <td>{`${fname} ${lname}`}</td>
           <td>{email}</td>
@@ -61,11 +81,17 @@ class ViewClients extends Component {
     });
 
   renderClients = () => {
-    const { clients, loading, errors } = this.props;
+    const { clients, loading, error } = this.props;
+    const {
+      activePage,
+      itemsCountPerPage,
+      totalItemsCount,
+      pageRangeDisplayed
+    } = this.state;
     if (loading) {
       return <LoadingContent />;
     }
-    if (errors) {
+    if (error) {
       return <TimeoutMessage />;
     }
     // if (errors.authenticated === false) {
@@ -80,20 +106,40 @@ class ViewClients extends Component {
       );
     }
     return (
-      <Table responsive hover>
-        <thead>
-          <tr>
-            <th className="text-center">#</th>
-            <th className="text-center">Clinet Name</th>
-            <th className="text-center">Discount</th>
-            <th>User Full Name</th>
-            <th>User Email</th>
-            <th className="text-center">User Phone</th>
-            <th className="text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>{this.renderClientsBody()}</tbody>
-      </Table>
+      <Aux>
+        <Table
+          responsive
+          hover
+          className="table-outline mb-0 d-none d-sm-table"
+        >
+          <thead className="thead-light">
+            <tr>
+              <th className="text-center" width="5%">
+                #
+              </th>
+              <th>Clinet Name</th>
+              <th className="text-center" width="15%">
+                Discount
+              </th>
+              <th>User Full Name</th>
+              <th>User Email</th>
+              <th className="text-center" width="10%">
+                User Phone
+              </th>
+              <th className="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>{this.renderClientsBody()}</tbody>
+        </Table>
+        <br />
+        <Pagination
+          activePage={activePage}
+          itemsCountPerPage={itemsCountPerPage}
+          totalItemsCount={totalItemsCount}
+          pageRangeDisplayed={pageRangeDisplayed}
+          onChange={this.onChangePage}
+        />
+      </Aux>
     );
   };
 
@@ -122,33 +168,7 @@ class ViewClients extends Component {
                   </Col>
                 </Row>
               </CardHeader>
-              <CardBody>
-                {this.renderClients()}
-                {/* <Pagination>
-                  <PaginationItem disabled>
-                    <PaginationLink previous href="#">
-                      Prev
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem active>
-                    <PaginationLink href="#">1</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">2</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">3</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">4</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink next href="#">
-                      Next
-                    </PaginationLink>
-                  </PaginationItem>
-                </Pagination> */}
-              </CardBody>
+              <CardBody>{this.renderClients()}</CardBody>
             </Card>
           </Col>
         </Row>
@@ -158,8 +178,8 @@ class ViewClients extends Component {
 }
 
 const mapStateToProps = ({ clientStore }) => {
-  const { clients, loading, errors } = clientStore;
-  return { clients, loading, errors };
+  const { clients, loading, error } = clientStore;
+  return { clients, loading, error };
 };
 
 export default connect(mapStateToProps, { fetchClients })(ViewClients);

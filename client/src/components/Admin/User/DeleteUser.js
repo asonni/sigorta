@@ -19,7 +19,7 @@ class DeleteUser extends Component {
       this.toggle();
     } catch (err) {
       this.toggle();
-      throw new SubmissionError(this.props.errors);
+      throw new SubmissionError(this.props.error);
     }
   };
 
@@ -70,8 +70,8 @@ class DeleteUser extends Component {
 }
 
 const mapStateToProps = ({ userStore }) => {
-  const { loading, errors } = userStore;
-  return { loading, errors };
+  const { loading, error } = userStore;
+  return { loading, error };
 };
 
 const DeleteUserForm = reduxForm({ form: 'deleteUser' })(DeleteUser);
