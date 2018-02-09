@@ -73,8 +73,7 @@ class DeleteClient extends Component {
   }
 }
 
-const mapStateToProps = ({ clientStore }) => {
-  const { loading, error } = clientStore;
+const mapStateToProps = ({ clientStore: { loading, error } }) => {
   return { loading, error };
 };
 

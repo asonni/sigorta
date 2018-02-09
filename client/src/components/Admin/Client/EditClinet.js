@@ -12,18 +12,19 @@ class EditClinet extends Component {
 
   componentWillMount() {
     document.title = 'Sigorta | Edit Clinet';
-    const { id } = this.props.match.params;
-    this.props.fetchClient(id);
-    this.props.fetchUsers();
+    const { fetchClient, fetchUsers, match: { params: { id } } } = this.props;
+    fetchClient(id);
+    fetchUsers();
   }
 
   onSubmintEditClient = async values => {
+    const { editClinet, history, clientError } = this.props;
     try {
-      await this.props.editClinet(values);
-      this.props.history.push('/admin/clients/view');
+      await editClinet(values);
+      history.push('/admin/clients/view');
     } catch (err) {
       this.setState({ alertVisible: true });
-      throw new SubmissionError(this.props.clientError);
+      throw new SubmissionError(clientError);
     }
   };
 
@@ -32,24 +33,23 @@ class EditClinet extends Component {
   };
 
   renderUsers = () =>
-    this.props.users.map(item => ({
-      value: item._id,
-      label: `Name: ${item.fname} ${item.lname}, Email: ${item.email}`,
+    this.props.users.map(({ _id, fname, lname, email }) => ({
+      value: _id,
+      label: `Name: ${fname} ${lname}, Email: ${email}`,
       user: {
-        name: `${item.fname} ${item.lname}`,
-        email: item.email
+        name: `${fname} ${lname}`,
+        email
       }
     }));
 
-  itemComponent = ({ item }) => (
+  itemComponent = ({ item: { user: { name, email } } }) => (
     <span>
-      <strong>Name:</strong> {item.user.name}, <strong>Email:</strong>{' '}
-      {item.user.email}
+      <strong>Name:</strong> {name}, <strong>Email:</strong> {email}
     </span>
   );
 
   render() {
-    const { clientLoading, userLoading } = this.props;
+    const { clientLoading, usersLoading } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -60,7 +60,7 @@ class EditClinet extends Component {
               </CardHeader>
               <ClientForm
                 {...this.props}
-                loading={clientLoading && userLoading}
+                loading={clientLoading && usersLoading}
                 onSubmit={this.onSubmintEditClient}
                 renderUsers={this.renderUsers()}
                 itemComponent={this.itemComponent}
@@ -81,8 +81,8 @@ const mapStateToProps = ({ clientStore, userStore }) => {
     clientLoading: clientStore.loading,
     clientError: clientStore.error,
     users: userStore.users,
-    userLoading: userStore.loading,
-    userError: userStore.error
+    usersLoading: userStore.loading,
+    usersError: userStore.error
   };
 };
 

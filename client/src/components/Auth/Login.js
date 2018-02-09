@@ -25,18 +25,21 @@ class Login extends Component {
 
   componentWillMount() {
     document.title = 'Sigorta | Login';
-    if (localStorage.getItem('si_token')) {
-      this.props.history.push('/admin');
-    }
   }
 
   onSubmintLogin = values => {
-    this.setState({ loginLoading: true, alertVisible: true });
-    this.props.loginUser(values, callback => {
+    this.setState({ loginLoading: true, alertVisible: false });
+    const { loginUser, history, location: { search } } = this.props;
+    loginUser(values, callback => {
       if (callback) {
-        this.props.history.push('/admin/dashboard');
+        if (search) {
+          const params = new URLSearchParams(search);
+          history.push(params.get('next'));
+        } else {
+          history.push('/admin/dashboard');
+        }
       } else {
-        this.setState({ loginLoading: false });
+        this.setState({ loginLoading: false, alertVisible: true });
       }
     });
   };
@@ -120,8 +123,8 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { message: state.authStore.message };
+const mapStateToProps = ({ authStore: { message } }) => {
+  return { message };
 };
 
 const LgoinForm = reduxForm({ form: 'login' })(Login);

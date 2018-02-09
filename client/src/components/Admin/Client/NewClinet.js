@@ -16,12 +16,13 @@ class NewClinet extends Component {
   }
 
   onSubmintNewClient = async values => {
+    const { newClinet, history, clientError } = this.props;
     try {
-      await this.props.newClinet(values);
-      this.props.history.push('/admin/clients/view');
+      await newClinet(values);
+      history.push('/admin/clients/view');
     } catch (err) {
       this.setState({ alertVisible: true });
-      throw new SubmissionError(this.props.clientError);
+      throw new SubmissionError(clientError);
     }
   };
 
@@ -30,24 +31,22 @@ class NewClinet extends Component {
   };
 
   renderUsers = () =>
-    this.props.users.map(item => ({
-      value: item._id,
-      label: `Name: ${item.fname} ${item.lname}, Email: ${item.email}`,
+    this.props.users.map(({ _id, fname, lname, email }) => ({
+      value: _id,
+      label: `Name: ${fname} ${lname}, Email: ${email}`,
       user: {
-        name: `${item.fname} ${item.lname}`,
-        email: item.email
+        name: `${fname} ${lname}`,
+        email
       }
     }));
 
-  itemComponent = ({ item }) => (
+  itemComponent = ({ item: { user: { name, email } } }) => (
     <span>
-      <strong>Name:</strong> {item.user.name}, <strong>Email:</strong>{' '}
-      {item.user.email}
+      <strong>Name:</strong> {name}, <strong>Email:</strong> {email}
     </span>
   );
 
   render() {
-    const { userLoading } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -58,7 +57,7 @@ class NewClinet extends Component {
               </CardHeader>
               <ClientForm
                 {...this.props}
-                loading={userLoading}
+                loading={this.props.usersLoading}
                 onSubmit={this.onSubmintNewClient}
                 renderUsers={this.renderUsers()}
                 itemComponent={this.itemComponent}
@@ -78,8 +77,8 @@ const mapStateToProps = ({ clientStore, userStore }) => {
     clientLoading: clientStore.loading,
     clientError: clientStore.error,
     users: userStore.users,
-    userLoading: userStore.loading,
-    userError: userStore.error
+    usersLoading: userStore.loading,
+    usersError: userStore.error
   };
 };
 

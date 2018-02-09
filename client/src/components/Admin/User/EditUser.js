@@ -53,8 +53,7 @@ class EditUser extends Component {
   }
 }
 
-const mapStateToProps = ({ userStore }) => {
-  const { user, loading, error } = userStore;
+const mapStateToProps = ({ userStore: { user, loading, error } }) => {
   return { user, loading, error };
 };
 

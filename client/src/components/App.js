@@ -1,6 +1,6 @@
 import React from 'react';
-import ReduxThunk from 'redux-thunk';
 import { Provider } from 'react-redux';
+import ReduxThunk from 'redux-thunk';
 import ReduxPromise from 'redux-promise';
 import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
@@ -11,7 +11,7 @@ import Logout from './Auth/Logout';
 import Admin from './Admin';
 import Client from './Client';
 import Page404 from './Page404';
-import { RequireAuth } from './Common';
+import { RequireAuth, RequireGuest } from './Common';
 import { AUTH_USER } from '../actions/admin/types';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk, ReduxPromise)(
@@ -30,8 +30,8 @@ const App = () => (
     <BrowserRouter>
       <Switch>
         <Redirect exact from="/" to="/login" />
-        <Route path="/login" component={Login} />
-        <Route path="/logout" component={Logout} />
+        <Route path="/login" component={RequireGuest(Login)} />
+        <Route path="/logout" component={RequireAuth(Logout)} />
         <Route path="/admin" component={RequireAuth(Admin)} />
         <Route path="/client" component={Client} />
         <Route component={Page404} />

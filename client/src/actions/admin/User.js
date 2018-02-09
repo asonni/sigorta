@@ -19,16 +19,14 @@ import {
   DELETE_USER_REJECTED
 } from './types';
 
-const headers = {
-  Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
-  'Content-Type': 'application/json'
-};
-
 export const fetchUsers = () => async dispatch => {
   dispatch({ type: FETCH_USERS_PENDING });
   try {
     const response = await axios.get(`${ROOT_URL}/${API_URL}/users`, {
-      headers
+      headers: {
+        Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
+        'Content-Type': 'application/json'
+      }
     });
     dispatch({ type: FETCH_USERS_FULFILLED, payload: response });
   } catch ({ error }) {
@@ -40,7 +38,10 @@ export const fetchUser = id => async dispatch => {
   dispatch({ type: FETCH_USER_PENDING });
   try {
     const response = await axios.get(`${ROOT_URL}/${API_URL}/users/${id}`, {
-      headers
+      headers: {
+        Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
+        'Content-Type': 'application/json'
+      }
     });
     dispatch({ type: FETCH_USER_FULFILLED, payload: response });
   } catch ({ error }) {
@@ -60,7 +61,10 @@ export const newUser = ({
       `${ROOT_URL}/${API_URL}/users`,
       { fname, lname, email, password },
       {
-        headers
+        headers: {
+          Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
+          'Content-Type': 'application/json'
+        }
       }
     );
     dispatch({ type: NEW_USER_FULFILLED, payload: response });
@@ -77,7 +81,10 @@ export const editUser = values => async dispatch => {
       `${ROOT_URL}/${API_URL}/users/${values._id}`,
       values,
       {
-        headers
+        headers: {
+          Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
+          'Content-Type': 'application/json'
+        }
       }
     );
     dispatch({ type: EDIT_USER_FULFILLED, payload: response });
@@ -90,7 +97,10 @@ export const deleteUser = id => async dispatch => {
   dispatch({ type: DELETE_USER_PENDING });
   try {
     const response = await axios.delete(`${ROOT_URL}/${API_URL}/users/${id}`, {
-      headers
+      headers: {
+        Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
+        'Content-Type': 'application/json'
+      }
     });
     dispatch({ type: DELETE_USER_FULFILLED, payload: response });
   } catch ({ error }) {

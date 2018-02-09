@@ -19,16 +19,14 @@ import {
   DELETE_CLINET_REJECTED
 } from './types';
 
-const headers = {
-  Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
-  'Content-Type': 'application/json'
-};
-
 export const fetchClients = () => async dispatch => {
   dispatch({ type: FETCH_CLINETS_PENDING });
   try {
     const response = await axios.get(`${ROOT_URL}/${API_URL}/clients`, {
-      headers
+      headers: {
+        Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
+        'Content-Type': 'application/json'
+      }
     });
     dispatch({ type: FETCH_CLINETS_FULFILLED, payload: response });
   } catch ({ error }) {
@@ -40,7 +38,10 @@ export const fetchClient = id => async dispatch => {
   dispatch({ type: FETCH_CLINET_PENDING });
   try {
     const response = await axios.get(`${ROOT_URL}/${API_URL}/clients/${id}`, {
-      headers
+      headers: {
+        Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
+        'Content-Type': 'application/json'
+      }
     });
     dispatch({ type: FETCH_CLINET_FULFILLED, payload: response });
   } catch ({ error }) {
@@ -59,7 +60,10 @@ export const newClinet = ({ name, discount, user }) => async dispatch => {
         user: user.value
       },
       {
-        headers
+        headers: {
+          Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
+          'Content-Type': 'application/json'
+        }
       }
     );
     dispatch({ type: NEW_CLINET_FULFILLED, payload: response });
@@ -80,7 +84,10 @@ export const editClinet = ({ _id, name, discount, user }) => async dispatch => {
         user: user.value
       },
       {
-        headers
+        headers: {
+          Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
+          'Content-Type': 'application/json'
+        }
       }
     );
     dispatch({ type: EDIT_CLINET_FULFILLED, payload: response });
@@ -96,7 +103,10 @@ export const deleteClient = id => async dispatch => {
     const response = await axios.delete(
       `${ROOT_URL}/${API_URL}/clinets/${id}`,
       {
-        headers
+        headers: {
+          Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
+          'Content-Type': 'application/json'
+        }
       }
     );
     dispatch({ type: DELETE_CLINET_FULFILLED, payload: response });

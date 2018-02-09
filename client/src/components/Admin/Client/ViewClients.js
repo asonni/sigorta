@@ -177,8 +177,7 @@ class ViewClients extends Component {
   }
 }
 
-const mapStateToProps = ({ clientStore }) => {
-  const { clients, loading, error } = clientStore;
+const mapStateToProps = ({ clientStore: { clients, loading, error } }) => {
   return { clients, loading, error };
 };
 

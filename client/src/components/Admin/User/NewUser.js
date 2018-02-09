@@ -50,8 +50,7 @@ class NewUser extends Component {
   }
 }
 
-const mapStateToProps = ({ userStore }) => {
-  const { loading, error } = userStore;
+const mapStateToProps = ({ userStore: { loading, error } }) => {
   return { loading, error };
 };
 

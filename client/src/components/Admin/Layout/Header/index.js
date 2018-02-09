@@ -4,22 +4,18 @@ import HeaderNotificationsDropdown from './HeaderNotificationsDropdown';
 
 class Header extends Component {
   sidebarToggle = () => {
-    // e.preventDefault();
     document.body.classList.toggle('sidebar-hidden');
   };
 
   sidebarMinimize = () => {
-    // e.preventDefault();
     document.body.classList.toggle('sidebar-minimized');
   };
 
   mobileSidebarToggle = () => {
-    // e.preventDefault();
     document.body.classList.toggle('sidebar-mobile-show');
   };
 
   asideToggle = () => {
-    // e.preventDefault();
     document.body.classList.toggle('aside-menu-hidden');
   };
 

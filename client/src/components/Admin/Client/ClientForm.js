@@ -22,7 +22,12 @@ class ClientForm extends Component {
   }
 
   renderAlerts = () => {
-    const { alertVisible, onAlertDismiss, clientError, userError } = this.props;
+    const {
+      alertVisible,
+      onAlertDismiss,
+      clientError,
+      usersError
+    } = this.props;
     if (clientError === undefined) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
@@ -37,17 +42,17 @@ class ClientForm extends Component {
         </Alert>
       );
     }
-    if (userError === undefined) {
+    if (usersError === undefined) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
           Unauthorized
         </Alert>
       );
     }
-    if (userError) {
+    if (usersError) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          {userError}
+          {usersError}
         </Alert>
       );
     }

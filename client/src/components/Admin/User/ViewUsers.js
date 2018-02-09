@@ -173,8 +173,7 @@ class ViewUsers extends Component {
   }
 }
 
-const mapStateToProps = ({ userStore }) => {
-  const { users, loading, error } = userStore;
+const mapStateToProps = ({ userStore: { users, loading, error } }) => {
   return { users, loading, error };
 };
 
