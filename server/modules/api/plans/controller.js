@@ -59,7 +59,7 @@ class PlansAPIController {
 
     let updatePlan = service.findByIdAndUpdate(id, req.body)
 
-    updatePlan.then(() => res.status(200).json({ data: 'OK' }))
+    updatePlan.then(plan => res.status(200).json({ plan }))
     .catch(e => {
       console.log(`Error at PUT /plans/${id}`, e)
       res.status(400).json({ error: e })
@@ -72,7 +72,7 @@ class PlansAPIController {
 
     let deletePlan = service.deletePlanById(id)
 
-    deletePlan.then(() => res.status(200).json({ data: 'OK' }))
+    deletePlan.then(() => res.status(200).json({ id }))
     .catch(e => {
       console.log(`Error at Delete /plans/${id}`, e)
       res.status(400).json({ error: e })

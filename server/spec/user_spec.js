@@ -194,25 +194,12 @@ describe("User", () => {
       (err, res, body) => {
         body = JSON.parse(body)
         expect(res.statusCode).toBe(200)
-        expect(body.data).toBe("OK")
-        request.get(
-          {
-            url: `${apiUrl}/users/${user._id}`,
-            headers: {
-              Authorization: `JWT ${token}`
-            }
-          },
-          (err1, res1, body1) => {
-            body1 = JSON.parse(body1)
-            expect(res1.statusCode).toBe(200)
-            expect(body1.user.fname).toBe("TesterFirst1")
-            expect(body1.user.lname).toBe("TesterLast2")
-            expect(body1.user.email).toBe("dev1@sigorta.com")
-            expect(body1.user.phone).toBe("094984848")
-            expect(body1.user.passwordHash).toBeUndefined()
-            done()
-          }
-        )
+        expect(body.user.fname).toBe("TesterFirst1")
+        expect(body.user.lname).toBe("TesterLast2")
+        expect(body.user.email).toBe("dev1@sigorta.com")
+        expect(body.user.phone).toBe("094984848")
+        expect(body.user.passwordHash).toBeUndefined()
+        done()
       }
     )
   })
@@ -252,7 +239,7 @@ describe("User", () => {
         console.log(body)
         body = JSON.parse(body)
         expect(res.statusCode).toBe(200)
-        expect(body.data).toBe("OK")
+        expect(body.id).toBe(user._id.toString())
         done()
       }
     )

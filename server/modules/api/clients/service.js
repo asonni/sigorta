@@ -7,12 +7,12 @@ class ClientService {
 
   fetchClients() {
     const { Client } = this.req.models
-    return Client.find().populate('user', ['fname', 'lname', 'email', 'phone'])
+    return Client.find().populate('user', ['fname', 'lname', 'email', 'phone', '_id'])
   }
 
   fetchClientById(id) {
     const { Client } = this.req.models
-    return Client.findById(id).populate('user', ['fname', 'lname', 'email', 'phone'])
+    return Client.findById(id).populate('user', ['fname', 'lname', 'email', 'phone', '_id'])
   }
 
   createClient(data) {

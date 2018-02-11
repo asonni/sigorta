@@ -37,7 +37,7 @@ class UsersService {
       updates.password = password
     }
     
-    return User.findByIdAndUpdate(id, updates)
+    return User.findByIdAndUpdate(id, updates, { new: true })
   }
 
   deleteUserById(id, body) { 

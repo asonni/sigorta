@@ -9,16 +9,18 @@ const helpers = require("./helpers/objectCreators")
 
 const {
   User,
-  Plan
+  Client,
+  Balance
 } = mongoose
 
-describe("Plan", () => {
+describe("Balance", () => {
   const baseUrl = "http://localhost:8888"
   const apiUrl = baseUrl + "/api/v1"
   let server,
     user,
     user2,
-    plan,
+    client,
+    balance,
     body,
     token
 
@@ -46,8 +48,12 @@ describe("Plan", () => {
       user2.save()
     })
     .then(() => {
-      plan = new Plan({ name: 'sigortaplan', price: 100 })
-      plan.save()
+      client = new Client({ user: user2._id.toString(), name: 'sigortaclient', discount: 5.5 })
+      client.save()
+    })
+    .then(() => {
+      balance = new Balance({ client: client._id.toString(), balance: 3000, transaction: 'add' })
+      balance.save()
     })
     .then(() => {
       request.post(
@@ -68,14 +74,14 @@ describe("Plan", () => {
   })
 
   // ----------------------------------------
-  // Plan API endpoints
+  // Balance API endpoints
   // ----------------------------------------
 
-  // plansIndex
-  it("renders all plans in the database", done => {
+  // balancesIndex
+  it("renders all balances in the database", done => {
     request.get(
       {
-        url: `${apiUrl}/plans`,
+        url: `${apiUrl}/balances`,
         headers: {
           Authorization: `JWT ${token}`
         }
@@ -83,17 +89,17 @@ describe("Plan", () => {
       (err, res, body) => {
         body = JSON.parse(body)
         expect(res.statusCode).toBe(200)
-        expect(body.plans.length).toBe(1)
+        expect(body.balances.length).toBe(1)
         done()
       }
     )
   })
 
   // usersShow
-  it("shows a specific plan at /api/v1/plan/:id", done => {
+  it("shows balances for a client at /api/v1/balance/:clientId", done => {
     request.get(
       {
-        url: `${apiUrl}/plans/${plan._id}`,
+        url: `${apiUrl}/balances/${client._id}`,
         headers: {
           Authorization: `JWT ${token}`
         }
@@ -101,17 +107,18 @@ describe("Plan", () => {
       (err, res, body) => {
         body = JSON.parse(body)
         expect(res.statusCode).toBe(200)
-        expect(body.plan.name).toBe("sigortaplan")
-        expect(body.plan.price).toBe(100)
+        expect(body.balances[0].balance).toBe(3000)
+        expect(body.balances[0].transaction).toBe('add')
+        expect(body.balances[0].client.name).toBe("sigortaclient")
         done()
       }
     )
   })
   
-  it("throws an error for a bad route at /api/v1/plans/:id", done => {
+  it("throws an error for a bad route at /api/v1/balances/:id", done => {
     request.get(
       {
-        url: `${apiUrl}/plans/frog`,
+        url: `${apiUrl}/balances/frog`,
         headers: {
           Authorization: `JWT ${token}`
         }
@@ -125,44 +132,66 @@ describe("Plan", () => {
     )
   })
 
-  // planUpdate
-  it("updates a plan at /api/v1/plans/:id", done => {
-    request.put(
+  it("post a balance at /api/v1/balances", done => {
+    request.post(
       {
-        url: `${apiUrl}/plans/${plan._id.toString()}`,
+        url: `${apiUrl}/balances`,
         headers: {
           Authorization: `JWT ${token}`
         },
         form: {
-          name: "plan2",
-          price: 6.6
+          balance: 4000,
+          client: JSON.parse(JSON.stringify(client._id))
         }
       },
       (err, res, body) => {
-        console.log(body)
         body = JSON.parse(body)
-        expect(res.statusCode).toBe(200)
-        expect(body.plan.name).toBe("plan2")
-        expect(body.plan.price).toBe(6.6)
+        expect(res.statusCode).toBe(201)
+        expect(body.balance.client.name).toBe("sigortaclient")
+        expect(body.balance.balance).toBe(4000)
+        expect(body.balance.transaction).toBe('add')
         done()
       }
     )
   })
 
-  // planDelete
-  it("delete a plan at /api/v1/plans/:id", done => {
+  // balanceUpdate
+  it("updates a balance at /api/v1/balances/:id", done => {
+    request.put(
+      {
+        url: `${apiUrl}/balances/${balance._id.toString()}`,
+        headers: {
+          Authorization: `JWT ${token}`
+        },
+        form: {
+          balance: 5000,
+          user: JSON.parse(JSON.stringify(user._id))
+        }
+      },
+      (err, res, body) => {
+        body = JSON.parse(body)
+        expect(res.statusCode).toBe(200)
+        expect(body.balance.balance).toBe(5000)
+        expect(body.balance.client.name).toBe("sigortaclient")
+        expect(body.balance.transaction).toBe("add")
+        done()
+      }
+    )
+  })
+
+  // balanceDelete
+  it("delete a balance at /api/v1/balances/:id", done => {
     request.delete(
       {
-        url: `${apiUrl}/plans/${plan._id}`,
+        url: `${apiUrl}/balances/${balance._id}`,
         headers: {
           Authorization: `JWT ${token}`
         }
       },
       (err, res, body) => {
-        console.log(body)
         body = JSON.parse(body)
         expect(res.statusCode).toBe(200)
-        expect(body.id).toBe(plan._id.toString())
+        expect(body.id).toBe(balance._id.toString())
         done()
       }
     )
