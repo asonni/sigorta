@@ -6,5 +6,6 @@ mongoose.Promise = bluebird
 module.exports = {
   User: require("./user"),
   Client: require("./client"),
-  Plan: require("./plan")
+  Plan: require("./plan"),
+  Balance: require("./Balance")
 }

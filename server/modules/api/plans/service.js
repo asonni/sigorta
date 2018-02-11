@@ -32,7 +32,7 @@ class PlanService {
       updates.price = price
     }
     
-    return Plan.findByIdAndUpdate(id, updates)
+    return Plan.findByIdAndUpdate(id, updates, { new: true })
   }
 
   deletePlanById(id, body) { 

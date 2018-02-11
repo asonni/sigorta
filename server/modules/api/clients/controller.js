@@ -43,7 +43,10 @@ class ClientsAPIController {
 
     service.createClient({ user, name, discount })
     .then(client => {
-      res.status(201).send(client)
+      service.fetchClientById(client._id)
+      .then(client => {
+        res.status(201).json({ client })
+      })
     })
     .catch(e => {
       res.status(401).json({ error: `Error persisting client: ${e}` })
@@ -57,7 +60,12 @@ class ClientsAPIController {
 
     let updateClient = service.findByIdAndUpdate(id, req.body)
 
-    updateClient.then(() => res.status(200).json({ data: 'OK' }))
+    updateClient.then(() => {
+      service.fetchClientById(id)
+      .then(client => {
+        res.status(200).json({ client })
+      })
+    })
     .catch(e => {
       console.log(`Error at PUT /clients/${id}`, e)
       res.status(400).json({ error: e })
@@ -70,7 +78,7 @@ class ClientsAPIController {
 
     let deleteClient = service.deleteClientById(id)
 
-    deleteClient.then(() => res.status(200).json({ data: 'OK' }))
+    deleteClient.then(() => res.status(200).json({ id }))
     .catch(e => {
       console.log(`Error at Delete /clients/${id}`, e)
       res.status(400).json({ error: e })

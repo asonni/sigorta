@@ -129,6 +129,32 @@ describe("Client", () => {
     )
   })
 
+  it("post a client at /api/v1/clients", done => {
+    request.post(
+      {
+        url: `${apiUrl}/clients`,
+        headers: {
+          Authorization: `JWT ${token}`
+        },
+        form: {
+          name: "sigorta3",
+          discount: 50,
+          user: JSON.parse(JSON.stringify(user2._id))
+        }
+      },
+      (err, res, body) => {
+        body = JSON.parse(body)
+        expect(body.client.name).toBe("sigorta3")
+        expect(body.client.user.fname).toBe("sig2")
+        expect(body.client.user.lname).toBe("gorta2")
+        expect(body.client.user.email).toBe("dev2@sigorta.com")
+        expect(body.client.user.phone).toBe("094847474774")
+        expect(body.client.discount).toBe(50)
+        done()
+      }
+    )
+  })
+
   // clientUpdate
   it("updates a client at /api/v1/clients/:id", done => {
     request.put(
@@ -147,25 +173,13 @@ describe("Client", () => {
         console.log(body)
         body = JSON.parse(body)
         expect(res.statusCode).toBe(200)
-        expect(body.data).toBe("OK")
-        request.get(
-          {
-            url: `${apiUrl}/clients/${client._id.toString()}`,
-            headers: {
-              Authorization: `JWT ${token}`
-            }
-          },
-          (err1, res1, body1) => {
-            body1 = JSON.parse(body1)
-            expect(body1.client.name).toBe("sigorta2")
-            expect(body1.client.user.fname).toBe("sig")
-            expect(body1.client.user.lname).toBe("gorta")
-            expect(body1.client.user.email).toBe("dev1@sigorta.com")
-            expect(body1.client.user.phone).toBe("094847474774")
-            expect(body1.client.discount).toBe(6.6)
-            done()
-          }
-        )
+        expect(body.client.name).toBe("sigorta2")
+        expect(body.client.user.fname).toBe("sig")
+        expect(body.client.user.lname).toBe("gorta")
+        expect(body.client.user.email).toBe("dev1@sigorta.com")
+        expect(body.client.user.phone).toBe("094847474774")
+        expect(body.client.discount).toBe(6.6)
+        done()
       }
     )
   })
@@ -183,7 +197,7 @@ describe("Client", () => {
         console.log(body)
         body = JSON.parse(body)
         expect(res.statusCode).toBe(200)
-        expect(body.data).toBe("OK")
+        expect(body.id).toBe(client._id.toString())
         done()
       }
     )

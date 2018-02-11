@@ -31,7 +31,7 @@ class UsersAPIController {
     .then(user => {
       user = user.toObject()
       delete user.passwordHash
-      res.json({ user: user })
+      res.json({ user })
     })
     .catch(e => {
       console.log(`\nError at GET /users/${id}`, e)
@@ -75,7 +75,11 @@ class UsersAPIController {
 
     let updateUser = service.findByIdAndUpdate(id, req.body)
 
-    updateUser.then(() => res.status(200).json({ data: 'OK' }))
+    updateUser.then(user => {
+      user = user.toObject()
+      delete user.passwordHash
+      res.status(200).json({ user })
+    })
     .catch(e => {
       console.log(`Error at PUT /users/${id}`, e)
       res.status(400).json({ error: e })
@@ -88,7 +92,7 @@ class UsersAPIController {
 
     let deleteUser = service.deleteUserById(id)
 
-    deleteUser.then(() => res.status(200).json({ data: 'OK' }))
+    deleteUser.then(() => res.status(200).json({ id }))
     .catch(e => {
       console.log(`Error at Delete /users/${id}`, e)
       res.status(400).json({ error: e })
