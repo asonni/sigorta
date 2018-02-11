@@ -78,6 +78,27 @@ describe("User", () => {
     )
   })
 
+  // me
+  it("shows the loggedin user at /api/v1/users/me", done => {
+    request.get(
+      {
+        url: `${apiUrl}/users/me`,
+        headers: {
+          Authorization: `JWT ${token}`
+        }
+      },
+      (err, res, body) => {
+        body = JSON.parse(body)
+        expect(res.statusCode).toBe(200)
+        expect(body.me.fname).toBe("TesterFirst")
+        expect(body.me.lname).toBe("TesterLast")
+        expect(body.me.email).toBe("dev1@sigorta.com")
+        expect(body.me.phone).toBe("094847474774")
+        done()
+      }
+    )
+  })
+
   // usersShow
   it("shows a specific user at /api/v1/users/:id", done => {
     request.get(

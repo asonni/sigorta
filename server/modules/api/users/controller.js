@@ -6,6 +6,10 @@ const Service = require('./service')
 const Auth = require("../../../services/auth")
 
 class UsersAPIController {
+  me(req, res) {
+    res.json({ me: req.user })
+  }
+
   usersIndex(req, res) {
     const service = new Service(req)
 

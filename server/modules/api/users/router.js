@@ -9,6 +9,9 @@ module.exports = () => {
   .get(isAdmin, controller.usersIndex)
   .post(isAdmin, controller.usersCreate)
 
+  router.route("/me")
+  .get(isUser, controller.me)
+
   router.route("/login")
   .post(controller.loginUser)
 
