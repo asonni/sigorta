@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Alert, Button, CardBody, CardFooter } from 'reactstrap';
 
 import validate from './validate';
-import { Aux, InputField } from '../../Common';
+import { Aux, renderInputField } from '../../common';
 
 class UserForm extends Component {
   componentWillReceiveProps(nextProps) {
@@ -45,21 +45,21 @@ class UserForm extends Component {
             placeholder="John"
             type="text"
             name="fname"
-            component={InputField}
+            component={renderInputField}
           />
           <Field
             label="Last Name"
             placeholder="Doe"
             type="text"
             name="lname"
-            component={InputField}
+            component={renderInputField}
           />
           <Field
             label="Email Address"
             placeholder="john.doe@example.com"
             type="text"
             name="email"
-            component={InputField}
+            component={renderInputField}
           />
           {!this.props.user && (
             <Aux>
@@ -68,14 +68,14 @@ class UserForm extends Component {
                 placeholder="password"
                 type="password"
                 name="password"
-                component={InputField}
+                component={renderInputField}
               />
               <Field
                 label="Retype Password"
                 placeholder="retype password"
                 type="password"
                 name="confirmPassword"
-                component={InputField}
+                component={renderInputField}
               />
             </Aux>
           )}

@@ -1,3 +1,4 @@
-export * from './Aux';
-export * from './RequireAuth';
-export * from './RequireGuest';
+export * from './aux';
+export * from './requireAuthAdmin';
+export * from './requireAuthClient';
+export * from './requireGuest';

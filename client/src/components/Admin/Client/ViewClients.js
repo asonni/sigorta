@@ -14,8 +14,8 @@ import {
   ButtonGroup
 } from 'reactstrap';
 import DeleteClient from './DeleteClient';
-import { Aux, LoadingContent, TimeoutMessage } from '../../Common';
-import { fetchClients } from '../../../actions/admin/client';
+import { Aux, LoadingContent, TimeoutMessage } from '../../common';
+import { fetchClients } from '../../../actions/admin';
 
 class ViewClients extends Component {
   state = {

@@ -2,27 +2,27 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 import ReduxPromise from 'redux-promise';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 
-import reducers from '../reducers';
-import Login from './Auth/Login';
-import Logout from './Auth/Logout';
-import Admin from './Admin';
-import Client from './Client';
+import rootReducer from '../reducers';
+import Login from './auth/Login';
+import Logout from './auth/Logout';
+import Admin from './admin';
+import Client from './client';
 import Page404 from './Page404';
-import { RequireAuth, RequireGuest } from './Common';
+import { requireAuthAdmin, requireAuthClient, requireGuest } from './common';
 import { AUTH_USER } from '../actions/admin/types';
 
-const createStoreWithMiddleware = applyMiddleware(ReduxThunk, ReduxPromise)(
-  createStore
-);
-const store = createStoreWithMiddleware(reducers);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const middleware = composeEnhancers(applyMiddleware(ReduxThunk, ReduxPromise));
+const store = createStore(rootReducer, middleware);
+
 const token = localStorage.getItem('si_token');
-// If we have a token, consider the user to be signed in
-if (token) {
-  // we need to update application state
-  store.dispatch({ type: AUTH_USER });
+const isAdmin = localStorage.getItem('si_isAdmin');
+
+if (token && isAdmin !== null) {
+  store.dispatch({ type: AUTH_USER, payload: isAdmin });
 }
 
 const App = () => (
@@ -30,10 +30,10 @@ const App = () => (
     <BrowserRouter>
       <Switch>
         <Redirect exact from="/" to="/login" />
-        <Route path="/login" component={RequireGuest(Login)} />
-        <Route path="/logout" component={RequireAuth(Logout)} />
-        <Route path="/admin" component={RequireAuth(Admin)} />
-        <Route path="/client" component={Client} />
+        <Route path="/login" component={requireGuest(Login)} />
+        <Route path="/logout" component={Logout} />
+        <Route path="/admin" component={requireAuthAdmin(Admin)} />
+        <Route path="/client" component={requireAuthClient(Client)} />
         <Route component={Page404} />
       </Switch>
     </BrowserRouter>

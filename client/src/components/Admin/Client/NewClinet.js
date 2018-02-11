@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { Row, Col, Card, CardHeader } from 'reactstrap';
 
 import ClientForm from './ClientForm';
-import { newClinet } from '../../../actions/admin/client';
-import { fetchUsers } from '../../../actions/admin/user';
+import { fetchUsers, newClinet } from '../../../actions/admin';
 
 class NewClinet extends Component {
   state = { alertVisible: false };

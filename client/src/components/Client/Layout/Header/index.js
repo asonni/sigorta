@@ -39,7 +39,7 @@ class Header extends Component {
             type="button"
             color="danger"
             style={{ marginRight: '10px', marginLeft: '10px' }}
-            onClick={() => this.props.history.push('/')}
+            onClick={() => this.props.history.push('/logout')}
           >
             <i className="fa fa-lock fa-lg" />
           </Button>

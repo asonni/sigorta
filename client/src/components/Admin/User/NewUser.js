@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Row, Col, Card, CardHeader } from 'reactstrap';
 
 import UserForm from './UserForm';
-import { newUser } from '../../../actions/admin/user';
+import { newUser } from '../../../actions/admin';
 
 class NewUser extends Component {
   state = { alertVisible: false };

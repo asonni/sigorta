@@ -4,8 +4,7 @@ import { SubmissionError } from 'redux-form';
 import { Row, Col, Card, CardHeader } from 'reactstrap';
 
 import ClientForm from './ClientForm';
-import { fetchClient, editClinet } from '../../../actions/admin/client';
-import { fetchUsers } from '../../../actions/admin/user';
+import { fetchClient, fetchUsers, editClinet } from '../../../actions/admin';
 
 class EditClinet extends Component {
   state = { alertVisible: true };

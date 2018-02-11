@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormGroup, Label, Input, FormFeedback } from 'reactstrap';
-import { Aux } from './Hoc';
+import { Aux } from './hoc';
 
-const InputField = field => {
+const renderInputField = field => {
   const { label, type, placeholder, input, meta: { touched, error } } = field;
   const valid = touched && error ? false : null;
   return (
@@ -28,4 +28,4 @@ const InputField = field => {
   );
 };
 
-export { InputField };
+export { renderInputField };

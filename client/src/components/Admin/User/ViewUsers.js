@@ -14,8 +14,8 @@ import {
   Button,
   Input
 } from 'reactstrap';
-import { Aux, LoadingContent, TimeoutMessage } from '../../Common';
-import { fetchUsers } from '../../../actions/admin/user';
+import { Aux, LoadingContent, TimeoutMessage } from '../../common';
+import { fetchUsers } from '../../../actions/admin';
 import DeleteUser from './DeleteUser';
 
 class ViewUsers extends Component {

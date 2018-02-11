@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { reset } from 'redux-form';
-import { ROOT_URL, API_URL } from '../baseUrl';
-import { AUTH_USER, AUTH_MESSAGE, UNAUTH_USER } from './types';
+import { ROOT_URL, API_URL } from './baseUrl';
+import { AUTH_USER, AUTH_MESSAGE, UNAUTH_USER } from './admin/types';
 
 export const loginUser = ({ email, password }, callback) => async dispatch => {
   try {
@@ -12,11 +12,12 @@ export const loginUser = ({ email, password }, callback) => async dispatch => {
     });
     // If request is good...
     // - Update state to indicate user is authenticated
-    const { id_token } = response.data;
-    if (id_token) {
-      dispatch({ type: AUTH_USER });
+    const { id_token, user } = response.data;
+    if (id_token && user) {
+      dispatch({ type: AUTH_USER, payload: user.isAdmin });
       // - Save the JWT token
       localStorage.setItem('si_token', id_token);
+      localStorage.setItem('si_isAdmin', user.isAdmin);
       callback(true);
     }
   } catch ({ response }) {
@@ -34,6 +35,7 @@ export const loginUser = ({ email, password }, callback) => async dispatch => {
 
 export const logoutUser = () => {
   localStorage.removeItem('si_token');
+  localStorage.removeItem('si_isAdmin');
   return { type: UNAUTH_USER };
 };
 
