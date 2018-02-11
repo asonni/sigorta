@@ -9,4 +9,4 @@ const PlanSchema = mongoose.Schema({
 
 const Plan = mongoose.model("Plan", PlanSchema)
 
-module.exports = { Plan, PlanSchema }
+module.exports = Plan
