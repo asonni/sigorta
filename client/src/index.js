@@ -21,5 +21,4 @@ import './assets/css/_dropdown-menu-right.css';
 import './assets/css/custom.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
 unregister();

@@ -1,7 +1,3 @@
-.Select-placeholder,
-.Select--single > .Select-control .Select-value {
-  color: #526b78;
-}
 .rw-placeholder {
   color: #526b78;
 }
@@ -104,14 +100,4 @@
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
-}
-
-.center-content {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 30em;
-  height: 18em;
-  margin-top: -9em; /*set to a negative number 1/2 of your height*/
-  margin-left: -15em; /*set to a negative number 1/2 of your width*/
 }
