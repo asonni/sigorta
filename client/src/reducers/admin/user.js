@@ -6,9 +6,6 @@ import {
   FETCH_USER_PENDING,
   FETCH_USER_FULFILLED,
   FETCH_USER_REJECTED,
-  FETCH_CURRENT_USER_PENDING,
-  FETCH_CURRENT_USER_FULFILLED,
-  FETCH_CURRENT_USER_REJECTED,
   NEW_USER_PENDING,
   NEW_USER_FULFILLED,
   NEW_USER_REJECTED,
@@ -21,7 +18,6 @@ import {
 } from '../../actions/admin/types';
 
 const initState = {
-  currentUser: {},
   user: {},
   users: [],
   error: null,
@@ -62,25 +58,6 @@ export default (state = initState, { type, payload }) => {
         loading: false,
         user: {},
         error: message ? message : 'error'
-      };
-
-    case FETCH_CURRENT_USER_PENDING:
-      return { ...state, loading: true, currentUser: {}, error: null };
-
-    case FETCH_CURRENT_USER_FULFILLED:
-      return {
-        ...state,
-        currentUser: payload.data.me,
-        loading: false,
-        error: null
-      };
-
-    case FETCH_CURRENT_USER_REJECTED:
-      return {
-        ...state,
-        loading: false,
-        currentUser: {},
-        error: 'error'
       };
 
     case NEW_USER_PENDING:

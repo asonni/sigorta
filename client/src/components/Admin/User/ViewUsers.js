@@ -107,11 +107,7 @@ class ViewUsers extends Component {
     }
     return (
       <Aux>
-        <Table
-          responsive
-          hover
-          className="table-outline mb-0 d-none d-sm-table"
-        >
+        <Table responsive hover>
           <thead className="thead-light">
             <tr>
               <th className="text-center" width="5%">

@@ -49,7 +49,7 @@ class Admin extends Component {
                   path="/admin/clients/edit/:id"
                   component={EditClinet}
                 />
-                <Route component={Page404} />
+                {/* <Route component={Page404} /> */}
               </Switch>
             </Container>
           </main>

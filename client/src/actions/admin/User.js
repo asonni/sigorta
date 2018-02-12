@@ -8,9 +8,6 @@ import {
   FETCH_USER_PENDING,
   FETCH_USER_FULFILLED,
   FETCH_USER_REJECTED,
-  FETCH_CURRENT_USER_PENDING,
-  FETCH_CURRENT_USER_FULFILLED,
-  FETCH_CURRENT_USER_REJECTED,
   NEW_USER_PENDING,
   NEW_USER_FULFILLED,
   NEW_USER_REJECTED,
@@ -49,21 +46,6 @@ export const fetchUser = id => async dispatch => {
     dispatch({ type: FETCH_USER_FULFILLED, payload: response });
   } catch ({ error }) {
     dispatch({ type: FETCH_USER_REJECTED, payload: error });
-  }
-};
-
-export const fetchCurrentUser = () => async dispatch => {
-  dispatch({ type: FETCH_CURRENT_USER_PENDING });
-  try {
-    const response = await axios.get(`${ROOT_URL}/${API_URL}/users/me`, {
-      headers: {
-        Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
-        'Content-Type': 'application/json'
-      }
-    });
-    dispatch({ type: FETCH_CURRENT_USER_FULFILLED, payload: response });
-  } catch ({ error }) {
-    dispatch({ type: FETCH_CURRENT_USER_REJECTED, payload: error });
   }
 };
 

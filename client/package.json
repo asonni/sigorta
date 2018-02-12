@@ -1,4 +1,5 @@
 {
+  "homepage": "http://asonni.github.io/sigorta",
   "name": "sigorta-client",
   "version": "1.0.0",
   "private": true,
@@ -34,9 +35,16 @@
     "simple-line-icons": "^2.4.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "start:client": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:server": "npm run start --prefix ../server",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "devDependencies": {
+    "gh-pages": "^1.1.0"
   }
 }
