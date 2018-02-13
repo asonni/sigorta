@@ -52,7 +52,6 @@ class UsersService {
         return { status: 401, error: "The email or password doesn't match." }
       } else {
         delete user.passwordHash
-        delete user.isAdmin
         return user
       }
     })

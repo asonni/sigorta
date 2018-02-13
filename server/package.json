@@ -4,7 +4,7 @@
   "description": "sigorta",
   "main": "index.js",
   "engines": {
-    "node": "9.4.0"
+    "node": "8.9.4"
   },
   "scripts": {
     "c": "node utils/repl.js",

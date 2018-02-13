@@ -7,5 +7,5 @@ module.exports = {
   User: require("./user"),
   Client: require("./client"),
   Plan: require("./plan"),
-  Balance: require("./Balance")
+  Balance: require("./balance")
 }
