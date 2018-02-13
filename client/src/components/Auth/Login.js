@@ -14,8 +14,8 @@ import {
   Alert
 } from 'reactstrap';
 
-import { InputField } from '../Common';
-import { loginUser } from '../../actions/admin/auth';
+import { renderInputField } from '../common';
+import { loginUser } from '../../actions/auth';
 
 class Login extends Component {
   state = {
@@ -29,14 +29,21 @@ class Login extends Component {
 
   onSubmintLogin = values => {
     this.setState({ loginLoading: true, alertVisible: false });
-    const { loginUser, history, location: { search } } = this.props;
+    const { loginUser, history, location: { search }, isAdmin } = this.props;
     loginUser(values, callback => {
-      if (callback) {
+      if (callback && isAdmin) {
         if (search) {
           const params = new URLSearchParams(search);
           history.push(params.get('next'));
         } else {
           history.push('/admin/dashboard');
+        }
+      } else if (callback && !isAdmin) {
+        if (search) {
+          const params = new URLSearchParams(search);
+          history.push(params.get('next'));
+        } else {
+          history.push('/client/dashboard');
         }
       } else {
         this.setState({ loginLoading: false, alertVisible: true });
@@ -77,7 +84,7 @@ class Login extends Component {
                         placeholder="Username"
                         type="text"
                         name="email"
-                        component={InputField}
+                        component={renderInputField}
                       />
                     </InputGroup>
                     <InputGroup className="mb-4">
@@ -88,7 +95,7 @@ class Login extends Component {
                         placeholder="Password"
                         type="password"
                         name="password"
-                        component={InputField}
+                        component={renderInputField}
                       />
                     </InputGroup>
                     <Row>
@@ -123,8 +130,8 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = ({ authStore: { message } }) => {
-  return { message };
+const mapStateToProps = ({ authStore: { isAdmin, message } }) => {
+  return { isAdmin, message };
 };
 
 const LgoinForm = reduxForm({ form: 'login' })(Login);

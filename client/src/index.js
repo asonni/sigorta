@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import registerServiceWorker from './registerServiceWorker';
+import registerServiceWorker, { unregister } from './registerServiceWorker';
 
 // Styles
 // Import Font Awesome Icons Set
@@ -22,3 +22,4 @@ import './assets/css/custom.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
+unregister();

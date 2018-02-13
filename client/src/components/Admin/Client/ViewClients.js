@@ -14,8 +14,8 @@ import {
   ButtonGroup
 } from 'reactstrap';
 import DeleteClient from './DeleteClient';
-import { Aux, LoadingContent, TimeoutMessage } from '../../Common';
-import { fetchClients } from '../../../actions/admin/client';
+import { Aux, LoadingContent, TimeoutMessage } from '../../common';
+import { fetchClients } from '../../../actions/admin';
 
 class ViewClients extends Component {
   state = {
@@ -107,11 +107,7 @@ class ViewClients extends Component {
     }
     return (
       <Aux>
-        <Table
-          responsive
-          hover
-          className="table-outline mb-0 d-none d-sm-table"
-        >
+        <Table responsive hover>
           <thead className="thead-light">
             <tr>
               <th className="text-center" width="5%">

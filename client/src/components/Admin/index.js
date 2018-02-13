@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import Header from './Layout/Header';
-import Sidebar from './Layout/Sidebar';
-import Breadcrumb from './Layout/Breadcrumb';
-import Dashboard from './Dashboard';
-import ViewUsers from './User/ViewUsers';
-import NewUser from './User/NewUser';
-import EditUser from './User/EditUser';
-import ViewClients from './Client/ViewClients';
-import NewClinet from './Client/NewClinet';
-import EditClinet from './Client/EditClinet';
+import Header from './layout/header';
+import Sidebar from './layout/sidebar';
+import Breadcrumb from './layout/Breadcrumb';
+import Dashboard from './dashboard';
+import ViewUsers from './user/ViewUsers';
+import NewUser from './user/NewUser';
+import EditUser from './user/EditUser';
+import ViewClients from './client/ViewClients';
+import NewClinet from './client/NewClinet';
+import EditClinet from './client/EditClinet';
 import Page404 from './Page404';
-import Aside from './Layout/Aside';
-import Footer from './Layout/Footer';
+import Aside from './layout/Aside';
+import Footer from './layout/Footer';
 
 class Admin extends Component {
   render() {
@@ -49,7 +49,7 @@ class Admin extends Component {
                   path="/admin/clients/edit/:id"
                   component={EditClinet}
                 />
-                <Route component={Page404} />
+                {/* <Route component={Page404} /> */}
               </Switch>
             </Container>
           </main>

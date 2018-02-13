@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-const RequireGuest = WeappedComponent => {
+const requireGuest = WeappedComponent => {
   class Authentication extends Component {
     componentWillMount() {
-      const { authenticated, history } = this.props;
-      if (authenticated) {
+      const { isAdmin, authenticated, history } = this.props;
+      if (isAdmin && authenticated) {
         history.push('/admin');
+      } else if (isAdmin === false && authenticated) {
+        history.push('/client');
       }
     }
 
     componentWillUpdate(nextProps) {
-      const { authenticated, history } = nextProps;
-      if (authenticated) {
+      const { isAdmin, authenticated, history } = nextProps;
+      if (isAdmin && authenticated) {
         history.push('/admin');
+      } else if (isAdmin === false && authenticated) {
+        history.push('/client');
       }
     }
 
@@ -22,11 +26,11 @@ const RequireGuest = WeappedComponent => {
     }
   }
 
-  const mapStateToProps = ({ authStore: { authenticated } }) => {
-    return { authenticated };
+  const mapStateToProps = ({ authStore: { isAdmin, authenticated } }) => {
+    return { isAdmin, authenticated };
   };
 
   return connect(mapStateToProps)(Authentication);
 };
 
-export { RequireGuest };
+export { requireGuest };

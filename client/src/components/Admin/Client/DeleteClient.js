@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { reduxForm, SubmissionError } from 'redux-form';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-import { deleteClient } from '../../../actions/admin/client';
-import { Aux } from '../../Common';
+import { deleteClient } from '../../../actions/admin';
+import { Aux } from '../../common';
 
 class DeleteClient extends Component {
   state = { deleteClientModal: false, loading: false };

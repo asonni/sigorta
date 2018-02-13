@@ -3,11 +3,11 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { Container } from 'reactstrap';
 
 import Dashboard from './Dashboard';
-import Header from './Layout/Header';
-import Sidebar from './Layout/Sidebar';
-import Breadcrumb from './Layout/Breadcrumb';
-import Aside from './Layout/Aside';
-import Footer from './Layout/Footer';
+import Header from './layout/header';
+import Sidebar from './layout/sidebar';
+import Breadcrumb from './layout/Breadcrumb';
+import Aside from './layout/Aside';
+import Footer from './layout/Footer';
 
 class Client extends Component {
   render() {

@@ -1,30 +1,33 @@
 import React from 'react';
-import Select from 'react-select';
+import { DropdownList } from 'react-widgets';
 import { FormGroup, Label } from 'reactstrap';
 
-const SelectFieldV2 = field => {
+const renderDropdownField = field => {
   const {
     label,
     input,
     options,
     placeholder,
+    itemComponent,
+    valueField,
+    textField,
     meta: { touched, error }
   } = field;
   // const valid = touched && error ? false : null;
   return (
     <FormGroup>
       <Label>{label}</Label>
-      <Select
+      <DropdownList
         {...input}
-        options={options}
+        data={options}
+        valueField={valueField || 'value'}
+        textField={textField || 'label'}
         placeholder={placeholder}
-        autoBlur
-        clearable={false}
-        searchable={false}
+        itemComponent={itemComponent}
       />
       <p className="text-danger">{touched ? error : ''}</p>
     </FormGroup>
   );
 };
 
-export { SelectFieldV2 };
+export { renderDropdownField };

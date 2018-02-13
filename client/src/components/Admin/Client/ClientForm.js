@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Alert, Button, CardBody, CardFooter } from 'reactstrap';
 
 import validate from './validate';
-import { Aux, InputField, DropdownListField } from '../../Common';
+import { Aux, renderInputField, renderDropdownField } from '../../common';
 
 class ClientForm extends Component {
   componentWillReceiveProps(nextProps) {
@@ -76,14 +76,14 @@ class ClientForm extends Component {
             placeholder="type any clinet name"
             type="text"
             name="name"
-            component={InputField}
+            component={renderInputField}
           />
           <Field
             label="Discount"
             placeholder="type any discount number"
             type="text"
             name="discount"
-            component={InputField}
+            component={renderInputField}
           />
           <Field
             label="User Info"
@@ -91,7 +91,7 @@ class ClientForm extends Component {
             placeholder="select any user info"
             options={renderUsers}
             itemComponent={itemComponent}
-            component={DropdownListField}
+            component={renderDropdownField}
           />
         </CardBody>
         <CardFooter>

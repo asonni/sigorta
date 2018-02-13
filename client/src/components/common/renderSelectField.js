@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormGroup, Label, Input, FormFeedback } from 'reactstrap';
-import { Aux } from './Hoc';
+import { Aux } from './hoc';
 
-const SelectField = field => {
+const renderSelectField = field => {
   const { label, input, items, multiple, meta: { touched, error } } = field;
   const valid = touched && error ? false : null;
   const renderItems = () => {
@@ -31,4 +31,4 @@ const SelectField = field => {
   );
 };
 
-export { SelectField };
+export { renderSelectField };

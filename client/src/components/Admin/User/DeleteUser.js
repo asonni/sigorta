@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { reduxForm, SubmissionError } from 'redux-form';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-import { deleteUser } from '../../../actions/admin/user';
-import { Aux } from '../../Common';
+import { deleteUser } from '../../../actions/admin';
+import { Aux } from '../../common';
 
 class DeleteUser extends Component {
   state = { deleteUserModal: false };
