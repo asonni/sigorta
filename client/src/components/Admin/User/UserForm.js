@@ -4,7 +4,12 @@ import { Field, reduxForm } from 'redux-form';
 import { Alert, Button, CardBody, CardFooter } from 'reactstrap';
 
 import validate from './validate';
-import { Aux, renderInputField } from '../../common';
+import {
+  Aux,
+  ErrorMessage,
+  renderInputField,
+  AuthorizedMessage
+} from '../../common';
 
 class UserForm extends Component {
   componentWillReceiveProps(nextProps) {
@@ -21,14 +26,14 @@ class UserForm extends Component {
     if (error === undefined) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          Unauthorized
+          <AuthorizedMessage />
         </Alert>
       );
     }
     if (error) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          {error}
+          <ErrorMessage />
         </Alert>
       );
     }
@@ -65,14 +70,14 @@ class UserForm extends Component {
             <Aux>
               <Field
                 label="Password"
-                placeholder="password"
+                placeholder="Password"
                 type="password"
                 name="password"
                 component={renderInputField}
               />
               <Field
                 label="Retype Password"
-                placeholder="retype password"
+                placeholder="Retype password"
                 type="password"
                 name="confirmPassword"
                 component={renderInputField}

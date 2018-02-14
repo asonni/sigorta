@@ -14,7 +14,7 @@ import {
   ButtonGroup
 } from 'reactstrap';
 import DeleteClient from './DeleteClient';
-import { Aux, LoadingContent, TimeoutMessage } from '../../common';
+import { Aux, LoadingContent, ErrorMessage } from '../../common';
 import { fetchClients } from '../../../actions/admin';
 
 class ViewClients extends Component {
@@ -92,7 +92,7 @@ class ViewClients extends Component {
       return <LoadingContent />;
     }
     if (error) {
-      return <TimeoutMessage />;
+      return <ErrorMessage />;
     }
     // if (errors.authenticated === false) {
     //   return <AuthorizedMessage />;
@@ -113,11 +113,11 @@ class ViewClients extends Component {
               <th className="text-center" width="5%">
                 #
               </th>
-              <th>Clinet Name</th>
+              <th>Name</th>
               <th className="text-center" width="15%">
                 Discount
               </th>
-              <th>User Full Name</th>
+              <th>User Name</th>
               <th>User Email</th>
               <th className="text-center" width="10%">
                 User Phone

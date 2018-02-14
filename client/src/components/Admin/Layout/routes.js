@@ -8,5 +8,11 @@ export default {
   '/admin/clients': 'Clients',
   '/admin/clients/view': 'View Clients',
   '/admin/clients/new': 'New Clinet',
-  '/admin/clients/edit': 'Edit Clinet'
+  '/admin/clients/edit': 'Edit Clinet',
+  '/admin/plans/view': 'View Plans',
+  '/admin/plans/new': 'New Plan',
+  '/admin/plans/edit': 'Edit Plan',
+  '/admin/balances/view': 'View Balances',
+  '/admin/balances/new': 'New Balance',
+  '/admin/balances/edit': 'Edit Balance'
 };

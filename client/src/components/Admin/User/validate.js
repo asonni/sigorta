@@ -8,13 +8,13 @@ const validate = values => {
   if (!fname) {
     errors.fname = 'Please type the first name';
   } else if (fname.length < 3) {
-    errors.fname = 'First name must be at least 3 character';
+    errors.fname = 'The first name must be at least 3 character';
   }
 
   if (!lname) {
     errors.lname = 'Please type the last name';
   } else if (lname.length < 3) {
-    errors.lname = 'Lirst name must be at least 3 character';
+    errors.lname = 'The last name must be at least 3 character';
   }
 
   if (!email) {
@@ -32,7 +32,7 @@ const validate = values => {
   }
 
   if (!confirmPassword) {
-    errors.confirmPassword = 'Please retype the complex password';
+    errors.confirmPassword = 'Please retype the password';
   } else if (password && password !== confirmPassword) {
     errors.confirmPassword = 'Password does not match the confirm password';
   }

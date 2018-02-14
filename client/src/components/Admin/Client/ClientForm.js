@@ -4,7 +4,13 @@ import { Field, reduxForm } from 'redux-form';
 import { Alert, Button, CardBody, CardFooter } from 'reactstrap';
 
 import validate from './validate';
-import { Aux, renderInputField, renderDropdownField } from '../../common';
+import {
+  Aux,
+  ErrorMessage,
+  renderInputField,
+  AuthorizedMessage,
+  renderDropdownField
+} from '../../common';
 
 class ClientForm extends Component {
   componentWillReceiveProps(nextProps) {
@@ -28,31 +34,17 @@ class ClientForm extends Component {
       clientError,
       usersError
     } = this.props;
-    if (clientError === undefined) {
+    if (clientError === undefined || usersError === undefined) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          Unauthorized
+          <AuthorizedMessage />
         </Alert>
       );
     }
-    if (clientError) {
+    if (clientError || usersError) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          {clientError}
-        </Alert>
-      );
-    }
-    if (usersError === undefined) {
-      return (
-        <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          Unauthorized
-        </Alert>
-      );
-    }
-    if (usersError) {
-      return (
-        <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          {usersError}
+          <ErrorMessage />
         </Alert>
       );
     }
@@ -73,14 +65,14 @@ class ClientForm extends Component {
           {this.renderAlerts()}
           <Field
             label="Clinet Name"
-            placeholder="type any clinet name"
+            placeholder="Type any clinet name"
             type="text"
             name="name"
             component={renderInputField}
           />
           <Field
             label="Discount"
-            placeholder="type any discount number"
+            placeholder="Type any discount number"
             type="text"
             name="discount"
             component={renderInputField}
@@ -88,7 +80,7 @@ class ClientForm extends Component {
           <Field
             label="User Info"
             name="user"
-            placeholder="select any user info"
+            placeholder="Select any user info"
             options={renderUsers}
             itemComponent={itemComponent}
             component={renderDropdownField}

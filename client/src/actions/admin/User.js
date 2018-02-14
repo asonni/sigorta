@@ -14,15 +14,16 @@ import {
   EDIT_USER_PENDING,
   EDIT_USER_FULFILLED,
   EDIT_USER_REJECTED,
-  DELETE_USER_PENDING,
   DELETE_USER_FULFILLED,
   DELETE_USER_REJECTED
 } from './types';
 
+const URL = `${ROOT_URL}/${API_URL}/users`;
+
 export const fetchUsers = () => async dispatch => {
   dispatch({ type: FETCH_USERS_PENDING });
   try {
-    const response = await axios.get(`${ROOT_URL}/${API_URL}/users`, {
+    const response = await axios.get(`${URL}`, {
       headers: {
         Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
         'Content-Type': 'application/json'
@@ -37,7 +38,7 @@ export const fetchUsers = () => async dispatch => {
 export const fetchUser = id => async dispatch => {
   dispatch({ type: FETCH_USER_PENDING });
   try {
-    const response = await axios.get(`${ROOT_URL}/${API_URL}/users/${id}`, {
+    const response = await axios.get(`${URL}/${id}`, {
       headers: {
         Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
         'Content-Type': 'application/json'
@@ -58,7 +59,7 @@ export const newUser = ({
   dispatch({ type: NEW_USER_PENDING });
   try {
     const response = await axios.post(
-      `${ROOT_URL}/${API_URL}/users`,
+      `${URL}`,
       { fname, lname, email, password },
       {
         headers: {
@@ -77,16 +78,12 @@ export const newUser = ({
 export const editUser = values => async dispatch => {
   dispatch({ type: EDIT_USER_PENDING });
   try {
-    const response = await axios.put(
-      `${ROOT_URL}/${API_URL}/users/${values._id}`,
-      values,
-      {
-        headers: {
-          Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
-          'Content-Type': 'application/json'
-        }
+    const response = await axios.put(`${URL}/${values._id}`, values, {
+      headers: {
+        Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
+        'Content-Type': 'application/json'
       }
-    );
+    });
     dispatch({ type: EDIT_USER_FULFILLED, payload: response });
   } catch ({ error }) {
     dispatch({ type: EDIT_USER_REJECTED, payload: error });
@@ -94,9 +91,8 @@ export const editUser = values => async dispatch => {
 };
 
 export const deleteUser = id => async dispatch => {
-  dispatch({ type: DELETE_USER_PENDING });
   try {
-    const response = await axios.delete(`${ROOT_URL}/${API_URL}/users/${id}`, {
+    const response = await axios.delete(`${URL}/${id}`, {
       headers: {
         Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
         'Content-Type': 'application/json'

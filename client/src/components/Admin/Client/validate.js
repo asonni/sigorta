@@ -12,6 +12,8 @@ const validate = values => {
     errors.discount = 'Please type a discount number';
   } else if (!Number(discount)) {
     errors.discount = 'Please type a discount number in digits only';
+  } else if (Number(discount) > 100) {
+    errors.discount = 'The max value of discount should be 100';
   }
 
   if (!user) {

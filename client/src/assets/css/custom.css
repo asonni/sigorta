@@ -1,3 +1,6 @@
+.app-header .navbar-nav .dropdown-menu-right {
+  right: auto;
+}
 .rw-placeholder {
   color: #526b78;
 }

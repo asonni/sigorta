@@ -13,3 +13,11 @@ export {
   editClinet,
   deleteClient
 } from './client';
+export { fetchPlans, fetchPlan, newPlan, editPlan, deletePlan } from './plan';
+export {
+  fetchBalances,
+  fetchBalance,
+  newBalance,
+  editBalance,
+  deleteBalance
+} from './balance';

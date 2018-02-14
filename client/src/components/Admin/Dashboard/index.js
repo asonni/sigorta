@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import {
-  Badge,
   Row,
   Col,
-  Progress,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardTitle,
-  Button,
-  ButtonToolbar,
-  ButtonGroup,
-  ButtonDropdown,
+  Badge,
   Label,
   Input,
-  Table
+  Table,
+  Button,
+  Progress,
+  Dropdown,
+  CardBody,
+  CardTitle,
+  CardHeader,
+  CardFooter,
+  ButtonGroup,
+  DropdownMenu,
+  DropdownItem,
+  DropdownToggle,
+  ButtonToolbar,
+  ButtonDropdown
 } from 'reactstrap';
 
 const brandPrimary = '#20a8d8';

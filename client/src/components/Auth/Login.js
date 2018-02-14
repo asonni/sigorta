@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import {
-  Container,
   Row,
   Col,
   Card,
   Form,
-  CardBody,
+  Alert,
   Button,
+  CardBody,
+  Container,
   InputGroup,
-  InputGroupAddon,
-  Alert
+  InputGroupAddon
 } from 'reactstrap';
 
 import { renderInputField } from '../common';

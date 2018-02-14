@@ -7,17 +7,15 @@ import { deleteClient } from '../../../actions/admin';
 import { Aux } from '../../common';
 
 class DeleteClient extends Component {
-  state = { deleteClientModal: false, loading: false };
+  state = { modal: false };
 
   toggle = () => {
     this.setState({
-      deleteClientModal: !this.state.deleteClientModal,
-      loading: false
+      modal: !this.state.modal
     });
   };
 
   onSubmitDeleteClient = async () => {
-    this.setState({ loading: true });
     try {
       await this.props.deleteClient(this.props.clientId);
       this.toggle();
@@ -28,14 +26,19 @@ class DeleteClient extends Component {
   };
 
   render() {
-    const { clientName, clinetUserEmail, handleSubmit } = this.props;
+    const {
+      clientName,
+      clinetUserEmail,
+      handleSubmit,
+      submitting
+    } = this.props;
     return (
       <Aux>
         <Button color="danger" onClick={this.toggle}>
           <i className="fa fa-trash" aria-hidden="true" />
           <span className="hidden-xs-down">&nbsp;Delete</span>
         </Button>
-        <Modal isOpen={this.state.deleteClientModal} toggle={this.toggle}>
+        <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Delete Client Warning!</ModalHeader>
           <ModalBody className="text-center">
             <h5>Are you sure you want to delete this client information?</h5>
@@ -49,10 +52,10 @@ class DeleteClient extends Component {
             <Button
               type="button"
               color="danger"
-              disabled={this.state.loading}
+              disabled={submitting}
               onClick={handleSubmit(this.onSubmitDeleteClient)}
             >
-              {this.state.loading ? (
+              {submitting ? (
                 <Aux>
                   <i className="fa fa-circle-o-notch fa-spin" />&nbsp;Deleteing
                 </Aux>
@@ -64,7 +67,7 @@ class DeleteClient extends Component {
             </Button>{' '}
             <Button color="secondary" onClick={this.toggle}>
               <i className="fa fa-times-circle" aria-hidden="true" />&nbsp;
-              {this.state.loading ? 'Cancel' : 'No'}
+              {submitting ? 'Cancel' : 'No'}
             </Button>
           </ModalFooter>
         </Modal>
@@ -73,8 +76,8 @@ class DeleteClient extends Component {
   }
 }
 
-const mapStateToProps = ({ clientStore: { loading, error } }) => {
-  return { loading, error };
+const mapStateToProps = ({ clientStore: { error } }) => {
+  return { error };
 };
 
 const DeleteClientForm = reduxForm({ form: 'deleteClient' })(DeleteClient);

@@ -38,6 +38,40 @@ export default {
           icon: 'fa fa-plus'
         }
       ]
+    },
+    {
+      name: 'Plans',
+      url: '/admin/plans',
+      icon: 'fa fa-address-book-o',
+      children: [
+        {
+          name: 'View Plans',
+          url: '/admin/plans/view',
+          icon: 'fa fa-list'
+        },
+        {
+          name: 'New Plan',
+          url: '/admin/plans/new',
+          icon: 'fa fa-plus'
+        }
+      ]
+    },
+    {
+      name: 'Balances',
+      url: '/admin/Balances',
+      icon: 'fa fa-address-book-o',
+      children: [
+        {
+          name: 'View Balances',
+          url: '/admin/Balances/view',
+          icon: 'fa fa-list'
+        },
+        {
+          name: 'New Balance',
+          url: '/admin/Balances/new',
+          icon: 'fa fa-plus'
+        }
+      ]
     }
   ]
 };

@@ -7,10 +7,10 @@ import { deleteUser } from '../../../actions/admin';
 import { Aux } from '../../common';
 
 class DeleteUser extends Component {
-  state = { deleteUserModal: false };
+  state = { modal: false };
 
   toggle = () => {
-    this.setState({ deleteUserModal: !this.state.deleteUserModal });
+    this.setState({ modal: !this.state.modal });
   };
 
   onSubmitDeleteUser = async () => {
@@ -31,7 +31,7 @@ class DeleteUser extends Component {
           <i className="fa fa-trash" aria-hidden="true" />
           <span className="hidden-xs-down">&nbsp;Delete</span>
         </Button>
-        <Modal isOpen={this.state.deleteUserModal} toggle={this.toggle}>
+        <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Delete User Warning!</ModalHeader>
           <ModalBody className="text-center">
             <h5>Are you sure you want to delete this user information?</h5>

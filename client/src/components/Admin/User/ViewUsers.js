@@ -14,7 +14,7 @@ import {
   Button,
   Input
 } from 'reactstrap';
-import { Aux, LoadingContent, TimeoutMessage } from '../../common';
+import { Aux, LoadingContent, ErrorMessage } from '../../common';
 import { fetchUsers } from '../../../actions/admin';
 import DeleteUser from './DeleteUser';
 
@@ -50,7 +50,7 @@ class ViewUsers extends Component {
           </td>
           <td>{email}</td>
           <td className="text-center">
-            <Moment format="DD/MM/YYYY">{createdAt}</Moment>
+            <Moment format="DD-MM-YYYY">{createdAt}</Moment>
           </td>
           <td className="text-center">{isAdmin ? 'Admin' : 'Client'}</td>
           <td className="text-center">
@@ -92,7 +92,7 @@ class ViewUsers extends Component {
       return <LoadingContent />;
     }
     if (error) {
-      return <TimeoutMessage />;
+      return <ErrorMessage />;
     }
     // if (error.authenticated === false) {
     //   return <AuthorizedMessage />;
@@ -113,8 +113,8 @@ class ViewUsers extends Component {
               <th className="text-center" width="5%">
                 #
               </th>
-              <th>Full Name</th>
-              <th>Email Address</th>
+              <th>Name</th>
+              <th>Email</th>
               <th className="text-center">Date Registered</th>
               <th className="text-center">Role</th>
               <th className="text-center">Status</th>

@@ -14,7 +14,7 @@ const LoadingContent = () => (
   </div>
 );
 
-const TimeoutMessage = () => (
+const ErrorMessage = () => (
   <h3 className="text-center">
     <i className="fa fa-clock-o" aria-hidden="true" />&nbsp; Something went
     wrong please try again later
@@ -28,4 +28,4 @@ const AuthorizedMessage = () => (
   </h2>
 );
 
-export { LoadingContent, TimeoutMessage, AuthorizedMessage };
+export { LoadingContent, ErrorMessage, AuthorizedMessage };
