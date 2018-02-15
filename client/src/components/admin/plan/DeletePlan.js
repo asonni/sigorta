@@ -3,19 +3,19 @@ import { connect } from 'react-redux';
 import { reduxForm, SubmissionError } from 'redux-form';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-import { deleteUser } from '../../../actions/admin';
+import { deletePlan } from '../../../actions/admin';
 import { Aux } from '../../common';
 
-class DeleteUser extends Component {
+class DeletePlan extends Component {
   state = { modal: false };
 
   toggle = () => {
     this.setState({ modal: !this.state.modal });
   };
 
-  onSubmitDeleteUser = async () => {
+  onSubmitDeletePlan = async () => {
     try {
-      await this.props.deleteUser(this.props.userId);
+      await this.props.deletePlan(this.props.planId);
       this.toggle();
     } catch (err) {
       this.toggle();
@@ -24,7 +24,7 @@ class DeleteUser extends Component {
   };
 
   render() {
-    const { userFullName, userEmail, handleSubmit, submitting } = this.props;
+    const { planName, planPrice, handleSubmit, submitting } = this.props;
     return (
       <Aux>
         <Button color="danger" onClick={this.toggle}>
@@ -32,13 +32,13 @@ class DeleteUser extends Component {
           <span className="hidden-xs-down">&nbsp;Delete</span>
         </Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Delete User Warning!</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Delete Plan Warning!</ModalHeader>
           <ModalBody className="text-center">
-            <h5>Are you sure you want to delete this user information?</h5>
+            <h5>Are you sure you want to delete this plan information?</h5>
             <br />
             <p>
-              <strong>Name:</strong> {userFullName}, <strong>Email:</strong>{' '}
-              {userEmail}
+              <strong>Name:</strong> {planName}, <strong>Price:</strong>{' '}
+              {planPrice}
             </p>
           </ModalBody>
           <ModalFooter>
@@ -46,7 +46,7 @@ class DeleteUser extends Component {
               type="button"
               color="danger"
               disabled={submitting}
-              onClick={handleSubmit(this.onSubmitDeleteUser)}
+              onClick={handleSubmit(this.onSubmitDeletePlan)}
             >
               {submitting ? (
                 <Aux>
@@ -69,10 +69,10 @@ class DeleteUser extends Component {
   }
 }
 
-const mapStateToProps = ({ userStore: { loading, error } }) => {
+const mapStateToProps = ({ planStore: { loading, error } }) => {
   return { loading, error };
 };
 
-const DeleteUserModal = reduxForm({ form: 'deleteUser' })(DeleteUser);
+const DeletePlanModal = reduxForm({ form: 'deletePlan' })(DeletePlan);
 
-export default connect(mapStateToProps, { deleteUser })(DeleteUserModal);
+export default connect(mapStateToProps, { deletePlan })(DeletePlanModal);

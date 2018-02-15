@@ -45,7 +45,7 @@ class PlansAPIController {
 
     service.createPlan({ name, price })
     .then(plan => {
-      res.status(201).send(plan)
+      res.status(201).send({ plan })
     })
     .catch(e => {
       res.status(401).json({ error: `Error persisting plan: ${e}` })

@@ -80,6 +80,6 @@ const mapStateToProps = ({ clientStore: { error } }) => {
   return { error };
 };
 
-const DeleteClientForm = reduxForm({ form: 'deleteClient' })(DeleteClient);
+const DeleteClientModal = reduxForm({ form: 'deleteClient' })(DeleteClient);
 
-export default connect(mapStateToProps, { deleteClient })(DeleteClientForm);
+export default connect(mapStateToProps, { deleteClient })(DeleteClientModal);
