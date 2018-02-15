@@ -11,6 +11,7 @@ import {
   CardBody,
   Container,
   InputGroup,
+  InputGroupText,
   InputGroupAddon
 } from 'reactstrap';
 
@@ -77,8 +78,10 @@ class Login extends Component {
                       </Alert>
                     )}
                     <InputGroup className="mb-3">
-                      <InputGroupAddon>
-                        <i className="icon-user" />
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="icon-user" />
+                        </InputGroupText>
                       </InputGroupAddon>
                       <Field
                         placeholder="Username"
@@ -88,8 +91,10 @@ class Login extends Component {
                       />
                     </InputGroup>
                     <InputGroup className="mb-4">
-                      <InputGroupAddon>
-                        <i className="icon-lock" />
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="icon-lock" />
+                        </InputGroupText>
                       </InputGroupAddon>
                       <Field
                         placeholder="Password"
