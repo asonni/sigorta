@@ -104,3 +104,6 @@
     transform: rotate(360deg);
   }
 }
+.invalid-feedback {
+  font-size: 100%;
+}

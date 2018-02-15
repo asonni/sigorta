@@ -6,7 +6,7 @@ import { Row, Col, Card, CardHeader } from 'reactstrap';
 import ClientForm from './ClientForm';
 import { fetchUsers, newClinet } from '../../../actions/admin';
 
-class NewClinet extends Component {
+class NewClient extends Component {
   state = { alertVisible: false };
 
   componentWillMount() {
@@ -81,4 +81,4 @@ const mapStateToProps = ({ clientStore, userStore }) => {
   };
 };
 
-export default connect(mapStateToProps, { newClinet, fetchUsers })(NewClinet);
+export default connect(mapStateToProps, { newClinet, fetchUsers })(NewClient);

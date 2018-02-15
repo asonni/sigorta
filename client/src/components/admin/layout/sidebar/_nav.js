@@ -58,17 +58,17 @@ export default {
     },
     {
       name: 'Balances',
-      url: '/admin/Balances',
+      url: '/admin/balances',
       icon: 'fa fa-address-book-o',
       children: [
         {
           name: 'View Balances',
-          url: '/admin/Balances/view',
+          url: '/admin/balances/view',
           icon: 'fa fa-list'
         },
         {
           name: 'New Balance',
-          url: '/admin/Balances/new',
+          url: '/admin/balances/new',
           icon: 'fa fa-plus'
         }
       ]

@@ -137,7 +137,7 @@ class ViewPlans extends Component {
                         this.props.history.push('/admin/plans/new')
                       }
                     >
-                      <i className="fa fa-user-plus" aria-hidden="true" /> New
+                      <i className="fa fa-plus" aria-hidden="true" /> New
                       Plan
                     </Button>
                   </Col>

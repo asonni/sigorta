@@ -29,6 +29,7 @@ export const fetchBalances = () => async dispatch => {
         'Content-Type': 'application/json'
       }
     });
+    console.log(response);
     dispatch({ type: FETCH_BALANCES_FULFILLED, payload: response });
   } catch ({ error }) {
     dispatch({ type: FETCH_BALANCES_REJECTED, payload: error });
@@ -60,9 +61,9 @@ export const newBalance = ({
     const response = await axios.post(
       `${URL}`,
       {
-        client,
+        client: client.value,
         balance,
-        transaction
+        transaction: transaction.value
       },
       {
         headers: {

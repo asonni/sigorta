@@ -12,12 +12,16 @@ import NewUser from './user/NewUser';
 import EditUser from './user/EditUser';
 
 import ViewClients from './client/ViewClients';
-import NewClinet from './client/NewClinet';
-import EditClinet from './client/EditClinet';
+import NewClient from './client/NewClient';
+import EditClient from './client/EditClient';
 
 import ViewPlans from './plan/ViewPlans';
 import NewPlan from './plan/NewPlan';
 import EditPlan from './plan/EditPlan';
+
+import ViewBalances from './balance/ViewBalances';
+import NewBalance from './balance/NewBalance';
+import EditBalance from './balance/EditBalance';
 
 import Page404 from './Page404';
 import Aside from './layout/Aside';
@@ -50,11 +54,11 @@ class Admin extends Component {
                   path="/admin/clients/view"
                   component={ViewClients}
                 />
-                <Route exact path="/admin/clients/new" component={NewClinet} />
+                <Route exact path="/admin/clients/new" component={NewClient} />
                 <Route
                   exact
                   path="/admin/clients/edit/:id"
-                  component={EditClinet}
+                  component={EditClient}
                 />
                 <Route exact path="/admin/plans/view" component={ViewPlans} />
                 <Route exact path="/admin/plans/new" component={NewPlan} />
@@ -62,6 +66,21 @@ class Admin extends Component {
                   exact
                   path="/admin/plans/edit/:id"
                   component={EditPlan}
+                />
+                <Route
+                  exact
+                  path="/admin/balances/view"
+                  component={ViewBalances}
+                />
+                <Route
+                  exact
+                  path="/admin/balances/new"
+                  component={NewBalance}
+                />
+                <Route
+                  exact
+                  path="/admin/balances/edit/:id"
+                  component={EditBalance}
                 />
                 <Route component={Page404} />
               </Switch>

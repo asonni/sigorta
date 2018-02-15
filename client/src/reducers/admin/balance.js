@@ -29,6 +29,7 @@ export default (state = initState, { type, payload }) => {
       return { ...state, loading: true, balances: [], error: null };
 
     case FETCH_BALANCES_FULFILLED:
+      console.log(payload.data);
       return {
         ...state,
         balances: _.orderBy(payload.data.balances, '_id', 'asc'),

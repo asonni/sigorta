@@ -6,7 +6,7 @@ import { Row, Col, Card, CardHeader } from 'reactstrap';
 import ClientForm from './ClientForm';
 import { fetchClient, fetchUsers, editClinet } from '../../../actions/admin';
 
-class EditClinet extends Component {
+class EditClient extends Component {
   state = { alertVisible: true };
 
   componentWillMount() {
@@ -89,4 +89,4 @@ export default connect(mapStateToProps, {
   fetchClient,
   editClinet,
   fetchUsers
-})(EditClinet);
+})(EditClient);
