@@ -55,7 +55,8 @@ class EditClient extends Component {
           <Col xs="12" md={{ size: 6, offset: 3 }}>
             <Card>
               <CardHeader>
-                <i className="fa fa-user-plus" aria-hidden="true" /> Edit Clinet
+                <i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit
+                Clinet
               </CardHeader>
               <ClientForm
                 {...this.props}

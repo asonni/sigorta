@@ -36,13 +36,14 @@ class ViewBalances extends Component {
 
   renderBalancesBody = () =>
     this.props.balances.map((item, index) => {
-      const { _id, balance, transaction, createdAt } = item;
+      const { _id, client, balance, transaction, createdAt } = item;
       console.log(item);
       return (
         <tr key={index}>
           <td className="text-center" width="5%">
             {index + 1}
           </td>
+          <td className="text-center">{client ? client.name : 'N/A'}</td>
           <td className="text-center">{balance}</td>
           <td className="text-center text-capitalize">{transaction}</td>
           <td className="text-center">
@@ -53,7 +54,7 @@ class ViewBalances extends Component {
               <Button
                 color="info"
                 onClick={() =>
-                  this.props.history.push(`/admin/balances/edit/${_id}`)
+                  this.props.history.push(`/admin/balances/edit/${client._id}`)
                 }
               >
                 <i className="fa fa-pencil-square-o" aria-hidden="true" />
@@ -103,6 +104,7 @@ class ViewBalances extends Component {
               <th className="text-center" width="5%">
                 #
               </th>
+              <th className="text-center">Client Name</th>
               <th className="text-center">Balance</th>
               <th className="text-center">Transaction</th>
               <th className="text-center">Created</th>
@@ -139,7 +141,7 @@ class ViewBalances extends Component {
                         this.props.history.push('/admin/balances/new')
                       }
                     >
-                      <i className="fa fa-user-plus" aria-hidden="true" /> New
+                      <i className="fa fa-plus" aria-hidden="true" /> New
                       Balance
                     </Button>
                   </Col>

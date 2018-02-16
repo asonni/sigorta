@@ -155,8 +155,7 @@ class ViewClients extends Component {
                         this.props.history.push('/admin/clients/new')
                       }
                     >
-                      <i className="fa fa-user-plus" aria-hidden="true" /> New
-                      Clinet
+                      <i className="fa fa-plus" aria-hidden="true" /> New Clinet
                     </Button>
                   </Col>
                   <Col lg={{ size: 4, offset: 6 }}>

@@ -14,13 +14,14 @@ import {
 
 class BalanceForm extends Component {
   componentWillReceiveProps(nextProps) {
+    console.log(this.props.balanceObj);
     // Load Contact Asynchronously
     const { balance } = nextProps;
+    console.log(balance);
     if (balance && balance._id !== this.props.balance._id) {
       // Initialize form only once
       this.props.initialize({
         _id: balance._id,
-        client: balance.client._id,
         balance: balance.balance
       });
     }
@@ -63,14 +64,16 @@ class BalanceForm extends Component {
       <Form onSubmit={handleSubmit} loading={loading}>
         <CardBody>
           {this.renderAlerts()}
-          <Field
-            label="Clinet Info"
-            name="client"
-            placeholder="Select any client info"
-            options={renderClients}
-            itemComponent={itemComponent}
-            component={renderDropdownField}
-          />
+          {!this.props.balance && (
+            <Field
+              label="Clinet Info"
+              name="client"
+              placeholder="Select any client info"
+              options={renderClients}
+              itemComponent={itemComponent}
+              component={renderDropdownField}
+            />
+          )}
           <Field
             label="Balance"
             placeholder="Type any balance"

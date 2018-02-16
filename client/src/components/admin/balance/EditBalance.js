@@ -56,19 +56,19 @@ class EditBalance extends Component {
   );
 
   render() {
-    const { balanceLoading, fetchClients } = this.props;
+    const { balanceLoading, clientsLoading } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
           <Col xs="12" md={{ size: 6, offset: 3 }}>
             <Card>
               <CardHeader>
-                <i className="fa fa-user-plus" aria-hidden="true" /> Edit
+                <i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit
                 Balance
               </CardHeader>
               <BalanceForm
                 {...this.props}
-                loading={balanceLoading && fetchClients}
+                loading={balanceLoading && clientsLoading}
                 onSubmit={this.onSubmintEditClient}
                 renderUsers={this.renderClients()}
                 itemComponent={this.itemComponent}
@@ -84,8 +84,9 @@ class EditBalance extends Component {
 }
 
 const mapStateToProps = ({ balanceStore, clientStore }) => {
+  console.log(balanceStore.balance);
   return {
-    balance: balanceStore.balance,
+    balanceObj: balanceStore.balance,
     balanceLoading: balanceStore.loading,
     balanceError: balanceStore.error,
     clients: clientStore.clients,
