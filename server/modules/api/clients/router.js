@@ -14,6 +14,9 @@ module.exports = () => {
   .put(isAdmin, controller.clientsUpdate)
   .delete(isAdmin, controller.clientsDelete)
 
+  router.route("/:id/balances")
+  .get(isCurrentUserOrAdmin, controller.clientsBalances)
+
 
   return router
 }

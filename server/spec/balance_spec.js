@@ -95,11 +95,31 @@ describe("Balance", () => {
     )
   })
 
-  // usersShow
-  it("shows balances for a client at /api/v1/balance/:clientId", done => {
+  // balanceShow
+  it("shows balance at /api/v1/balance/:id", done => {
     request.get(
       {
-        url: `${apiUrl}/balances/${client._id}`,
+        url: `${apiUrl}/balances/${balance._id}`,
+        headers: {
+          Authorization: `JWT ${token}`
+        }
+      },
+      (err, res, body) => {
+        body = JSON.parse(body)
+        expect(res.statusCode).toBe(200)
+        expect(body.balance.balance).toBe(3000)
+        expect(body.balance.transaction).toBe('add')
+        expect(body.balance.client.name).toBe("sigortaclient")
+        done()
+      }
+    )
+  })
+
+  // show balances for a clinet
+  it("shows balances for a client at /api/v1/clients/:id/balances", done => {
+    request.get(
+      {
+        url: `${apiUrl}/clients/${client._id}/balances`,
         headers: {
           Authorization: `JWT ${token}`
         }
@@ -109,7 +129,6 @@ describe("Balance", () => {
         expect(res.statusCode).toBe(200)
         expect(body.balances[0].balance).toBe(3000)
         expect(body.balances[0].transaction).toBe('add')
-        expect(body.balances[0].client.name).toBe("sigortaclient")
         done()
       }
     )

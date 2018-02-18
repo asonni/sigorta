@@ -42,6 +42,11 @@ class ClientService {
     const { Client } = this.req.models
     return Client.remove(id)
   }
+
+  fetchBalancesByClientId(id) {
+    const { Balance } = this.req.models
+    return Balance.find({ client: id })
+  }
 }
 
 module.exports =  ClientService

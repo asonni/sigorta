@@ -15,11 +15,6 @@ class BalanceService {
     return Balance.findById(id).populate('client', ['name', '_id'])
   }
 
-  fetchBalanceByClientId(id) {
-    const { Balance } = this.req.models
-    return Balance.find({ client: id }).populate('client', ['name', '_id'])
-  }
-
   createBalance(data) {
     const { Balance } = this.req.models
     return Balance.create(data)

@@ -21,9 +21,9 @@ class BalancesAPIController {
     const service = new Service(req)
     const { id } = req.params
 
-    service.fetchBalanceByClientId(id)
-    .then(balances => {
-      res.json({ balances })
+    service.fetchBalanceById(id)
+    .then(balance => {
+      res.json({ balance })
     })
     .catch(e => {
       console.log(`\nError at GET /balances/${id}`, e)
@@ -63,12 +63,9 @@ class BalancesAPIController {
     let updateBalance = service.findByIdAndUpdate(id, req.body)
 
     updateBalance.then(() => {
-      service.fetchBalanceByClientId(id)
+      service.fetchBalanceById(id)
       .then(balance => {
-        service.fetchBalanceById(id)
-        .then(balance => {
-          res.status(200).json({ balance })
-        })
+        res.status(200).json({ balance })
       })
     })
     .catch(e => {

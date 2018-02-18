@@ -9,7 +9,7 @@ class ClientsAPIController {
 
     service.fetchClients()
     .then(clients => {
-      res.json({ clients: clients })
+      res.json({ clients })
     })
     .catch(e => {
       console.log("\nError on at clientsIndex - GET /clients", e)
@@ -23,7 +23,7 @@ class ClientsAPIController {
 
     service.fetchClientById(id)
     .then(client => {
-      res.json({ client: client })
+      res.json({ client })
     })
     .catch(e => {
       console.log(`\nError at GET /clients/${id}`, e)
@@ -85,6 +85,19 @@ class ClientsAPIController {
     })
   }
 
+  clientsBalances(req, res) {
+    const service = new Service(req)
+    const { id } = req.params
+
+    service.fetchBalancesByClientId(id)
+    .then(balances => {
+      res.json({ balances })
+    })
+    .catch(e => {
+      console.log(`\nError at GET /clients/${id}`, e)
+      res.status(400).json({ error: e })
+    })
+  }
 }
 
 module.exports = new ClientsAPIController
