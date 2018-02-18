@@ -12,7 +12,7 @@ import Admin from './admin';
 import Client from './client';
 import Page404 from './Page404';
 import { requireAuthAdmin, requireAuthClient, requireGuest } from './common';
-import { AUTH_USER } from '../actions/admin/types';
+import { AUTH_USER } from '../actions/auth/types';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const middleware = composeEnhancers(applyMiddleware(ReduxThunk, ReduxPromise));

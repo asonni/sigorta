@@ -12,7 +12,6 @@ import {
   EDIT_USER_PENDING,
   EDIT_USER_FULFILLED,
   EDIT_USER_REJECTED,
-  DELETE_USER_PENDING,
   DELETE_USER_FULFILLED,
   DELETE_USER_REJECTED
 } from '../../actions/admin/types';
@@ -66,7 +65,7 @@ export default (state = initState, { type, payload }) => {
     case NEW_USER_FULFILLED:
       return {
         ...state,
-        users: [...state.users, payload.data],
+        users: [...state.users, payload.data.user],
         loading: false,
         error: null
       };
@@ -81,7 +80,7 @@ export default (state = initState, { type, payload }) => {
       const user = payload.data;
       return {
         ...state,
-        users: state.users.map(item => (item.id === user.id ? user : item)),
+        users: state.users.map(item => (item.id === user._id ? user : item)),
         loading: false,
         error: null
       };
@@ -89,20 +88,16 @@ export default (state = initState, { type, payload }) => {
     case EDIT_USER_REJECTED:
       return { ...state, loading: false, error: payload };
 
-    case DELETE_USER_PENDING:
-      return { ...state, loading: true };
-
     case DELETE_USER_FULFILLED:
       const { id } = payload.data;
       return {
         ...state,
-        users: state.users.filter(item => item.id !== id),
-        loading: false,
+        users: state.users.filter(item => item._id !== id),
         error: null
       };
 
     case DELETE_USER_REJECTED:
-      return { ...state, loading: false, error: payload };
+      return { ...state, error: payload };
 
     default:
       return state;

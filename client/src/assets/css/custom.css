@@ -1,6 +1,5 @@
-.Select-placeholder,
-.Select--single > .Select-control .Select-value {
-  color: #526b78;
+.app-header .navbar-nav .dropdown-menu-right {
+  right: auto;
 }
 .rw-placeholder {
   color: #526b78;
@@ -105,13 +104,6 @@
     transform: rotate(360deg);
   }
 }
-
-.center-content {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 30em;
-  height: 18em;
-  margin-top: -9em; /*set to a negative number 1/2 of your height*/
-  margin-left: -15em; /*set to a negative number 1/2 of your width*/
+.invalid-feedback {
+  font-size: 100%;
 }

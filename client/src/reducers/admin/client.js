@@ -12,7 +12,6 @@ import {
   EDIT_CLINET_PENDING,
   EDIT_CLINET_FULFILLED,
   EDIT_CLINET_REJECTED,
-  DELETE_CLINET_PENDING,
   DELETE_CLINET_FULFILLED,
   DELETE_CLINET_REJECTED
 } from '../../actions/admin/types';
@@ -66,7 +65,7 @@ export default (state = initState, { type, payload }) => {
     case NEW_CLINET_FULFILLED:
       return {
         ...state,
-        clients: [...state.clients, payload.data],
+        clients: [...state.clients, payload.data.client],
         loading: false,
         error: null
       };
@@ -91,20 +90,16 @@ export default (state = initState, { type, payload }) => {
     case EDIT_CLINET_REJECTED:
       return { ...state, loading: false, error: payload };
 
-    case DELETE_CLINET_PENDING:
-      return { ...state, loading: true };
-
     case DELETE_CLINET_FULFILLED:
       const { id } = payload.data;
       return {
         ...state,
         clients: state.clients.filter(item => item._id !== id),
-        loading: false,
         error: null
       };
 
     case DELETE_CLINET_REJECTED:
-      return { ...state, loading: false, error: payload };
+      return { ...state, error: payload };
 
     default:
       return state;

@@ -1,4 +1,4 @@
-import { AUTH_USER, UNAUTH_USER, AUTH_MESSAGE } from '../actions/admin/types';
+import { AUTH_USER, UNAUTH_USER, AUTH_MESSAGE } from '../actions/auth/types';
 
 export default (state = {}, { type, payload }) => {
   switch (type) {
