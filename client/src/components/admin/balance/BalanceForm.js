@@ -14,10 +14,9 @@ import {
 
 class BalanceForm extends Component {
   componentWillReceiveProps(nextProps) {
-    console.log(this.props.balanceObj);
     // Load Contact Asynchronously
     const { balance } = nextProps;
-    console.log(balance);
+    // console.log(this.props.balance);
     if (balance && balance._id !== this.props.balance._id) {
       // Initialize form only once
       this.props.initialize({

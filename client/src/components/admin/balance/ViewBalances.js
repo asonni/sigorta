@@ -37,7 +37,6 @@ class ViewBalances extends Component {
   renderBalancesBody = () =>
     this.props.balances.map((item, index) => {
       const { _id, client, balance, transaction, createdAt } = item;
-      console.log(item);
       return (
         <tr key={index}>
           <td className="text-center" width="5%">
@@ -54,7 +53,7 @@ class ViewBalances extends Component {
               <Button
                 color="info"
                 onClick={() =>
-                  this.props.history.push(`/admin/balances/edit/${client._id}`)
+                  this.props.history.push(`/admin/balances/edit/${_id}`)
                 }
               >
                 <i className="fa fa-pencil-square-o" aria-hidden="true" />

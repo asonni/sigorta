@@ -5,6 +5,7 @@ export default {
   '/admin/users/view': 'View Users',
   '/admin/users/new': 'New User',
   '/admin/users/edit': 'Edit User',
+  '/admin/users/reset-password': 'Reset Password',
   '/admin/clients': 'Clients',
   '/admin/clients/view': 'View Clients',
   '/admin/clients/new': 'New Clinet',

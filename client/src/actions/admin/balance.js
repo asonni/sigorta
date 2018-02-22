@@ -44,7 +44,6 @@ export const fetchBalance = id => async dispatch => {
         'Content-Type': 'application/json'
       }
     });
-    console.log(response);
     dispatch({ type: FETCH_BALANCE_FULFILLED, payload: response });
   } catch ({ error }) {
     dispatch({ type: FETCH_BALANCE_REJECTED, payload: error });

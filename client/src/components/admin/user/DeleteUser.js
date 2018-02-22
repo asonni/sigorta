@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, SubmissionError } from 'redux-form';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -6,7 +6,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { deleteUser } from '../../../actions/admin';
 import { Aux } from '../../common';
 
-class DeleteUser extends Component {
+class DeleteUser extends PureComponent {
   state = { modal: false };
 
   toggle = () => {

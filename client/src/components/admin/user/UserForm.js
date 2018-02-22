@@ -1,7 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Form } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
-import { Alert, Button, CardBody, CardFooter } from 'reactstrap';
+import {
+  Alert,
+  Button,
+  CardBody,
+  CardFooter,
+  Popover,
+  PopoverBody
+} from 'reactstrap';
 
 import validate from './validate';
 import {
@@ -11,7 +18,11 @@ import {
   AuthorizedMessage
 } from '../../common';
 
-class UserForm extends Component {
+class UserForm extends PureComponent {
+  state = {
+    popoverOpen: false
+  };
+
   componentWillReceiveProps(nextProps) {
     // Load Contact Asynchronously
     const { user } = nextProps;
@@ -20,6 +31,12 @@ class UserForm extends Component {
       this.props.initialize(user);
     }
   }
+
+  toggle = () => {
+    this.setState({
+      popoverOpen: !this.state.popoverOpen
+    });
+  };
 
   renderAlerts = () => {
     const { alertVisible, onAlertDismiss, error } = this.props;
@@ -73,8 +90,20 @@ class UserForm extends Component {
                 placeholder="Password"
                 type="password"
                 name="password"
+                id="passwordComplexRules"
+                onFocus={this.toggle}
                 component={renderInputField}
               />
+              <Popover
+                placement="top"
+                isOpen={this.state.popoverOpen}
+                target="passwordComplexRules"
+                toggle={this.toggle}
+              >
+                <PopoverBody>
+                  The password must be at least 8 digits long.
+                </PopoverBody>
+              </Popover>
               <Field
                 label="Retype Password"
                 placeholder="Retype password"

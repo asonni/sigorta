@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { Row, Col, Card, CardHeader } from 'reactstrap';
@@ -6,7 +6,7 @@ import { Row, Col, Card, CardHeader } from 'reactstrap';
 import UserForm from './UserForm';
 import { newUser } from '../../../actions/admin';
 
-class NewUser extends Component {
+class NewUser extends PureComponent {
   state = { alertVisible: false };
 
   componentWillMount() {

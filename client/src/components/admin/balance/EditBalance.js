@@ -28,7 +28,7 @@ class EditBalance extends Component {
     const { editBalance, history, clientError } = this.props;
     try {
       await editBalance(values);
-      history.push('/admin/clients/view');
+      history.push('/admin/balances/view');
     } catch (err) {
       this.setState({ alertVisible: true });
       throw new SubmissionError(clientError);
@@ -69,7 +69,7 @@ class EditBalance extends Component {
               <BalanceForm
                 {...this.props}
                 loading={balanceLoading && clientsLoading}
-                onSubmit={this.onSubmintEditClient}
+                onSubmit={this.onSubmintEditBalance}
                 renderUsers={this.renderClients()}
                 itemComponent={this.itemComponent}
                 onAlertDismiss={this.onAlertDismiss}
@@ -84,9 +84,8 @@ class EditBalance extends Component {
 }
 
 const mapStateToProps = ({ balanceStore, clientStore }) => {
-  console.log(balanceStore.balance);
   return {
-    balanceObj: balanceStore.balance,
+    balance: balanceStore.balance,
     balanceLoading: balanceStore.loading,
     balanceError: balanceStore.error,
     clients: clientStore.clients,

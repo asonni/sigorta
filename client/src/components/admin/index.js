@@ -10,6 +10,7 @@ import Dashboard from './dashboard';
 import ViewUsers from './user/ViewUsers';
 import NewUser from './user/NewUser';
 import EditUser from './user/EditUser';
+import ResetPassword from './user/ResetPassword';
 
 import ViewClients from './client/ViewClients';
 import NewClient from './client/NewClient';
@@ -48,6 +49,11 @@ class Admin extends Component {
                   exact
                   path="/admin/users/edit/:id"
                   component={EditUser}
+                />
+                <Route
+                  exact
+                  path="/admin/users/reset-password/:id"
+                  component={ResetPassword}
                 />
                 <Route
                   exact

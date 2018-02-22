@@ -43,7 +43,6 @@ export default (state = initState, { type, payload }) => {
       return { ...state, loading: true, balance: {}, error: null };
 
     case FETCH_BALANCE_FULFILLED:
-      console.log(payload.data.balance);
       return {
         ...state,
         balance: payload.data.balance,
@@ -82,7 +81,7 @@ export default (state = initState, { type, payload }) => {
       return {
         ...state,
         balances: state.balances.map(
-          item => (item.id === balance._id ? balance : item)
+          item => (item._id === balance._id ? balance : item)
         ),
         loading: false,
         error: null

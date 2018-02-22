@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import Pagination from 'react-js-pagination';
 import {
-  Badge,
   Row,
   Col,
   Card,
-  CardHeader,
-  CardBody,
   Table,
-  ButtonGroup,
+  Badge,
+  Input,
   Button,
-  Input
+  CardBody,
+  CardHeader,
+  ButtonGroup
 } from 'reactstrap';
 import { Aux, LoadingContent, ErrorMessage } from '../../common';
 import { fetchUsers } from '../../../actions/admin';
 import DeleteUser from './DeleteUser';
 
-class ViewUsers extends Component {
+class ViewUsers extends PureComponent {
   state = {
     activePage: 1,
     itemsCountPerPage: 10,
@@ -60,6 +60,15 @@ class ViewUsers extends Component {
           </td>
           <td className="text-center">
             <ButtonGroup size="sm">
+              <Button
+                color="secondary"
+                onClick={() =>
+                  this.props.history.push(`/admin/users/reset-password/${_id}`)
+                }
+              >
+                <i className="fa fa-key" aria-hidden="true" />
+                <span className="hidden-xs-down">&nbsp;Reset Password</span>
+              </Button>
               <Button
                 color="info"
                 onClick={() =>

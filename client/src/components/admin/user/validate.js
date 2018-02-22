@@ -3,7 +3,7 @@ const validate = values => {
   const { fname, lname, email, password, confirmPassword } = values;
   // eslint-disable-next-line
   const reEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const rePass = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+  // const rePass = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
 
   if (!fname) {
     errors.fname = 'Please type the first name';
@@ -24,11 +24,9 @@ const validate = values => {
   }
 
   if (!password) {
-    errors.password = 'Please type a complex password';
+    errors.password = 'Please type the password';
   } else if (password.length < 8) {
     errors.password = 'The password is too short';
-  } else if (!rePass.test(password)) {
-    errors.password = 'The password is very weak';
   }
 
   if (!confirmPassword) {
