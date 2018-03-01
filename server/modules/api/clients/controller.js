@@ -98,6 +98,20 @@ class ClientsAPIController {
       res.status(400).json({ error: e })
     })
   }
+
+  clientsOrders(req, res) {
+    const service = new Service(req)
+    const { id } = req.params
+
+    service.fetchOrdersByClientId(id)
+    .then(orders => {
+      res.json({ orders })
+    })
+    .catch(e => {
+      console.log(`\nError at GET /clients/${id}`, e)
+      res.status(400).json({ error: e })
+    })
+  }
 }
 
 module.exports = new ClientsAPIController

@@ -20,21 +20,14 @@ class BalanceService {
     return Balance.create(data)
   }
 
-  findByIdAndUpdate(id, body) {
+  deleteBalanceById(id) { 
     const { Balance } = this.req.models
-    const { balance } = body
-    let updates = {}
-
-    if (balance) {
-      updates.balance = balance
-    }
-    
-    return Balance.findByIdAndUpdate(id, updates)
+    return Balance.remove({ _id: id })
   }
 
-  deleteBalanceById(id, body) { 
+  deleteBalanceByOrderId(orderId) { 
     const { Balance } = this.req.models
-    return Balance.remove(id)
+    return Balance.remove({ order: orderId })
   }
 }
 

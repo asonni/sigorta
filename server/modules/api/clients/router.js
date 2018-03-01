@@ -10,13 +10,15 @@ module.exports = () => {
   .post(isAdmin, controller.clientsCreate)
 
   router.route("/:id")
-  .get(isCurrentUserOrAdmin, controller.clientsShow)
+  .get(isUser, controller.clientsShow)
   .put(isAdmin, controller.clientsUpdate)
   .delete(isAdmin, controller.clientsDelete)
 
   router.route("/:id/balances")
-  .get(isCurrentUserOrAdmin, controller.clientsBalances)
+  .get(isUser, controller.clientsBalances)
 
+  router.route("/:id/orders")
+  .get(isUser, controller.clientsOrders)
 
   return router
 }

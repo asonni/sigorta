@@ -60,7 +60,7 @@ describe("User", () => {
   // User API endpoints
   // ----------------------------------------
 
-  // usersIndex
+  //usersIndex
   it("renders all users in the database", done => {
     request.get(
       {
@@ -99,7 +99,7 @@ describe("User", () => {
     )
   })
 
-  // usersShow
+  //usersShow
   it("shows a specific user at /api/v1/users/:id", done => {
     request.get(
       {
@@ -151,32 +151,31 @@ describe("User", () => {
     )
   })
 
-  it("throws an error when creating a user that with an email that already exists at /api/v1/users",
-    done => {
-      request.post(
-        {
-          url: `${apiUrl}/users`,
-          headers: {
-            Authorization: `JWT ${token}`
-          },
-          form: {
-            fname: "TesterTwoFirst",
-            lname: "TesterTwoLast",
-            email: "dev1@sigorta.com",
-            password: "222222"
-          }
+  it("throws an error when creating a user that with an email that already exists at /api/v1/users", done => {
+    request.post(
+      {
+        url: `${apiUrl}/users`,
+        headers: {
+          Authorization: `JWT ${token}`
         },
-        (err, res, body) => {
-          body = JSON.parse(body)
-          expect(res.statusCode).toBe(400)
-          expect(body.error).toBeDefined()
-          done()
+        form: {
+          fname: "TesterTwoFirst",
+          lname: "TesterTwoLast",
+          email: "dev1@sigorta.com",
+          password: "222224442"
         }
-      )
-    }
-  )
+      },
+      (err, res, body) => {
+        body = JSON.parse(body)
+        console.log(body.error)
+        expect(res.statusCode).toBe(401)
+        expect(body.error).toBeDefined()
+        done()
+      }
+    )
+  })
 
-  // usersUpdate
+  //usersUpdate
   it("updates a user at /api/v1/users/:id", done => {
     request.put(
       {
@@ -247,9 +246,9 @@ describe("User", () => {
   
 
 
-  // ----------------------------------------
-  // Authentication Routes
-  // ----------------------------------------
+  // // ----------------------------------------
+  // // Authentication Routes
+  // // ----------------------------------------
   describe("Registration Route", () => {
     it("adds a new user when they register", done => {
       request.post(

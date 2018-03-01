@@ -89,7 +89,7 @@ describe("Client", () => {
     )
   })
 
-  // usersShow
+  // clientShow
   it("shows a specific client at /api/v1/client/:id", done => {
     request.get(
       {

@@ -7,8 +7,7 @@ module.exports = () => {
   router.use('/clients', require('../modules/api/clients/router')())
   router.use('/plans', require('../modules/api/plans/router')())
   router.use('/balances', require('../modules/api/balances/router')())
-
-
+  router.use('/orders', require('../modules/api/orders/router')())
 
   return router
 }

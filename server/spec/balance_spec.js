@@ -48,7 +48,7 @@ describe("Balance", () => {
       user2.save()
     })
     .then(() => {
-      client = new Client({ user: user2._id.toString(), name: 'sigortaclient', discount: 5.5 })
+      client = new Client({ user: user2._id.toString(), name: 'sigortaclient', discount: 5.5, balance: 4000 })
       client.save()
     })
     .then(() => {
@@ -169,31 +169,26 @@ describe("Balance", () => {
         expect(body.balance.client.name).toBe("sigortaclient")
         expect(body.balance.balance).toBe(4000)
         expect(body.balance.transaction).toBe('add')
-        done()
-      }
-    )
-  })
-
-  // balanceUpdate
-  it("updates a balance at /api/v1/balances/:id", done => {
-    request.put(
-      {
-        url: `${apiUrl}/balances/${balance._id.toString()}`,
-        headers: {
-          Authorization: `JWT ${token}`
-        },
-        form: {
-          balance: 5000,
-          user: JSON.parse(JSON.stringify(user._id))
-        }
-      },
-      (err, res, body) => {
-        body = JSON.parse(body)
-        expect(res.statusCode).toBe(200)
-        expect(body.balance.balance).toBe(5000)
-        expect(body.balance.client.name).toBe("sigortaclient")
-        expect(body.balance.transaction).toBe("add")
-        done()
+        request.get(
+          {
+            url: `${apiUrl}/clients/${client._id}`,
+            headers: {
+              Authorization: `JWT ${token}`
+            }
+          },
+          (err, res, body) => {
+            body = JSON.parse(body)
+            expect(res.statusCode).toBe(200)
+            expect(body.client.name).toBe("sigortaclient")
+            expect(body.client.user.fname).toBe("sig2")
+            expect(body.client.user.lname).toBe("gorta2")
+            expect(body.client.user.email).toBe("dev2@sigorta.com")
+            expect(body.client.user.phone).toBe("094847474774")
+            expect(body.client.discount).toBe(5.5)
+            expect(body.client.balance).toBe(8000)
+            done()
+          }
+        )
       }
     )
   })
@@ -211,7 +206,26 @@ describe("Balance", () => {
         body = JSON.parse(body)
         expect(res.statusCode).toBe(200)
         expect(body.id).toBe(balance._id.toString())
-        done()
+        request.get(
+          {
+            url: `${apiUrl}/clients/${client._id}`,
+            headers: {
+              Authorization: `JWT ${token}`
+            }
+          },
+          (err, res, body) => {
+            body = JSON.parse(body)
+            expect(res.statusCode).toBe(200)
+            expect(body.client.name).toBe("sigortaclient")
+            expect(body.client.user.fname).toBe("sig2")
+            expect(body.client.user.lname).toBe("gorta2")
+            expect(body.client.user.email).toBe("dev2@sigorta.com")
+            expect(body.client.user.phone).toBe("094847474774")
+            expect(body.client.discount).toBe(5.5)
+            expect(body.client.balance).toBe(1000)
+            done()
+          }
+        )
       }
     )
   })

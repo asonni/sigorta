@@ -7,7 +7,7 @@ const Auth = require("../../../services/auth")
 
 class UsersAPIController {
   me(req, res) {
-    res.json({ me: req.user })
+    return res.json({ me: req.user })
   }
 
   usersIndex(req, res) {
@@ -15,11 +15,11 @@ class UsersAPIController {
 
     service.fetchUsers()
     .then(users => {
-      res.json({ users: users })
+      return res.json({ users: users })
     })
     .catch(e => {
       console.log("\nError on at usersIndex - GET /users", e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 
@@ -31,11 +31,11 @@ class UsersAPIController {
     .then(user => {
       user = user.toObject()
       delete user.passwordHash
-      res.json({ user })
+      return res.json({ user })
     })
     .catch(e => {
       console.log(`\nError at GET /users/${id}`, e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 
@@ -43,22 +43,22 @@ class UsersAPIController {
     const service = new Service(req)
     const { fname, lname, email, password, phone } = req.body
     if (!email) {
-      res.status(400).json({ error: `EYou must provide an email.` })
+      return res.status(400).json({ error: `You must provide an email.` })
     }
     if (!fname || !lname) {
-      res.status(400).json({ error: `You must provide your full name.` })
+      return res.status(400).json({ error: `You must provide your full name.` })
     }
 
     if (service.validatePassword(password).error) {
-      res.status(400).json({ error: service.validatePassword(password).error })
+      return res.status(400).json({ error: service.validatePassword(password).error })
     }
 
     service.createUser({ fname, lname, email, password, phone })
     .then(user => {
-      res.status(201).send(Auth.createToken(user))
+      return res.status(201).send(Auth.createToken(user))
     })
     .catch(e => {
-      res.status(401).json({ error: `Error persisting user: ${e}` })
+      return res.status(401).json({ error: `Error persisting user: ${e}` })
     })
 
   }
@@ -69,7 +69,7 @@ class UsersAPIController {
     
     if (req.body.password) {
       if (service.validatePassword(req.body.password).error) {
-        res.status(400).json({ error: service.validatePassword(req.body.password).error })
+        return res.status(400).json({ error: service.validatePassword(req.body.password).error })
       }
     }
 
@@ -78,11 +78,11 @@ class UsersAPIController {
     updateUser.then(user => {
       user = user.toObject()
       delete user.passwordHash
-      res.status(200).json({ user })
+      return res.status(200).json({ user })
     })
     .catch(e => {
       console.log(`Error at PUT /users/${id}`, e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 

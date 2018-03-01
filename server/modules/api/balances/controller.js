@@ -2,6 +2,7 @@ const express = require("express")
 const _ = require('lodash')
 const moment = require('moment')
 const Service = require('./service')
+const ClientService = require('../clients/service')
 
 class BalancesAPIController {
   balancesIndex(req, res) {
@@ -33,6 +34,7 @@ class BalancesAPIController {
 
   balancesCreate(req, res) {
     const service = new Service(req)
+    const clientService = new ClientService(req)
     const { client, transaction, balance } = req.body
 
     if (!client) {
@@ -43,48 +45,47 @@ class BalancesAPIController {
       res.status(400).json({ error: `You must provide a transaction type.` })
     }
 
+    let b
     service.createBalance({ client, balance, transaction: 'add' })
     .then(balance => {
-      service.fetchBalanceById(balance._id)
-      .then(balance => {
-        res.status(201).json({ balance })
-      })
+      b = balance
+      return clientService.findByIdAndUpdateBalance(client, balance.balance, 'add')
+    })
+    .then(() => {
+      return service.fetchBalanceById(b._id)
+    })
+    .then(balance => {
+      return res.status(201).json({ balance })
     })
     .catch(e => {
       res.status(401).json({ error: `Error persisting balance: ${e}` })
-    })
-
-  }
-
-  balancesUpdate(req, res) {
-    const service = new Service(req)
-    const { id } = req.params
-
-    let updateBalance = service.findByIdAndUpdate(id, req.body)
-
-    updateBalance.then(() => {
-      service.fetchBalanceById(id)
-      .then(balance => {
-        res.status(200).json({ balance })
-      })
-    })
-    .catch(e => {
-      console.log(`Error at PUT /balances/${id}`, e)
-      res.status(400).json({ error: e })
     })
   }
 
   balancesDelete(req, res) {
     const service = new Service(req)
+    const clientService = new ClientService(req)
     const { id } = req.params
 
     let deleteBalance = service.deleteBalanceById(id)
+    let b
 
-    deleteBalance.then(() => res.status(200).json({ id }))
+    service.fetchBalanceById(id)
+    .then(balance => {
+      b = balance
+      return service.deleteBalanceById(id)
+    })
+    .then(() => {
+      return clientService.findByIdAndUpdateBalance(b.client, b.balance, 'substract')
+    })
+    .then(() => {
+      return res.status(200).json({ id })
+    })
     .catch(e => {
       console.log(`Error at Delete /balances/${id}`, e)
       res.status(400).json({ error: e })
     })
+    
   }
 
 }

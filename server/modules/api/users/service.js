@@ -40,9 +40,9 @@ class UsersService {
     return User.findByIdAndUpdate(id, updates, { new: true })
   }
 
-  deleteUserById(id, body) { 
+  deleteUserById(id) { 
     const { User } = this.req.models
-    return User.remove(id)
+    return User.remove({ _id: id })
   }
 
   logIn(email, password) {

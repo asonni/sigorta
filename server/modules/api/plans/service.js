@@ -35,9 +35,9 @@ class PlanService {
     return Plan.findByIdAndUpdate(id, updates, { new: true })
   }
 
-  deletePlanById(id, body) { 
+  deletePlanById(id) { 
     const { Plan } = this.req.models
-    return Plan.remove(id)
+    return Plan.remove({ _id: id })
   }
 }
 

@@ -22,7 +22,7 @@ class ClientService {
 
   findByIdAndUpdate(id, body) {
     const { Client } = this.req.models
-    const { user, name, discount } = body
+    const { user, name, discount, limit } = body
     let updates = {}
 
     if (user) {
@@ -34,18 +34,39 @@ class ClientService {
     if (discount) {
       updates.discount = discount
     }
-    
+    if (limit) {
+      update.limit = limit
+    }
     return Client.findByIdAndUpdate(id, updates)
   }
 
-  deleteClientById(id, body) { 
+  findByIdAndUpdateBalance(clientId, balance, transaction) {
     const { Client } = this.req.models
-    return Client.remove(id)
+    let updates = {}
+    return Client.findById(clientId)
+    .then(client => {
+      if (transaction === 'add') {
+        updates.balance = client.balance + balance
+      } else {
+        updates.balance = client.balance - balance
+      }
+      return Client.findByIdAndUpdate(client._id, updates)
+    })
+  }
+
+  deleteClientById(id) { 
+    const { Client } = this.req.models
+    return Client.remove({ _id: id })
   }
 
   fetchBalancesByClientId(id) {
     const { Balance } = this.req.models
     return Balance.find({ client: id })
+  }
+
+  fetchOrdersByClientId(id) {
+    const { Order } = this.req.models
+    return Order.find({ client: id }).populate('client', ['name', 'discount', 'balance', '_id']).populate('plan', ['name', 'price', '_id'])
   }
 }
 
