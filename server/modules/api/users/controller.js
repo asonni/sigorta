@@ -95,7 +95,7 @@ class UsersAPIController {
     deleteUser.then(() => res.status(200).json({ id }))
     .catch(e => {
       console.log(`Error at Delete /users/${id}`, e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 

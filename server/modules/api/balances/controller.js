@@ -10,11 +10,11 @@ class BalancesAPIController {
 
     service.fetchBalances()
     .then(balances => {
-      res.json({ balances: balances })
+      return res.json({ balances: balances })
     })
     .catch(e => {
       console.log("\nError on at balancesIndex - GET /balances", e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 
@@ -24,11 +24,11 @@ class BalancesAPIController {
 
     service.fetchBalanceById(id)
     .then(balance => {
-      res.json({ balance })
+      return res.json({ balance })
     })
     .catch(e => {
       console.log(`\nError at GET /balances/${id}`, e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 
@@ -38,11 +38,11 @@ class BalancesAPIController {
     const { client, transaction, balance } = req.body
 
     if (!client) {
-      res.status(400).json({ error: `You must provide a clientId.` })
+      return res.status(400).json({ error: `You must provide a clientId.` })
     }
 
     if (!balance) {
-      res.status(400).json({ error: `You must provide a transaction type.` })
+      return res.status(400).json({ error: `You must provide a transaction type.` })
     }
 
     let b
@@ -58,7 +58,7 @@ class BalancesAPIController {
       return res.status(201).json({ balance })
     })
     .catch(e => {
-      res.status(401).json({ error: `Error persisting balance: ${e}` })
+      return res.status(401).json({ error: `Error persisting balance: ${e}` })
     })
   }
 
@@ -83,7 +83,7 @@ class BalancesAPIController {
     })
     .catch(e => {
       console.log(`Error at Delete /balances/${id}`, e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
     
   }

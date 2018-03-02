@@ -2,6 +2,7 @@ const express = require("express")
 const _ = require('lodash')
 const moment = require('moment')
 const Service = require('./service')
+const UserService = require('../users/service')
 
 class ClientsAPIController {
   clientsIndex(req, res) {
@@ -9,11 +10,11 @@ class ClientsAPIController {
 
     service.fetchClients()
     .then(clients => {
-      res.json({ clients })
+      return res.json({ clients })
     })
     .catch(e => {
       console.log("\nError on at clientsIndex - GET /clients", e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 
@@ -23,33 +24,38 @@ class ClientsAPIController {
 
     service.fetchClientById(id)
     .then(client => {
-      res.json({ client })
+      return res.json({ client })
     })
     .catch(e => {
       console.log(`\nError at GET /clients/${id}`, e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 
   clientsCreate(req, res) {
     const service = new Service(req)
+    const userService = new UserService(req)
     const { user, name, discount } = req.body
     if (!user) {
-      res.status(400).json({ error: `You must provide a userId` })
+      return res.status(400).json({ error: `You must provide a userId` })
     }
     if (!name) {
-      res.status(400).json({ error: `You must provide a client name.` })
+      return res.status(400).json({ error: `You must provide a client name.` })
     }
-
+    let c
     service.createClient({ user, name, discount })
     .then(client => {
-      service.fetchClientById(client._id)
-      .then(client => {
-        res.status(201).json({ client })
-      })
+      c = client
+      return userService.findByIdAndUpdate(user, { client: c._id })
+    })
+    .then(() => {
+      return service.fetchClientById(c._id)
+    })
+    .then(client => {
+      return res.status(201).json({ client })
     })
     .catch(e => {
-      res.status(401).json({ error: `Error persisting client: ${e}` })
+      return res.status(401).json({ error: `Error persisting client: ${e}` })
     })
 
   }
@@ -63,12 +69,12 @@ class ClientsAPIController {
     updateClient.then(() => {
       service.fetchClientById(id)
       .then(client => {
-        res.status(200).json({ client })
+        return res.status(200).json({ client })
       })
     })
     .catch(e => {
       console.log(`Error at PUT /clients/${id}`, e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 
@@ -81,7 +87,7 @@ class ClientsAPIController {
     deleteClient.then(() => res.status(200).json({ id }))
     .catch(e => {
       console.log(`Error at Delete /clients/${id}`, e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 
@@ -91,11 +97,11 @@ class ClientsAPIController {
 
     service.fetchBalancesByClientId(id)
     .then(balances => {
-      res.json({ balances })
+      return res.json({ balances })
     })
     .catch(e => {
       console.log(`\nError at GET /clients/${id}`, e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 
@@ -105,11 +111,11 @@ class ClientsAPIController {
 
     service.fetchOrdersByClientId(id)
     .then(orders => {
-      res.json({ orders })
+      return res.json({ orders })
     })
     .catch(e => {
       console.log(`\nError at GET /clients/${id}`, e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 }

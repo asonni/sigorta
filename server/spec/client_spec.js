@@ -170,7 +170,6 @@ describe("Client", () => {
         }
       },
       (err, res, body) => {
-        console.log(body)
         body = JSON.parse(body)
         expect(res.statusCode).toBe(200)
         expect(body.client.name).toBe("sigorta2")
@@ -194,7 +193,6 @@ describe("Client", () => {
         }
       },
       (err, res, body) => {
-        console.log(body)
         body = JSON.parse(body)
         expect(res.statusCode).toBe(200)
         expect(body.id).toBe(client._id.toString())

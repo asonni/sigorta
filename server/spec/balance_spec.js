@@ -115,7 +115,7 @@ describe("Balance", () => {
     )
   })
 
-  // show balances for a clinet
+  // show balances for a client
   it("shows balances for a client at /api/v1/clients/:id/balances", done => {
     request.get(
       {

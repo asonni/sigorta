@@ -13,7 +13,8 @@ const UserSchema = mongoose.Schema(
     phone: { type: String, required: false },
     token: { type: String, unique: true },
     isAdmin: { type: Boolean, default: false },
-    passwordHash: { type: String, required: false }
+    passwordHash: { type: String, required: false },
+    client: { type: mongoose.Schema.ObjectId, ref: 'Client' },
   },
   {
     timestamps: true

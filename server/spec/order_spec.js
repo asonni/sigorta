@@ -20,14 +20,12 @@ describe("Order", () => {
   const apiUrl = baseUrl + "/api/v1"
   let server,
     user,
-    user2,
     client,
     balance,
     plan,
     order,
     body,
-    token,
-    token2
+    token
 
   beforeAll(done => {
     server = app.listen(8888, () => {
@@ -43,18 +41,17 @@ describe("Order", () => {
 
   beforeEach(done => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
-
     user = new User(getUserObj('sig', 'gorta', 'dev1@sigorta.com', '111111'))
     user.isAdmin = true
     user
     .save()
     .then(() => {
-      user2 = new User(getUserObj('sig2', 'gorta2', 'dev2@sigorta.com', '111111'))
-      user2.save()
+      client = new Client({ user: user._id.toString(), name: 'sigortaclient', discount: 5.5, balance: 3000 })
+      client.save()
     })
     .then(() => {
-      client = new Client({ user: user2._id.toString(), name: 'sigortaclient', discount: 5.5, balance: 3000 })
-      client.save()
+      user.client = client._id
+      user.save()
     })
     .then(() => {
       balance = new Balance({ client: client._id.toString(), balance: 3000, transaction: 'add' })
@@ -86,21 +83,6 @@ describe("Order", () => {
         totalPriceAfterDiscount: (plan.price) - (plan.price * client.discount /100)
       })
       order.save()
-    })
-    .then(() => {
-      request.post(
-        {
-          url: `${apiUrl}/users/login`,
-          form: {
-            email: user2.email,
-            password: '111111'
-          }
-        },
-        (err, res, body) => {
-          body = JSON.parse(body)
-          token2 = body.id_token
-        }
-      )
     })
     .then(() => {
       request.post(
@@ -177,7 +159,7 @@ describe("Order", () => {
     )
   })
 
-  // show orders for a clinet
+  // show orders for a client
   it("shows orders for a client at /api/v1/clients/:id/orders", done => {
     request.get(
       {
@@ -223,6 +205,52 @@ describe("Order", () => {
         form: {
           name: 'customer',
           client: JSON.parse(JSON.stringify(client._id)),
+          plan: JSON.parse(JSON.stringify(plan._id)),
+          dob: '1985-02-24',
+          gender: 'male',
+          nationality: 'Libyan',
+          passport: '243423423',
+          phone: '1123333',
+          fatherName: 'FATHER',
+          motherName: 'Mother',
+          fatherPassport: 'xxxxx',
+          motherPassport: 'yyyyy',
+          address: 'sfasfv sdfas dasdf',
+          numberOfYears: 2
+        }
+      },
+      (err, res, body) => {
+        body = JSON.parse(body)
+        expect(res.statusCode).toBe(201)
+        expect(body.order.name).toBe('customer')
+        expect(body.order.client._id).toBe(client._id.toString())
+        expect(body.order.client.balance).toBe(2811)
+        expect(body.order.plan._id).toBe(plan._id.toString())
+        expect(body.order.dob).toBe('1985-02-24T00:00:00.000Z')
+        expect(body.order.gender).toBe('male')
+        expect(body.order.nationality).toBe('Libyan')
+        expect(body.order.passport).toBe('243423423')
+        expect(body.order.phone).toBe('1123333')
+        expect(body.order.fatherName).toBe('FATHER')
+        expect(body.order.motherName).toBe('Mother')
+        expect(body.order.fatherPassport).toBe('xxxxx')
+        expect(body.order.motherPassport).toBe('yyyyy')
+        expect(body.order.address).toBe('sfasfv sdfas dasdf')
+        expect(body.order.numberOfYears).toBe(2)
+        done()
+      }
+    )
+  })
+
+  it("post an order via client at /api/v1/orders", done => {
+    request.post(
+      {
+        url: `${apiUrl}/orders`,
+        headers: {
+          Authorization: `JWT ${token}`
+        },
+        form: {
+          name: 'customer',
           plan: JSON.parse(JSON.stringify(plan._id)),
           dob: '1985-02-24',
           gender: 'male',

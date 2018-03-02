@@ -12,11 +12,11 @@ class OrdersAPIController {
 
     service.fetchOrders()
     .then(orders => {
-      res.json({ orders })
+      return res.json({ orders })
     })
     .catch(e => {
       console.log("\nError on at ordersIndex - GET /orders", e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 
@@ -26,11 +26,11 @@ class OrdersAPIController {
 
     service.fetchOrderById(id)
     .then(order => {
-      res.json({ order: order })
+      return res.json({ order: order })
     })
     .catch(e => {
       console.log(`\nError at GET /orders/${id}`, e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 
@@ -39,42 +39,42 @@ class OrdersAPIController {
     const balanceService = new BalanceService(req)
     const clientService = new ClientService(req)
     
-    const { client, plan, name, dob, gender, nationality, passport, phone, fatherName, motherName, fatherPassport, motherPassport, address, numberOfYears } = req.body
+    let { client, plan, name, dob, gender, nationality, passport, phone, fatherName, motherName, fatherPassport, motherPassport, address, numberOfYears } = req.body
 
     if (!client) {
-      res.status(400).json({ error: `You must provide a client.` })
+      client = req.user.client
     }
 
     if (!plan) {
-      res.status(400).json({ error: `You must provide a plan` })
+      return res.status(400).json({ error: `You must provide a plan` })
     }
 
     if (!name) {
-      res.status(400).json({ error: `You must provide a name` })
+      return res.status(400).json({ error: `You must provide a name` })
     }
 
     if (!dob) {
-      res.status(400).json({ error: `You must provide a dob` })
+      return res.status(400).json({ error: `You must provide a dob` })
     }
 
     if (!gender) {
-      res.status(400).json({ error: `You must provide a gender` })
+      return res.status(400).json({ error: `You must provide a gender` })
     }
 
     if (!nationality) {
-      res.status(400).json({ error: `You must provide a nationality` })
+      return res.status(400).json({ error: `You must provide a nationality` })
     }
 
     if (!passport) {
-      res.status(400).json({ error: `You must provide a passport` })
+      return res.status(400).json({ error: `You must provide a passport` })
     }
 
     if (!numberOfYears) {
-      res.status(400).json({ error: `You must provide a numberOfYears` })
+      return res.status(400).json({ error: `You must provide a numberOfYears` })
     }
 
     let c, p, o, b
-    service.getClient(client)
+    return service.getClient(client)
     .then(cli =>{
       c = cli
       return service.getPlan(plan)
@@ -119,7 +119,7 @@ class OrdersAPIController {
       return res.status(201).send({ order })
     })
     .catch(e => {
-      res.status(401).json({ error: `Error persisting order: ${e}` })
+      return res.status(401).json({ error: `Error persisting order: ${e}` })
     }) 
        
   }

@@ -36,19 +36,19 @@ class PlansAPIController {
     const { name, price } = req.body
 
     if (!name) {
-      res.status(400).json({ error: `You must provide a plan name.` })
+      return res.status(400).json({ error: `You must provide a plan name.` })
     }
 
     if (!price) {
-      res.status(400).json({ error: `You must provide a plan price.` })
+      return res.status(400).json({ error: `You must provide a plan price.` })
     }
 
     service.createPlan({ name, price })
     .then(plan => {
-      res.status(201).send({ plan })
+      return res.status(201).send({ plan })
     })
     .catch(e => {
-      res.status(401).json({ error: `Error persisting plan: ${e}` })
+      return res.status(401).json({ error: `Error persisting plan: ${e}` })
     })
 
   }
@@ -62,7 +62,7 @@ class PlansAPIController {
     updatePlan.then(plan => res.status(200).json({ plan }))
     .catch(e => {
       console.log(`Error at PUT /plans/${id}`, e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 
@@ -75,7 +75,7 @@ class PlansAPIController {
     deletePlan.then(() => res.status(200).json({ id }))
     .catch(e => {
       console.log(`Error at Delete /plans/${id}`, e)
-      res.status(400).json({ error: e })
+      return res.status(400).json({ error: e })
     })
   }
 

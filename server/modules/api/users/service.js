@@ -21,7 +21,7 @@ class UsersService {
 
   findByIdAndUpdate(id, body) {
     const { User } = this.req.models
-    const { fname, lname, password, phone } = body
+    const { fname, lname, password, phone, client } = body
     let updates = {}
 
     if (fname) {
@@ -35,6 +35,9 @@ class UsersService {
     }
     if (password) {
       updates.password = password
+    }
+    if (client) {
+      updates.client = client
     }
     
     return User.findByIdAndUpdate(id, updates, { new: true })
