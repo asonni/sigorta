@@ -77,7 +77,7 @@ export default (state = initState, { type, payload }) => {
       return { ...state, loading: true };
 
     case EDIT_CLINET_FULFILLED:
-      const client = payload.data;
+      const client = payload.data.client;
       return {
         ...state,
         clients: state.clients.map(

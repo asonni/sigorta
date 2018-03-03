@@ -6,7 +6,7 @@ import { Row, Col, Card, CardHeader } from 'reactstrap';
 import BalanceForm from './BalanceForm';
 import { fetchClients, newBalance } from '../../../actions/admin';
 
-class NewBalance extends Component {
+export class NewBalance extends Component {
   state = { alertVisible: false };
 
   componentWillMount() {
@@ -60,10 +60,6 @@ class NewBalance extends Component {
                 loading={this.props.clientsLoading}
                 onSubmit={this.onSubmintNewBalance}
                 renderClients={this.renderClients()}
-                rendersTransactions={[
-                  { value: 'add', label: 'Add' },
-                  { value: 'substract', label: 'Substract' }
-                ]}
                 itemComponent={this.itemComponent}
                 onAlertDismiss={this.onAlertDismiss}
                 alertVisible={this.state.alertVisible}

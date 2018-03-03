@@ -478,6 +478,10 @@ class Dashboard extends Component {
     radioSelected: 2
   };
 
+  componentWillMount() {
+    document.title = 'Sigorta | Dashboard';
+  }
+
   toggle = () => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen

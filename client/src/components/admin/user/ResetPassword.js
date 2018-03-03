@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Form } from 'semantic-ui-react';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
@@ -18,7 +18,6 @@ import {
 import validate from './validate';
 import { fetchUser, editUser } from '../../../actions/admin';
 import {
-  Aux,
   ErrorMessage,
   renderInputField,
   AuthorizedMessage
@@ -140,14 +139,14 @@ class ResetPassword extends PureComponent {
                     disabled={pristine || submitting}
                   >
                     {submitting ? (
-                      <Aux>
+                      <Fragment>
                         <i className="fa fa-circle-o-notch fa-spin" />{' '}
                         Submitting
-                      </Aux>
+                      </Fragment>
                     ) : (
-                      <Aux>
+                      <Fragment>
                         <i className="fa fa-dot-circle-o" /> Submit
-                      </Aux>
+                      </Fragment>
                     )}
                   </Button>{' '}
                   <Button

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Form } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import {
@@ -12,7 +12,6 @@ import {
 
 import validate from './validate';
 import {
-  Aux,
   ErrorMessage,
   renderInputField,
   AuthorizedMessage
@@ -59,7 +58,7 @@ class UserForm extends PureComponent {
   render() {
     const { handleSubmit, loading, pristine, submitting } = this.props;
     return (
-      <Form onSubmit={handleSubmit} loading={loading}>
+      <Form onSubmit={handleSubmit} loading={loading && !submitting}>
         <CardBody>
           {this.renderAlerts()}
           <Field
@@ -84,7 +83,7 @@ class UserForm extends PureComponent {
             component={renderInputField}
           />
           {!this.props.user && (
-            <Aux>
+            <Fragment>
               <Field
                 label="Password"
                 placeholder="Password"
@@ -111,7 +110,7 @@ class UserForm extends PureComponent {
                 name="confirmPassword"
                 component={renderInputField}
               />
-            </Aux>
+            </Fragment>
           )}
         </CardBody>
         <CardFooter>
@@ -122,13 +121,13 @@ class UserForm extends PureComponent {
             disabled={pristine || submitting}
           >
             {submitting ? (
-              <Aux>
+              <Fragment>
                 <i className="fa fa-circle-o-notch fa-spin" /> Submitting
-              </Aux>
+              </Fragment>
             ) : (
-              <Aux>
+              <Fragment>
                 <i className="fa fa-dot-circle-o" /> Submit
-              </Aux>
+              </Fragment>
             )}
           </Button>{' '}
           <Button

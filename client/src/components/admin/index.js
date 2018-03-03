@@ -22,7 +22,11 @@ import EditPlan from './plan/EditPlan';
 
 import ViewBalances from './balance/ViewBalances';
 import NewBalance from './balance/NewBalance';
-import EditBalance from './balance/EditBalance';
+// import EditBalance from './balance/EditBalance';
+
+import ViewOrders from './order/ViewOrders';
+import NewOrder from './order/NewOrder';
+import EditOrder from './order/EditOrder';
 
 import Page404 from './Page404';
 import Aside from './layout/Aside';
@@ -83,10 +87,17 @@ class Admin extends Component {
                   path="/admin/balances/new"
                   component={NewBalance}
                 />
-                <Route
+                {/* <Route
                   exact
                   path="/admin/balances/edit/:id"
                   component={EditBalance}
+                /> */}
+                <Route exact path="/admin/orders/view" component={ViewOrders} />
+                <Route exact path="/admin/orders/new" component={NewOrder} />
+                <Route
+                  exact
+                  path="/admin/orders/edit/:id"
+                  component={EditOrder}
                 />
                 <Route component={Page404} />
               </Switch>

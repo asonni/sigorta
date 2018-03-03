@@ -50,15 +50,15 @@ export const fetchClient = id => async dispatch => {
   }
 };
 
-export const newClinet = ({ name, discount, user }) => async dispatch => {
+export const newClinet = values => async dispatch => {
+  console.log(values);
   dispatch({ type: NEW_CLINET_PENDING });
   try {
     const response = await axios.post(
       `${URL}`,
       {
-        name,
-        discount,
-        user: user.value
+        ...values,
+        user: values.user.value
       },
       {
         headers: {
@@ -74,7 +74,14 @@ export const newClinet = ({ name, discount, user }) => async dispatch => {
   }
 };
 
-export const editClinet = ({ _id, name, discount, user }) => async dispatch => {
+export const editClinet = ({
+  _id,
+  name,
+  discount,
+  user,
+  limit
+}) => async dispatch => {
+  console.log(_id, name, discount, user, limit);
   dispatch({ type: EDIT_CLINET_PENDING });
   try {
     const response = await axios.put(
@@ -82,6 +89,7 @@ export const editClinet = ({ _id, name, discount, user }) => async dispatch => {
       {
         name,
         discount,
+        limit: limit.toString(),
         user: user.value
       },
       {

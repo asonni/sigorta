@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, SubmissionError } from 'redux-form';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import { deleteBalance } from '../../../actions/admin';
-import { Aux } from '../../common';
 
 class DeleteBalance extends Component {
   state = { modal: false };
@@ -33,7 +32,7 @@ class DeleteBalance extends Component {
       submitting
     } = this.props;
     return (
-      <Aux>
+      <Fragment>
         <Button color="danger" onClick={this.toggle}>
           <i className="fa fa-trash" aria-hidden="true" />
           <span className="hidden-xs-down">&nbsp;Delete</span>
@@ -58,13 +57,13 @@ class DeleteBalance extends Component {
               onClick={handleSubmit(this.onSubmitDeleteBalance)}
             >
               {submitting ? (
-                <Aux>
+                <Fragment>
                   <i className="fa fa-circle-o-notch fa-spin" />&nbsp;Deleteing
-                </Aux>
+                </Fragment>
               ) : (
-                <Aux>
+                <Fragment>
                   <i className="fa fa-trash" aria-hidden="true" />&nbsp;Yes
-                </Aux>
+                </Fragment>
               )}
             </Button>{' '}
             <Button color="secondary" onClick={this.toggle}>
@@ -73,7 +72,7 @@ class DeleteBalance extends Component {
             </Button>
           </ModalFooter>
         </Modal>
-      </Aux>
+      </Fragment>
     );
   }
 }

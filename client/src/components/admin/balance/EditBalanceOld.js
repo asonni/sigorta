@@ -10,7 +10,7 @@ import {
   fetchClients
 } from '../../../actions/admin';
 
-class EditBalance extends Component {
+export class EditBalance extends Component {
   state = { alertVisible: true };
 
   componentWillMount() {

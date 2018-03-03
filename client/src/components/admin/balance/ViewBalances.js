@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
-import Pagination from 'react-js-pagination';
+import NumberFormat from 'react-number-format';
+// import Pagination from 'react-js-pagination';
 import {
   Row,
   Col,
@@ -13,11 +14,12 @@ import {
   CardHeader,
   ButtonGroup
 } from 'reactstrap';
+import ShowOrder from './ShowOrder';
 import DeleteBalance from './DeleteBalance';
-import { Aux, LoadingContent, ErrorMessage } from '../../common';
+import { LoadingContent, ErrorMessage } from '../../common';
 import { fetchBalances } from '../../../actions/admin';
 
-class ViewBalances extends Component {
+export class ViewBalances extends Component {
   state = {
     activePage: 1,
     itemsCountPerPage: 10,
@@ -36,48 +38,51 @@ class ViewBalances extends Component {
 
   renderBalancesBody = () =>
     this.props.balances.map((item, index) => {
-      const { _id, client, balance, transaction, createdAt } = item;
+      const { _id, client, balance, transaction, order, createdAt } = item;
       return (
-        <tr key={index}>
-          <td className="text-center" width="5%">
-            {index + 1}
-          </td>
-          <td className="text-center">{client ? client.name : 'N/A'}</td>
-          <td className="text-center">{balance}</td>
-          <td className="text-center text-capitalize">{transaction}</td>
-          <td className="text-center">
-            <Moment format="DD-MM-YYYY">{createdAt}</Moment>
-          </td>
-          <td className="text-center">
-            <ButtonGroup size="sm">
-              <Button
-                color="info"
-                onClick={() =>
-                  this.props.history.push(`/admin/balances/edit/${_id}`)
-                }
-              >
-                <i className="fa fa-pencil-square-o" aria-hidden="true" />
-                <span className="hidden-xs-down">&nbsp;Edit</span>
-              </Button>
-              <DeleteBalance
-                balanceId={_id}
-                balance={balance}
-                balanceTransaction={transaction}
-              />
-            </ButtonGroup>
-          </td>
-        </tr>
+        <Fragment key={index}>
+          <tr>
+            <td className="text-center" width="5%">
+              {index + 1}
+            </td>
+            <td className="text-center">{client ? client.name : 'N/A'}</td>
+            <td className="text-center">
+              <strong>
+                <NumberFormat
+                  value={balance}
+                  displayType={'text'}
+                  thousandSeparator
+                  suffix={'TLY'}
+                />
+              </strong>
+            </td>
+            <td className="text-center text-capitalize">{transaction}</td>
+            <td className="text-center">
+              <Moment format="DD-MM-YYYY">{createdAt}</Moment>
+            </td>
+            <td className="text-center">
+              <ButtonGroup size="sm">
+                {order && <ShowOrder orderID={order} />}
+                <DeleteBalance
+                  balanceId={_id}
+                  balance={balance}
+                  balanceTransaction={transaction}
+                />
+              </ButtonGroup>
+            </td>
+          </tr>
+        </Fragment>
       );
     });
 
   renderBalances = () => {
     const { balances, loading, error } = this.props;
-    const {
-      activePage,
-      itemsCountPerPage,
-      totalItemsCount,
-      pageRangeDisplayed
-    } = this.state;
+    // const {
+    //   activePage,
+    //   itemsCountPerPage,
+    //   totalItemsCount,
+    //   pageRangeDisplayed
+    // } = this.state;
     if (loading) {
       return <LoadingContent />;
     }
@@ -96,7 +101,7 @@ class ViewBalances extends Component {
       );
     }
     return (
-      <Aux>
+      <Fragment>
         <Table responsive hover>
           <thead className="thead-light">
             <tr>
@@ -112,15 +117,15 @@ class ViewBalances extends Component {
           </thead>
           <tbody>{this.renderBalancesBody()}</tbody>
         </Table>
-        <br />
+        {/* <br />
         <Pagination
           activePage={activePage}
           itemsCountPerPage={itemsCountPerPage}
           totalItemsCount={totalItemsCount}
           pageRangeDisplayed={pageRangeDisplayed}
           onChange={this.onChangePage}
-        />
-      </Aux>
+        /> */}
+      </Fragment>
     );
   };
 

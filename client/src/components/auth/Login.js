@@ -118,11 +118,11 @@ class Login extends Component {
                           )}
                         </Button>
                       </Col>
-                      <Col xs="6" className="text-right">
-                        <Button color="link" className="px-0">
+                      {/* <Col xs="6" className="text-right">
+                        <Button type="button" color="link" className="px-0">
                           Forgot password?
                         </Button>
-                      </Col>
+                      </Col> */}
                     </Row>
                   </CardBody>
                 </Form>

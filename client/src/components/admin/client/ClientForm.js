@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Form } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
-import { Alert, Button, CardBody, CardFooter } from 'reactstrap';
+import { Row, Col, Alert, Button, CardBody, CardFooter } from 'reactstrap';
 
 import validate from './validate';
 import {
-  Aux,
   ErrorMessage,
   renderInputField,
   AuthorizedMessage,
-  renderDropdownField
+  renderDropdownField,
+  renderCheckboxField
 } from '../../common';
 
 class ClientForm extends Component {
@@ -22,6 +22,7 @@ class ClientForm extends Component {
         _id: client._id,
         name: client.name,
         discount: client.discount,
+        limit: client.limit,
         user: client.user ? client.user._id : null
       });
     }
@@ -34,7 +35,7 @@ class ClientForm extends Component {
       clientError,
       usersError
     } = this.props;
-    if (clientError === undefined || usersError === undefined) {
+    if ((clientError || usersError) === undefined) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
           <AuthorizedMessage />
@@ -60,7 +61,7 @@ class ClientForm extends Component {
       itemComponent
     } = this.props;
     return (
-      <Form onSubmit={handleSubmit} loading={loading}>
+      <Form onSubmit={handleSubmit} loading={loading && !submitting}>
         <CardBody>
           {this.renderAlerts()}
           <Field
@@ -70,13 +71,25 @@ class ClientForm extends Component {
             name="name"
             component={renderInputField}
           />
-          <Field
-            label="Discount"
-            placeholder="Type any discount number"
-            type="text"
-            name="discount"
-            component={renderInputField}
-          />
+          <Row>
+            <Col xs="12" md="6">
+              <Field
+                label="Discount"
+                placeholder="Type any discount number"
+                type="text"
+                name="discount"
+                component={renderInputField}
+              />
+            </Col>
+            <Col xs="12" md="6" className="text-center pt-30">
+              <Field
+                label="Limit by Balance"
+                name="limit"
+                component={renderCheckboxField}
+                defaultChecked={!this.props.client}
+              />
+            </Col>
+          </Row>
           <Field
             label="User Info"
             name="user"
@@ -94,13 +107,13 @@ class ClientForm extends Component {
             disabled={pristine || submitting}
           >
             {submitting ? (
-              <Aux>
+              <Fragment>
                 <i className="fa fa-circle-o-notch fa-spin" /> Submitting
-              </Aux>
+              </Fragment>
             ) : (
-              <Aux>
+              <Fragment>
                 <i className="fa fa-dot-circle-o" /> Submit
-              </Aux>
+              </Fragment>
             )}
           </Button>{' '}
           <Button

@@ -1,10 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, SubmissionError } from 'redux-form';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import { deleteUser } from '../../../actions/admin';
-import { Aux } from '../../common';
 
 class DeleteUser extends PureComponent {
   state = { modal: false };
@@ -26,7 +25,7 @@ class DeleteUser extends PureComponent {
   render() {
     const { userFullName, userEmail, handleSubmit, submitting } = this.props;
     return (
-      <Aux>
+      <Fragment>
         <Button color="danger" onClick={this.toggle}>
           <i className="fa fa-trash" aria-hidden="true" />
           <span className="hidden-xs-down">&nbsp;Delete</span>
@@ -49,13 +48,13 @@ class DeleteUser extends PureComponent {
               onClick={handleSubmit(this.onSubmitDeleteUser)}
             >
               {submitting ? (
-                <Aux>
+                <Fragment>
                   <i className="fa fa-circle-o-notch fa-spin" />&nbsp;Deleteing
-                </Aux>
+                </Fragment>
               ) : (
-                <Aux>
+                <Fragment>
                   <i className="fa fa-trash" aria-hidden="true" />&nbsp;Yes
-                </Aux>
+                </Fragment>
               )}
             </Button>{' '}
             <Button color="secondary" onClick={this.toggle}>
@@ -64,7 +63,7 @@ class DeleteUser extends PureComponent {
             </Button>
           </ModalFooter>
         </Modal>
-      </Aux>
+      </Fragment>
     );
   }
 }

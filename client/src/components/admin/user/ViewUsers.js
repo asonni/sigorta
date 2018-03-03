@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import Pagination from 'react-js-pagination';
@@ -14,7 +14,7 @@ import {
   CardHeader,
   ButtonGroup
 } from 'reactstrap';
-import { Aux, LoadingContent, ErrorMessage } from '../../common';
+import { LoadingContent, ErrorMessage } from '../../common';
 import { fetchUsers } from '../../../actions/admin';
 import DeleteUser from './DeleteUser';
 
@@ -115,7 +115,7 @@ class ViewUsers extends PureComponent {
       );
     }
     return (
-      <Aux>
+      <Fragment>
         <Table responsive hover>
           <thead className="thead-light">
             <tr>
@@ -140,7 +140,7 @@ class ViewUsers extends PureComponent {
           pageRangeDisplayed={pageRangeDisplayed}
           onChange={this.onChangePage}
         />
-      </Aux>
+      </Fragment>
     );
   };
 

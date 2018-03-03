@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Nav, NavbarBrand, NavbarToggler, Button } from 'reactstrap';
-import HeaderNotificationsDropdown from './HeaderNotificationsDropdown';
+// import HeaderNotificationsDropdown from './HeaderNotificationsDropdown';
 
 class Header extends Component {
   sidebarToggle = () => {
@@ -30,7 +30,7 @@ class Header extends Component {
           <span className="navbar-toggler-icon" />
         </NavbarToggler>
         <Nav className="ml-auto" navbar>
-          <HeaderNotificationsDropdown />
+          {/* <HeaderNotificationsDropdown /> */}
           <Button
             type="button"
             color="danger"

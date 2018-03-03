@@ -73,7 +73,6 @@ class NewClient extends Component {
 
 const mapStateToProps = ({ clientStore, userStore }) => {
   return {
-    clientLoading: clientStore.loading,
     clientError: clientStore.error,
     users: userStore.users,
     usersLoading: userStore.loading,
