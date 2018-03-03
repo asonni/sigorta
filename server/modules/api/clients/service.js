@@ -35,7 +35,7 @@ class ClientService {
       updates.discount = discount
     }
     if (limit) {
-      update.limit = limit
+      updates.limit = limit
     }
     return Client.findByIdAndUpdate(id, updates)
   }

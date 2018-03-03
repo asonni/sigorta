@@ -166,6 +166,7 @@ describe("Client", () => {
         form: {
           name: "sigorta2",
           discount: 6.6,
+          limit: false,
           user: JSON.parse(JSON.stringify(user._id))
         }
       },
@@ -178,6 +179,7 @@ describe("Client", () => {
         expect(body.client.user.email).toBe("dev1@sigorta.com")
         expect(body.client.user.phone).toBe("094847474774")
         expect(body.client.discount).toBe(6.6)
+        expect(body.client.limit).toBe(false)
         done()
       }
     )
