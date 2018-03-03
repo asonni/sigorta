@@ -77,7 +77,7 @@ export default (state = initState, { type, payload }) => {
       return { ...state, loading: true };
 
     case EDIT_PLAN_FULFILLED:
-      const plan = payload.data;
+      const plan = payload.data.plan;
       return {
         ...state,
         plans: state.plans.map(item => (item.id === plan._id ? plan : item)),

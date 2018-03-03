@@ -5,6 +5,7 @@ import userStore from './admin/user';
 import clientStore from './admin/client';
 import planStore from './admin/plan';
 import balanceStore from './admin/balance';
+import orderStore from './admin/order';
 
 const rootReducer = combineReducers({
   form,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   userStore,
   clientStore,
   planStore,
-  balanceStore
+  balanceStore,
+  orderStore
 });
 
 export default rootReducer;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import Pagination from 'react-js-pagination';
@@ -7,6 +7,7 @@ import {
   Col,
   Card,
   Input,
+  Badge,
   Table,
   Button,
   CardBody,
@@ -14,7 +15,7 @@ import {
   ButtonGroup
 } from 'reactstrap';
 import DeleteClient from './DeleteClient';
-import { Aux, LoadingContent, ErrorMessage } from '../../common';
+import { LoadingContent, ErrorMessage } from '../../common';
 import { fetchClients } from '../../../actions/admin';
 
 class ViewClients extends Component {
@@ -41,6 +42,8 @@ class ViewClients extends Component {
         user: { fname, lname, email, phone },
         name,
         discount,
+        balance,
+        limit,
         createdAt
       } = client;
       return (
@@ -55,6 +58,18 @@ class ViewClients extends Component {
             </div>
           </td>
           <td className="text-center">{`${discount}%`}</td>
+          <td className="text-center">
+            <strong>{balance} TL</strong>
+          </td>
+          <td className="text-center">
+            <h5>
+              {limit ? (
+                <Badge color="success">ON</Badge>
+              ) : (
+                <Badge color="secondary">OFF</Badge>
+              )}
+            </h5>
+          </td>
           <td>{`${fname} ${lname}`}</td>
           <td>{email}</td>
           <td className="text-center">{phone || 'N/A'}</td>
@@ -106,7 +121,7 @@ class ViewClients extends Component {
       );
     }
     return (
-      <Aux>
+      <Fragment>
         <Table responsive hover>
           <thead className="thead-light">
             <tr>
@@ -117,6 +132,8 @@ class ViewClients extends Component {
               <th className="text-center" width="15%">
                 Discount
               </th>
+              <th className="text-center">Balance</th>
+              <th className="text-center">Limit by Balance</th>
               <th>User Name</th>
               <th>User Email</th>
               <th className="text-center" width="10%">
@@ -135,7 +152,7 @@ class ViewClients extends Component {
           pageRangeDisplayed={pageRangeDisplayed}
           onChange={this.onChangePage}
         />
-      </Aux>
+      </Fragment>
     );
   };
 

@@ -107,3 +107,12 @@
 .invalid-feedback {
   font-size: 100%;
 }
+.modal-xlg {
+  max-width: 1400px;
+}
+.badge-warning {
+  color: #ffffff;
+}
+.pt-30 {
+  padding-top: 30px !important;
+}

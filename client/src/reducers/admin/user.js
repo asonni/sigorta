@@ -77,7 +77,7 @@ export default (state = initState, { type, payload }) => {
       return { ...state, loading: true };
 
     case EDIT_USER_FULFILLED:
-      const user = payload.data;
+      const user = payload.data.user;
       return {
         ...state,
         users: state.users.map(item => (item.id === user._id ? user : item)),

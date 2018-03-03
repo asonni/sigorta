@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 import ReduxPromise from 'redux-promise';
+import ReduxLogger from 'redux-logger';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 
@@ -15,7 +16,9 @@ import { requireAuthAdmin, requireAuthClient, requireGuest } from './common';
 import { AUTH_USER } from '../actions/auth/types';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const middleware = composeEnhancers(applyMiddleware(ReduxThunk, ReduxPromise));
+const middleware = composeEnhancers(
+  applyMiddleware(ReduxThunk, ReduxPromise, ReduxLogger)
+);
 const store = createStore(rootReducer, middleware);
 
 const token = localStorage.getItem('si_token');

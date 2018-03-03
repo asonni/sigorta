@@ -15,5 +15,8 @@ export default {
   '/admin/plans/edit': 'Edit Plan',
   '/admin/balances/view': 'View Balances',
   '/admin/balances/new': 'New Balance',
-  '/admin/balances/edit': 'Edit Balance'
+  // '/admin/balances/edit': 'Edit Balance'
+  '/admin/orders/view': 'View Orders',
+  '/admin/orders/new': 'New Order',
+  '/admin/orders/edit': 'Edit Order'
 };

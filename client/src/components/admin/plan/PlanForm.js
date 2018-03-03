@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Form } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { Alert, Button, CardBody, CardFooter } from 'reactstrap';
 
 import validate from './validate';
 import {
-  Aux,
   ErrorMessage,
   renderInputField,
   AuthorizedMessage
@@ -42,7 +41,7 @@ class PlanForm extends Component {
   render() {
     const { handleSubmit, loading, pristine, submitting } = this.props;
     return (
-      <Form onSubmit={handleSubmit} loading={loading}>
+      <Form onSubmit={handleSubmit} loading={loading && !submitting}>
         <CardBody>
           {this.renderAlerts()}
           <Field
@@ -68,13 +67,13 @@ class PlanForm extends Component {
             disabled={pristine || submitting}
           >
             {submitting ? (
-              <Aux>
+              <Fragment>
                 <i className="fa fa-circle-o-notch fa-spin" /> Submitting
-              </Aux>
+              </Fragment>
             ) : (
-              <Aux>
+              <Fragment>
                 <i className="fa fa-dot-circle-o" /> Submit
-              </Aux>
+              </Fragment>
             )}
           </Button>{' '}
           <Button

@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import Pagination from 'react-js-pagination';
+import NumberFormat from 'react-number-format';
 import {
   Row,
   Col,
@@ -13,7 +14,7 @@ import {
   CardHeader,
   ButtonGroup
 } from 'reactstrap';
-import { Aux, LoadingContent, ErrorMessage } from '../../common';
+import { LoadingContent, ErrorMessage } from '../../common';
 import { fetchPlans } from '../../../actions/admin';
 import DeletePlan from './DeletePlan';
 
@@ -46,7 +47,16 @@ class ViewPlans extends Component {
               Created: <Moment format="MMMM DD, YYYY">{createdAt}</Moment>
             </div>
           </td>
-          <td className="text-center">{price}</td>
+          <td className="text-center">
+            <strong>
+              <NumberFormat
+                value={price}
+                displayType={'text'}
+                thousandSeparator
+                suffix={'TLY'}
+              />
+            </strong>
+          </td>
           <td className="text-center">
             <Moment format="DD-MM-YYYY">{createdAt}</Moment>
           </td>
@@ -94,7 +104,7 @@ class ViewPlans extends Component {
       );
     }
     return (
-      <Aux>
+      <Fragment>
         <Table responsive hover>
           <thead className="thead-light">
             <tr>
@@ -117,7 +127,7 @@ class ViewPlans extends Component {
           pageRangeDisplayed={pageRangeDisplayed}
           onChange={this.onChangePage}
         />
-      </Aux>
+      </Fragment>
     );
   };
 
@@ -137,8 +147,7 @@ class ViewPlans extends Component {
                         this.props.history.push('/admin/plans/new')
                       }
                     >
-                      <i className="fa fa-plus" aria-hidden="true" /> New
-                      Plan
+                      <i className="fa fa-plus" aria-hidden="true" /> New Plan
                     </Button>
                   </Col>
                   <Col lg={{ size: 4, offset: 6 }}>

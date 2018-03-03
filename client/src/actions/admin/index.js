@@ -21,3 +21,11 @@ export {
   editBalance,
   deleteBalance
 } from './balance';
+export {
+  fetchOrders,
+  fetchOrder,
+  newOrder,
+  editOrder,
+  approveOrder,
+  deleteOrder
+} from './order';

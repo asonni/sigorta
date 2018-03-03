@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Form } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { Alert, Button, CardBody, CardFooter } from 'reactstrap';
 
 import validate from './validate';
 import {
-  Aux,
   ErrorMessage,
   renderInputField,
   AuthorizedMessage,
@@ -13,18 +12,18 @@ import {
 } from '../../common';
 
 class BalanceForm extends Component {
-  componentWillReceiveProps(nextProps) {
-    // Load Contact Asynchronously
-    const { balance } = nextProps;
-    // console.log(this.props.balance);
-    if (balance && balance._id !== this.props.balance._id) {
-      // Initialize form only once
-      this.props.initialize({
-        _id: balance._id,
-        balance: balance.balance
-      });
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   // Load Contact Asynchronously
+  //   const { balance } = nextProps;
+  //   // console.log(this.props.balance);
+  //   if (balance && balance._id !== this.props.balance._id) {
+  //     // Initialize form only once
+  //     this.props.initialize({
+  //       _id: balance._id,
+  //       balance: balance.balance
+  //     });
+  //   }
+  // }
 
   renderAlerts = () => {
     const {
@@ -56,23 +55,20 @@ class BalanceForm extends Component {
       pristine,
       submitting,
       renderClients,
-      itemComponent,
-      rendersTransactions
+      itemComponent
     } = this.props;
     return (
-      <Form onSubmit={handleSubmit} loading={loading}>
+      <Form onSubmit={handleSubmit} loading={loading && !submitting}>
         <CardBody>
           {this.renderAlerts()}
-          {!this.props.balance && (
-            <Field
-              label="Clinet Info"
-              name="client"
-              placeholder="Select any client info"
-              options={renderClients}
-              itemComponent={itemComponent}
-              component={renderDropdownField}
-            />
-          )}
+          <Field
+            label="Clinet Info"
+            name="client"
+            placeholder="Select any client info"
+            options={renderClients}
+            itemComponent={itemComponent}
+            component={renderDropdownField}
+          />
           <Field
             label="Balance"
             placeholder="Type any balance"
@@ -80,15 +76,6 @@ class BalanceForm extends Component {
             name="balance"
             component={renderInputField}
           />
-          {!this.props.balance && (
-            <Field
-              label="Transaction"
-              name="transaction"
-              placeholder="Select any transaction"
-              options={rendersTransactions}
-              component={renderDropdownField}
-            />
-          )}
         </CardBody>
         <CardFooter>
           <Button
@@ -98,13 +85,13 @@ class BalanceForm extends Component {
             disabled={pristine || submitting}
           >
             {submitting ? (
-              <Aux>
+              <Fragment>
                 <i className="fa fa-circle-o-notch fa-spin" /> Submitting
-              </Aux>
+              </Fragment>
             ) : (
-              <Aux>
+              <Fragment>
                 <i className="fa fa-dot-circle-o" /> Submit
-              </Aux>
+              </Fragment>
             )}
           </Button>{' '}
           <Button

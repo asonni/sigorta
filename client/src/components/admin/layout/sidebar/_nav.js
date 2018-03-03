@@ -72,6 +72,23 @@ export default {
           icon: 'fa fa-plus'
         }
       ]
+    },
+    {
+      name: 'Orders',
+      url: '/admin/orders',
+      icon: 'fa fa-address-book-o',
+      children: [
+        {
+          name: 'View Orders',
+          url: '/admin/orders/view',
+          icon: 'fa fa-list'
+        },
+        {
+          name: 'New Order',
+          url: '/admin/orders/new',
+          icon: 'fa fa-plus'
+        }
+      ]
     }
   ]
 };

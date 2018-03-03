@@ -1,8 +1,4 @@
 import React from 'react';
-// import {
-//   Row,
-//   Col
-// } from 'reactstrap';
 
 const LoadingContent = () => (
   <div className="text-center">
