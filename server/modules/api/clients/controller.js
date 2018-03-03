@@ -3,6 +3,7 @@ const _ = require('lodash')
 const moment = require('moment')
 const Service = require('./service')
 const UserService = require('../users/service')
+const SalesService = require('../sales/service')
 
 class ClientsAPIController {
   clientsIndex(req, res) {
@@ -115,6 +116,29 @@ class ClientsAPIController {
     })
     .catch(e => {
       console.log(`\nError at GET /clients/${id}`, e)
+      return res.status(400).json({ error: e })
+    })
+  }
+
+  clientsSales(req, res) {
+    const service = new Service(req)
+    const salesService = new SalesService(req)
+    const { id } = req.params
+    const dateType = req.query.dateType ? req.query.dateType : 'month'
+    const start = req.query.from ? moment(req.query.from) : moment().startOf('month')
+    const end = req.query.to ? moment(req.query.to) : moment(start).add(1, 'month')
+
+    let c
+    service.fetchClientById(id)
+    .then(client => {
+      c = client
+      return salesService.fetchAllSales(start, end, [client._id], dateType)
+    })
+    .then(sales => {
+      return res.status(200).json({ sales, client: c, totalPriceSum: _.sumBy(sales, 'totalPrice'), totalPriceAfterDiscountSum: _.sumBy(sales, 'totalPriceAfterDiscount') })
+    })
+    .catch(e => {
+      console.log(`\nError at GET /sales`, e)
       return res.status(400).json({ error: e })
     })
   }

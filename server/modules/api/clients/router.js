@@ -20,5 +20,8 @@ module.exports = () => {
   router.route("/:id/orders")
   .get(isUser, controller.clientsOrders)
 
+  router.route("/:id/sales")
+  .get(isAdmin, controller.clientsSales)
+
   return router
 }
