@@ -11,7 +11,7 @@ class SalesAPIController {
     const clientService = new ClientService(req)
     const dateType = req.query.dateType ? req.query.dateType : 'month'
     const from = req.query.from ? moment(req.query.from) : moment().startOf('month')
-    const to = req.query.to ? moment(req.query.to) : moment(start).add(1, 'month')
+    const to = req.query.to ? moment(req.query.to) : moment(from).add(1, 'month')
 
     let c
     clientService.fetchClients()
