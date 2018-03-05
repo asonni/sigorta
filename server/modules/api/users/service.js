@@ -19,6 +19,14 @@ class UsersService {
     return User.create(data)
   }
 
+  updatePassword(id, password) {
+    const { User } = this.req.models
+    return User.findById(id).then(user =>{
+      user.password = password
+      return user.save()
+    })
+  }
+
   findByIdAndUpdate(id, body) {
     const { User } = this.req.models
     const { fname, lname, password, phone, client } = body
@@ -32,9 +40,6 @@ class UsersService {
     }
     if (phone) {
       updates.phone = phone
-    }
-    if (password) {
-      updates.password = password
     }
     if (client) {
       updates.client = client

@@ -306,6 +306,7 @@ describe("Order", () => {
         expect(body.sales.length).toBe(5)
         expect(body.totalPriceSum).toBe(800)
         expect(body.totalPriceAfterDiscountSum).toBe(634.5)
+        expect(body.dateType).toBe('day')
         done()
       }
     )
@@ -330,6 +331,7 @@ describe("Order", () => {
         expect(body.sales.length).toBe(4)
         expect(body.totalPriceSum).toBe(900)
         expect(body.totalPriceAfterDiscountSum).toBe(711.5)
+        expect(body.dateType).toBe('year')
         done()
       }
     )

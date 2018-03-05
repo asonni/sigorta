@@ -186,7 +186,6 @@ describe("User", () => {
         form: {
           fname: "TesterFirst1",
           lname: "TesterLast2",
-          password: "33333366",
           phone: "094984848"
         }
       },
@@ -199,6 +198,40 @@ describe("User", () => {
         expect(body.user.phone).toBe("094984848")
         expect(body.user.passwordHash).toBeUndefined()
         done()
+      }
+    )
+  })
+
+  //usersUpdatePassword
+  it("updates a user at /api/v1/users/:id", done => {
+    request.put(
+      {
+        url: `${apiUrl}/users/${user._id}`,
+        headers: {
+          Authorization: `JWT ${token}`
+        },
+        form: {
+          password: "33333366",
+        }
+      },
+      (err, res, body) => {
+        body = JSON.parse(body)
+        expect(res.statusCode).toBe(200)
+        expect(body.user.passwordHash).toBeUndefined()
+        request.post(
+          {
+            url: `${apiUrl}/users/login`,
+            form: {
+              email: 'dev1@sigorta.com',
+              password: '33333366'
+            }
+          },
+          (err, res, body) => {
+            body = JSON.parse(body)
+            expect(res.statusCode).toBe(201)
+            done()
+          }
+        )
       }
     )
   })

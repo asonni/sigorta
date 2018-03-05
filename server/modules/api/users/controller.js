@@ -70,6 +70,13 @@ class UsersAPIController {
     if (req.body.password) {
       if (service.validatePassword(req.body.password).error) {
         return res.status(400).json({ error: service.validatePassword(req.body.password).error })
+      } else {
+        return service.updatePassword(id, req.body.password)
+        .then(user => {
+          user = user.toObject()
+          delete user.passwordHash
+          return res.status(200).json({ user })
+        })
       }
     }
 
