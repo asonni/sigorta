@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { ROOT_URL, API_URL, PREFIX_TOKEN } from '../baseUrl';
 import {
-  FETCH_BALANCES_PENDING,
-  FETCH_BALANCES_FULFILLED,
-  FETCH_BALANCES_REJECTED
+  FETCH_CLIENT_BALANCES_PENDING,
+  FETCH_CLIENT_BALANCES_FULFILLED,
+  FETCH_CLIENT_BALANCES_REJECTED
 } from './types';
 
-export const fetchBalances = () => async dispatch => {
-  dispatch({ type: FETCH_BALANCES_PENDING });
+export const fetchClientBalances = () => async dispatch => {
+  dispatch({ type: FETCH_CLIENT_BALANCES_PENDING });
   try {
     const response = await axios.get(
       `${ROOT_URL}/${API_URL}/clients/${localStorage.getItem(
@@ -20,8 +20,8 @@ export const fetchBalances = () => async dispatch => {
         }
       }
     );
-    dispatch({ type: FETCH_BALANCES_FULFILLED, payload: response });
+    dispatch({ type: FETCH_CLIENT_BALANCES_FULFILLED, payload: response });
   } catch ({ error }) {
-    dispatch({ type: FETCH_BALANCES_REJECTED, payload: error });
+    dispatch({ type: FETCH_CLIENT_BALANCES_REJECTED, payload: error });
   }
 };

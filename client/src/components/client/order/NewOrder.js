@@ -5,7 +5,7 @@ import { Row, Col, Card, CardHeader } from 'reactstrap';
 
 import OrderForm from './OrderForm';
 import { fetchPlans, fetchClient } from '../../../actions/admin';
-import { newOrder } from '../../../actions/client';
+import { newClientOrder } from '../../../actions/client';
 
 export class NewOrder extends Component {
   state = { alertVisible: false };
@@ -17,9 +17,9 @@ export class NewOrder extends Component {
   }
 
   onSubmintNewOrder = async values => {
-    const { newOrder, history, orderError } = this.props;
+    const { newClientOrder, history, orderError } = this.props;
     try {
-      await newOrder(values);
+      await newClientOrder(values);
       history.push('/admin/orders/view');
     } catch (err) {
       this.setState({ alertVisible: true });
@@ -84,6 +84,8 @@ const mapStateToProps = ({ clientOrderStore, clientStore, planStore }) => {
   };
 };
 
-export default connect(mapStateToProps, { fetchPlans, fetchClient, newOrder })(
-  NewOrder
-);
+export default connect(mapStateToProps, {
+  fetchPlans,
+  fetchClient,
+  newClientOrder
+})(NewOrder);

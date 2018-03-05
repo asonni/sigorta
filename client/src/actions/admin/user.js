@@ -76,6 +76,7 @@ export const newUser = ({
 };
 
 export const editUser = values => async dispatch => {
+  console.log(values);
   dispatch({ type: EDIT_USER_PENDING });
   try {
     const response = await axios.put(`${URL}/${values._id}`, values, {

@@ -15,7 +15,7 @@ import {
   CardHeader
 } from 'reactstrap';
 import { LoadingContent, ErrorMessage } from '../../common';
-import { fetchOrders } from '../../../actions/client';
+import { fetchClientOrders } from '../../../actions/client';
 
 export class ViewOrders extends Component {
   state = {
@@ -27,7 +27,7 @@ export class ViewOrders extends Component {
 
   componentWillMount() {
     document.title = 'Sigorta | View My Orders';
-    this.props.fetchOrders();
+    this.props.fetchClientOrders();
   }
 
   onChangePage = activePage => {
@@ -254,4 +254,4 @@ const mapStateToProps = ({ clientOrderStore: { orders, loading, error } }) => {
   return { orders, loading, error };
 };
 
-export default connect(mapStateToProps, { fetchOrders })(ViewOrders);
+export default connect(mapStateToProps, { fetchClientOrders })(ViewOrders);

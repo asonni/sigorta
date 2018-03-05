@@ -37,14 +37,14 @@ class Login extends Component {
           const params = new URLSearchParams(search);
           history.push(params.get('next'));
         } else {
-          history.push('/admin/dashboard');
+          history.push('/admin/orders/view');
         }
       } else if (callback && !isAdmin) {
         if (search) {
           const params = new URLSearchParams(search);
           history.push(params.get('next'));
         } else {
-          history.push('/client/dashboard');
+          history.push('/client/orders/view');
         }
       } else {
         this.setState({ loginLoading: false, alertVisible: true });

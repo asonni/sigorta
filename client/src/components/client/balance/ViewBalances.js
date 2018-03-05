@@ -15,7 +15,7 @@ import {
 } from 'reactstrap';
 import ShowOrder from './ShowOrder';
 import { LoadingContent, ErrorMessage } from '../../common';
-import { fetchBalances } from '../../../actions/client';
+import { fetchClientBalances } from '../../../actions/client';
 
 export class ViewBalances extends Component {
   state = {
@@ -145,4 +145,4 @@ const mapStateToProps = ({ balanceStore: { balances, loading, error } }) => {
   return { balances, loading, error };
 };
 
-export default connect(mapStateToProps, { fetchBalances })(ViewBalances);
+export default connect(mapStateToProps, { fetchClientBalances })(ViewBalances);

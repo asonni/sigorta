@@ -10,7 +10,6 @@ export const loginUser = ({ email, password }, callback) => async dispatch => {
       password
     });
     const { id_token, user } = response.data;
-    console.log(response.data);
     if (id_token && user && user.isAdmin === true) {
       dispatch({ type: AUTH_USER, payload: user.isAdmin });
       localStorage.setItem('si_token', id_token);
