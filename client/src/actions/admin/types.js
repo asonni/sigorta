@@ -70,3 +70,7 @@ export const EDIT_ORDER_FULFILLED = 'edit_order_fulfilled';
 export const EDIT_ORDER_REJECTED = 'edit_order_rejected';
 export const DELETE_ORDER_FULFILLED = 'delete_order_fulfilled';
 export const DELETE_ORDER_REJECTED = 'delete_order_rejected';
+// Sales Types
+export const FETCH_SALES_PENDING = 'fetch_sales_pending';
+export const FETCH_SALES_FULFILLED = 'fetch_sales_fulfilled';
+export const FETCH_SALES_REJECTED = 'fetch_sales_rejected';

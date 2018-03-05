@@ -42,6 +42,7 @@ class ClientForm extends Component {
         </Alert>
       );
     }
+
     if (clientError || usersError) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>

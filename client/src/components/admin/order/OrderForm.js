@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Form } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
+import NumberFormat from 'react-number-format';
 import { Row, Col, Alert, Button, CardBody, CardFooter } from 'reactstrap';
 
 import validate from './validate';
@@ -14,28 +15,48 @@ import {
 } from '../../common';
 
 class OrderForm extends Component {
+  state = {
+    price: 0,
+    discount: 0,
+    totalPrice: 0,
+    numberOfYears: 0,
+    totalPriceAfterDiscount: 0
+  };
   componentWillReceiveProps(nextProps) {
     // Load Contact Asynchronously
     const { order } = nextProps;
     if (order && order._id !== this.props.order._id) {
       console.log(order);
-      const { client, plan } = order;
+      const {
+        client,
+        plan,
+        price,
+        totalPrice,
+        totalPriceAfterDiscount,
+        numberOfYears
+      } = order;
       // Initialize form only once
       this.props.initialize({
         ...order,
         client: client && client._id,
         plan: plan && plan._id
       });
+      this.setState({
+        price,
+        totalPrice,
+        numberOfYears,
+        totalPriceAfterDiscount
+      });
     }
   }
 
   renderAlerts = () => {
     const {
-      alertVisible,
-      onAlertDismiss,
       orderError,
+      plansError,
+      alertVisible,
       clientsError,
-      plansError
+      onAlertDismiss
     } = this.props;
     if ((orderError || clientsError || plansError) === undefined) {
       return (
@@ -44,6 +65,7 @@ class OrderForm extends Component {
         </Alert>
       );
     }
+
     if (orderError || clientsError || plansError) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
@@ -55,19 +77,45 @@ class OrderForm extends Component {
 
   render() {
     const {
-      handleSubmit,
       loading,
       pristine,
       submitting,
-      renderClients,
       renderPlans,
-      itemClientComponent,
-      itemPlanComponent
+      handleSubmit,
+      renderClients,
+      itemPlanComponent,
+      itemClientComponent
     } = this.props;
     return (
       <Form onSubmit={handleSubmit} loading={loading && !submitting}>
         <CardBody>
           {this.renderAlerts()}
+          <Alert color="info text-center">
+            <h5>Order Price Details</h5>
+            <h6>
+              <strong>Price</strong>:{' '}
+              <NumberFormat
+                value={this.state.price}
+                displayType={'text'}
+                thousandSeparator
+                suffix={'TLY'}
+              />{' '}
+              | <strong>Total Price</strong>:{' '}
+              <NumberFormat
+                value={this.state.totalPrice}
+                displayType={'text'}
+                thousandSeparator
+                suffix={'TLY'}
+              />{' '}
+              | <strong>Total Price After Discount</strong>:{' '}
+              <NumberFormat
+                value={this.state.totalPriceAfterDiscount}
+                displayType={'text'}
+                thousandSeparator
+                suffix={'TLY'}
+              />
+            </h6>
+          </Alert>
           <Field
             label="Clinet Info"
             name="client"
@@ -75,6 +123,14 @@ class OrderForm extends Component {
             options={renderClients}
             itemComponent={itemClientComponent}
             component={renderDropdownField}
+            onChange={({ client: { discount } }) =>
+              this.setState({
+                discount,
+                totalPriceAfterDiscount:
+                  this.state.price * this.state.numberOfYears -
+                  this.state.price * this.state.numberOfYears * discount / 100
+              })
+            }
           />
           <Field
             label="Plan Info"
@@ -83,6 +139,18 @@ class OrderForm extends Component {
             options={renderPlans}
             itemComponent={itemPlanComponent}
             component={renderDropdownField}
+            onChange={({ plan: { price } }) =>
+              this.setState({
+                price,
+                totalPrice: price * this.state.numberOfYears,
+                totalPriceAfterDiscount:
+                  this.state.price * this.state.numberOfYears -
+                  this.state.price *
+                    this.state.numberOfYears *
+                    this.state.discount /
+                    100
+              })
+            }
           />
           <Row>
             <Col xs="12" md="6">
@@ -208,6 +276,15 @@ class OrderForm extends Component {
                   { value: 2, label: 'Two Years' }
                 ]}
                 component={renderDropdownField}
+                onChange={({ value }) =>
+                  this.setState({
+                    numberOfYears: value,
+                    totalPrice: value * this.state.price,
+                    totalPriceAfterDiscount:
+                      this.state.price * value -
+                      this.state.price * value * this.state.discount / 100
+                  })
+                }
               />
             </Col>
           </Row>

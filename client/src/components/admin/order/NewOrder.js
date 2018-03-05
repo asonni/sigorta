@@ -16,6 +16,7 @@ export class NewOrder extends Component {
   }
 
   onSubmintNewOrder = async values => {
+    console.log(values);
     const { newOrder, history, orderError } = this.props;
     try {
       await newOrder(values);

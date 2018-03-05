@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
-import Pagination from 'react-js-pagination';
+// import Pagination from 'react-js-pagination';
 import NumberFormat from 'react-number-format';
 import {
   Row,

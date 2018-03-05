@@ -89,6 +89,18 @@ export default {
           icon: 'fa fa-plus'
         }
       ]
+    },
+    {
+      name: 'Reports',
+      url: '/admin/reports',
+      icon: 'fa fa-print',
+      children: [
+        {
+          name: 'Sales Report',
+          url: '/admin/reports/sales',
+          icon: 'fa fa-list'
+        }
+      ]
     }
   ]
 };
