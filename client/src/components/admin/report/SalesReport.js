@@ -105,7 +105,7 @@ export class SalesReport extends Component {
                   <Row>
                     <Col xs="12" md="6">
                       <Field
-                        dropUp
+                        dropUp={false}
                         label="Date From"
                         name="from"
                         showTime={false}
@@ -115,7 +115,7 @@ export class SalesReport extends Component {
                     </Col>
                     <Col xs="12" md="6">
                       <Field
-                        dropUp
+                        dropUp={false}
                         label="Date To"
                         name="to"
                         showTime={false}
