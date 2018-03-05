@@ -1,6 +1,10 @@
 export default {
   '/admin': 'Home',
-  '/admin/dashboard': 'Dashboard',
+  // '/admin/dashboard': 'Dashboard',
+  '/admin/orders': 'Orders',
+  '/admin/orders/view': 'View Orders',
+  '/admin/orders/new': 'New Order',
+  '/admin/orders/edit': 'Edit Order',
   '/admin/users': 'Users',
   '/admin/users/view': 'View Users',
   '/admin/users/new': 'New User',
@@ -10,13 +14,12 @@ export default {
   '/admin/clients/view': 'View Clients',
   '/admin/clients/new': 'New Clinet',
   '/admin/clients/edit': 'Edit Clinet',
+  '/admin/plans': 'Plans',
   '/admin/plans/view': 'View Plans',
   '/admin/plans/new': 'New Plan',
   '/admin/plans/edit': 'Edit Plan',
+  '/admin/balances': 'Balances',
   '/admin/balances/view': 'View Balances',
   '/admin/balances/new': 'New Balance',
-  // '/admin/balances/edit': 'Edit Balance'
-  '/admin/orders/view': 'View Orders',
-  '/admin/orders/new': 'New Order',
-  '/admin/orders/edit': 'Edit Order'
+  '/admin/reports/sales': 'Sales Report'
 };

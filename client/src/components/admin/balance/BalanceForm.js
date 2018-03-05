@@ -39,6 +39,7 @@ class BalanceForm extends Component {
         </Alert>
       );
     }
+
     if (balanceError || clientsError) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>

@@ -29,6 +29,7 @@ class PlanForm extends Component {
         </Alert>
       );
     }
+
     if (error) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>

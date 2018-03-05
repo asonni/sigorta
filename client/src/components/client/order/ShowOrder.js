@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
-import NumberFormat from 'react-number-format';
 import {
   Table,
   Alert,
@@ -48,16 +47,7 @@ class ShowOrder extends Component {
             <h5 className="text-center">
               <strong>Client Name:</strong>{' '}
               {client ? client.name : 'Loading...'}, <strong>Balance:</strong>{' '}
-              {client ? (
-                <NumberFormat
-                  value={client.balance}
-                  displayType={'text'}
-                  thousandSeparator
-                  suffix={'TLY'}
-                />
-              ) : (
-                'Loading...'
-              )}
+              {client ? client.balance : 'Loading...'}
             </h5>
           </Alert>
           <Table responsive striped size="sm">
@@ -83,32 +73,11 @@ class ShowOrder extends Component {
                   <Moment format="MMMM DD, YYYY">{order.dob}</Moment>
                 </td>
                 <td>{order.nationality}</td>
-                <td className="text-uppercase">{order.passport}</td>
+                <td>{order.passport}</td>
                 <td>{order.phone}</td>
-                <td>
-                  <NumberFormat
-                    value={order.price}
-                    displayType={'text'}
-                    thousandSeparator
-                    suffix={'TLY'}
-                  />
-                </td>
-                <td>
-                  <NumberFormat
-                    value={order.totalPrice}
-                    displayType={'text'}
-                    thousandSeparator
-                    suffix={'TLY'}
-                  />
-                </td>
-                <td>
-                  <NumberFormat
-                    value={order.totalPriceAfterDiscount}
-                    displayType={'text'}
-                    thousandSeparator
-                    suffix={'TLY'}
-                  />
-                </td>
+                <td>{order.price}</td>
+                <td>{order.totalPrice}</td>
+                <td>{order.totalPriceAfterDiscount}</td>
                 <td>
                   <h5>
                     <Badge

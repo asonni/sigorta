@@ -5,7 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Header from './layout/header';
 import Sidebar from './layout/sidebar';
 import Breadcrumb from './layout/Breadcrumb';
-import Dashboard from './dashboard';
+// import Dashboard from './dashboard';
 
 import ViewUsers from './user/ViewUsers';
 import NewUser from './user/NewUser';
@@ -22,11 +22,12 @@ import EditPlan from './plan/EditPlan';
 
 import ViewBalances from './balance/ViewBalances';
 import NewBalance from './balance/NewBalance';
-// import EditBalance from './balance/EditBalance';
 
 import ViewOrders from './order/ViewOrders';
 import NewOrder from './order/NewOrder';
 import EditOrder from './order/EditOrder';
+
+import SalesReport from './report/SalesReport';
 
 import Page404 from './Page404';
 import Aside from './layout/Aside';
@@ -43,10 +44,17 @@ class Admin extends Component {
             <Breadcrumb />
             <Container fluid>
               <Switch>
-                <Redirect exact from="/admin" to="/admin/dashboard" />
-                <Redirect exact from="/admin/users" to="/admin/dashboard" />
-                <Redirect exact from="/admin/clients" to="/admin/dashboard" />
-                <Route exact path="/admin/dashboard" component={Dashboard} />
+                <Redirect exact from="/admin" to="/admin/orders/view" />
+                <Redirect exact from="/admin/users" to="/admin/orders/view" />
+                <Redirect exact from="/admin/clients" to="/admin/orders/view" />
+                <Redirect
+                  exact
+                  from="/admin/balances"
+                  to="/admin/orders/view"
+                />
+                <Redirect exact from="/admin/plans" to="/admin/orders/view" />
+                <Redirect exact from="/admin/orders" to="/admin/orders/view" />
+                {/* <Route exact path="/admin/dashboard" component={Dashboard} /> */}
                 <Route exact path="/admin/users/view" component={ViewUsers} />
                 <Route exact path="/admin/users/new" component={NewUser} />
                 <Route
@@ -87,17 +95,17 @@ class Admin extends Component {
                   path="/admin/balances/new"
                   component={NewBalance}
                 />
-                {/* <Route
-                  exact
-                  path="/admin/balances/edit/:id"
-                  component={EditBalance}
-                /> */}
                 <Route exact path="/admin/orders/view" component={ViewOrders} />
                 <Route exact path="/admin/orders/new" component={NewOrder} />
                 <Route
                   exact
                   path="/admin/orders/edit/:id"
                   component={EditOrder}
+                />
+                <Route
+                  exact
+                  path="/admin/reports/sales"
+                  component={SalesReport}
                 />
                 <Route component={Page404} />
               </Switch>

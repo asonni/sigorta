@@ -1,9 +1,26 @@
 export default {
   items: [
+    // {
+    //   name: 'Dashboard',
+    //   url: '/admin/dashboard',
+    //   icon: 'fa fa-tachometer'
+    // },
     {
-      name: 'Dashboard',
-      url: '/admin/dashboard',
-      icon: 'fa fa-tachometer'
+      name: 'Orders',
+      url: '/admin/orders',
+      icon: 'fa fa-address-book-o',
+      children: [
+        {
+          name: 'View Orders',
+          url: '/admin/orders/view',
+          icon: 'fa fa-list'
+        },
+        {
+          name: 'New Order',
+          url: '/admin/orders/new',
+          icon: 'fa fa-plus'
+        }
+      ]
     },
     {
       name: 'Users',
@@ -74,19 +91,14 @@ export default {
       ]
     },
     {
-      name: 'Orders',
-      url: '/admin/orders',
-      icon: 'fa fa-address-book-o',
+      name: 'Reports',
+      url: '/admin/reports',
+      icon: 'fa fa-print',
       children: [
         {
-          name: 'View Orders',
-          url: '/admin/orders/view',
+          name: 'Sales Report',
+          url: '/admin/reports/sales',
           icon: 'fa fa-list'
-        },
-        {
-          name: 'New Order',
-          url: '/admin/orders/new',
-          icon: 'fa fa-plus'
         }
       ]
     }

@@ -12,13 +12,10 @@ import {
   Table,
   Button,
   CardBody,
-  CardHeader,
-  ButtonGroup
+  CardHeader
 } from 'reactstrap';
-import ApproveOrder from './ApproveOrder';
-import DeleteOrder from './DeleteOrder';
 import { LoadingContent, ErrorMessage } from '../../common';
-import { fetchOrders } from '../../../actions/admin';
+import { fetchOrders } from '../../../actions/client';
 
 export class ViewOrders extends Component {
   state = {
@@ -29,7 +26,7 @@ export class ViewOrders extends Component {
   };
 
   componentWillMount() {
-    document.title = 'Sigorta | View Orders';
+    document.title = 'Sigorta | View My Orders';
     this.props.fetchOrders();
   }
 
@@ -40,13 +37,11 @@ export class ViewOrders extends Component {
   renderOrdersBody = () =>
     this.props.orders.map((item, index) => {
       const {
-        _id,
         dob,
         name,
         plan,
         phone,
         price,
-        client,
         gender,
         status,
         address,
@@ -67,19 +62,6 @@ export class ViewOrders extends Component {
             {index + 1}
           </td>
           <td>
-            Client Name: <span className="text-capitalize">{client.name}</span>
-            <div className="small text-muted">
-              <strong>Balance:</strong>{' '}
-              <NumberFormat
-                value={client.balance}
-                displayType={'text'}
-                thousandSeparator
-                suffix={'TLY'}
-              />
-              <br />
-              <strong>Discount:</strong> {client.discount}%
-            </div>
-            Plan Name:{' '}
             <span className="text-capitalize">{plan ? plan.name : null}</span>
             <div className="small text-muted">
               <span>
@@ -173,23 +155,6 @@ export class ViewOrders extends Component {
               </Badge>
             </h5>
           </td>
-          <td className="text-center">
-            <ButtonGroup size="sm">
-              {status.toLowerCase() === 'pending' && (
-                <ApproveOrder orderId={_id} orderObj={item} />
-              )}
-              <Button
-                color="info"
-                onClick={() =>
-                  this.props.history.push(`/admin/orders/edit/${_id}`)
-                }
-              >
-                <i className="fa fa-pencil-square-o" aria-hidden="true" />
-                <span className="hidden-xs-down">&nbsp;Edit</span>
-              </Button>
-              <DeleteOrder orderId={_id} orderObj={item} />
-            </ButtonGroup>
-          </td>
         </tr>
       );
     });
@@ -227,7 +192,7 @@ export class ViewOrders extends Component {
               <th className="text-center" width="2%">
                 #
               </th>
-              <th>Client/Plan Info</th>
+              <th>Plan Info</th>
               <th>Full Name</th>
               <th>Parents Info</th>
               <th>Contact Info</th>
@@ -236,7 +201,6 @@ export class ViewOrders extends Component {
                 Created
               </th>
               <th className="text-center">Status</th>
-              <th className="text-center">Action</th>
             </tr>
           </thead>
           <tbody>{this.renderOrdersBody()}</tbody>
@@ -266,7 +230,7 @@ export class ViewOrders extends Component {
                       color="primary"
                       size="sm"
                       onClick={() =>
-                        this.props.history.push('/admin/orders/new')
+                        this.props.history.push('/client/orders/new')
                       }
                     >
                       <i className="fa fa-plus" aria-hidden="true" /> New Order
@@ -286,7 +250,7 @@ export class ViewOrders extends Component {
   }
 }
 
-const mapStateToProps = ({ orderStore: { orders, loading, error } }) => {
+const mapStateToProps = ({ clientOrderStore: { orders, loading, error } }) => {
   return { orders, loading, error };
 };
 

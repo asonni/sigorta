@@ -6,6 +6,7 @@ export {
   editUser,
   deleteUser
 } from './user';
+
 export {
   fetchClients,
   fetchClient,
@@ -13,7 +14,9 @@ export {
   editClinet,
   deleteClient
 } from './client';
+
 export { fetchPlans, fetchPlan, newPlan, editPlan, deletePlan } from './plan';
+
 export {
   fetchBalances,
   fetchBalance,
@@ -21,6 +24,7 @@ export {
   editBalance,
   deleteBalance
 } from './balance';
+
 export {
   fetchOrders,
   fetchOrder,
@@ -29,3 +33,5 @@ export {
   approveOrder,
   deleteOrder
 } from './order';
+
+export { fetchSales } from './sales';

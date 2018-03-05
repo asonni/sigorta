@@ -46,6 +46,7 @@ class UserForm extends PureComponent {
         </Alert>
       );
     }
+
     if (error) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>

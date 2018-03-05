@@ -4,19 +4,19 @@ import { connect } from 'react-redux';
 import { Row, Col, Card, CardHeader } from 'reactstrap';
 
 import OrderForm from './OrderForm';
-import { fetchClients, fetchPlans, newOrder } from '../../../actions/admin';
+import { fetchPlans, fetchClient } from '../../../actions/admin';
+import { newOrder } from '../../../actions/client';
 
 export class NewOrder extends Component {
   state = { alertVisible: false };
 
   componentWillMount() {
     document.title = 'Sigorta | New Order';
-    this.props.fetchClients();
     this.props.fetchPlans();
+    this.props.fetchClient(localStorage.getItem('si_clientID'));
   }
 
   onSubmintNewOrder = async values => {
-    console.log(values);
     const { newOrder, history, orderError } = this.props;
     try {
       await newOrder(values);
@@ -31,29 +31,12 @@ export class NewOrder extends Component {
     this.setState({ alertVisible: false });
   };
 
-  renderClients = () =>
-    this.props.clients.map(({ _id, name, user, discount }) => ({
-      value: _id,
-      label: `Client Name: ${name}, User Email: ${user.email}`,
-      client: {
-        name,
-        discount,
-        email: user.email
-      }
-    }));
-
   renderPlans = () =>
     this.props.plans.map(({ _id, name, price }) => ({
       value: _id,
       label: `Name: ${name}, Price: ${price}`,
       plan: { name, price }
     }));
-
-  itemClientComponent = ({ item: { client: { name, email } } }) => (
-    <span>
-      <strong>Client Name:</strong> {name}, <strong>User Email:</strong> {email}
-    </span>
-  );
 
   itemPlanComponent = ({ item: { plan: { name, price } } }) => (
     <span>
@@ -62,7 +45,7 @@ export class NewOrder extends Component {
   );
 
   render() {
-    const { clientsLoading, plansLoading } = this.props;
+    const { clientLoading, plansLoading } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -73,11 +56,9 @@ export class NewOrder extends Component {
               </CardHeader>
               <OrderForm
                 {...this.props}
-                loading={clientsLoading && plansLoading}
+                loading={clientLoading && plansLoading}
                 onSubmit={this.onSubmintNewOrder}
-                renderClients={this.renderClients()}
                 renderPlans={this.renderPlans()}
-                itemClientComponent={this.itemClientComponent}
                 itemPlanComponent={this.itemPlanComponent}
                 onAlertDismiss={this.onAlertDismiss}
                 alertVisible={this.state.alertVisible}
@@ -90,19 +71,19 @@ export class NewOrder extends Component {
   }
 }
 
-const mapStateToProps = ({ orderStore, clientStore, planStore }) => {
+const mapStateToProps = ({ clientOrderStore, clientStore, planStore }) => {
   return {
-    orderLoading: orderStore.loading,
-    orderError: orderStore.error,
-    clients: clientStore.clients,
-    clientsLoading: clientStore.loading,
-    clientsError: clientStore.error,
+    orderLoading: clientOrderStore.loading,
+    orderError: clientOrderStore.error,
+    client: clientStore.client,
+    clientLoading: clientStore.loading,
+    clientError: clientStore.error,
     plans: planStore.plans,
     plansLoading: planStore.loading,
     plansError: planStore.error
   };
 };
 
-export default connect(mapStateToProps, { fetchClients, fetchPlans, newOrder })(
+export default connect(mapStateToProps, { fetchPlans, fetchClient, newOrder })(
   NewOrder
 );

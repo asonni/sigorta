@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
 import Moment from 'react-moment';
+import { connect } from 'react-redux';
 import Pagination from 'react-js-pagination';
+import NumberFormat from 'react-number-format';
 import {
   Row,
   Col,
@@ -59,7 +60,14 @@ class ViewClients extends Component {
           </td>
           <td className="text-center">{`${discount}%`}</td>
           <td className="text-center">
-            <strong>{balance} TL</strong>
+            <strong>
+              <NumberFormat
+                value={balance}
+                displayType={'text'}
+                thousandSeparator
+                suffix={'TLY'}
+              />
+            </strong>
           </td>
           <td className="text-center">
             <h5>
