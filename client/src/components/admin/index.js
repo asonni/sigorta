@@ -5,7 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Header from './layout/header';
 import Sidebar from './layout/sidebar';
 import Breadcrumb from './layout/Breadcrumb';
-import Dashboard from './dashboard';
+// import Dashboard from './dashboard';
 
 import ViewUsers from './user/ViewUsers';
 import NewUser from './user/NewUser';
@@ -44,10 +44,17 @@ class Admin extends Component {
             <Breadcrumb />
             <Container fluid>
               <Switch>
-                <Redirect exact from="/admin" to="/admin/dashboard" />
-                <Redirect exact from="/admin/users" to="/admin/dashboard" />
-                <Redirect exact from="/admin/clients" to="/admin/dashboard" />
-                <Route exact path="/admin/dashboard" component={Dashboard} />
+                <Redirect exact from="/admin" to="/admin/orders/view" />
+                <Redirect exact from="/admin/users" to="/admin/orders/view" />
+                <Redirect exact from="/admin/clients" to="/admin/orders/view" />
+                <Redirect
+                  exact
+                  from="/admin/balances"
+                  to="/admin/orders/view"
+                />
+                <Redirect exact from="/admin/plans" to="/admin/orders/view" />
+                <Redirect exact from="/admin/orders" to="/admin/orders/view" />
+                {/* <Route exact path="/admin/dashboard" component={Dashboard} /> */}
                 <Route exact path="/admin/users/view" component={ViewUsers} />
                 <Route exact path="/admin/users/new" component={NewUser} />
                 <Route

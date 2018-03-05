@@ -7,6 +7,8 @@ import planStore from './admin/plan';
 import balanceStore from './admin/balance';
 import orderStore from './admin/order';
 import salesStore from './admin/sales';
+import clientBalanceStore from './client/balance';
+import clientOrderStore from './client/order';
 
 const rootReducer = combineReducers({
   form,
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
   planStore,
   balanceStore,
   orderStore,
-  salesStore
+  salesStore,
+  clientBalanceStore,
+  clientOrderStore
 });
 
 export default rootReducer;

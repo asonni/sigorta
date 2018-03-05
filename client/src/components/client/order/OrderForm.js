@@ -23,42 +23,19 @@ class OrderForm extends Component {
     totalPriceAfterDiscount: 0
   };
   componentWillReceiveProps(nextProps) {
-    // Load Contact Asynchronously
-    const { order } = nextProps;
-    if (order && order._id !== this.props.order._id) {
-      console.log(order);
-      const {
-        client,
-        plan,
-        price,
-        totalPrice,
-        totalPriceAfterDiscount,
-        numberOfYears
-      } = order;
-      // Initialize form only once
-      this.props.initialize({
-        ...order,
-        client: client && client._id,
-        plan: plan && plan._id
-      });
-      this.setState({
-        price,
-        totalPrice,
-        numberOfYears,
-        totalPriceAfterDiscount
-      });
-    }
+    const { client: { discount } } = nextProps;
+    this.setState({ discount });
   }
 
   renderAlerts = () => {
     const {
       orderError,
       plansError,
+      clientError,
       alertVisible,
-      clientsError,
       onAlertDismiss
     } = this.props;
-    if ((orderError || clientsError || plansError) === undefined) {
+    if ((orderError || clientError || plansError) === undefined) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
           <AuthorizedMessage />
@@ -66,7 +43,7 @@ class OrderForm extends Component {
       );
     }
 
-    if (orderError || clientsError || plansError) {
+    if (orderError || clientError || plansError) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
           <ErrorMessage />
@@ -89,9 +66,7 @@ class OrderForm extends Component {
       submitting,
       renderPlans,
       handleSubmit,
-      renderClients,
-      itemPlanComponent,
-      itemClientComponent
+      itemPlanComponent
     } = this.props;
     return (
       <Form onSubmit={handleSubmit} loading={loading && !submitting}>
@@ -123,21 +98,6 @@ class OrderForm extends Component {
               />
             </h6>
           </Alert>
-          <Field
-            label="Clinet Info"
-            name="client"
-            placeholder="Select any client info"
-            options={renderClients}
-            itemComponent={itemClientComponent}
-            component={renderDropdownField}
-            onChange={({ client: { discount } }) =>
-              this.setState({
-                discount,
-                totalPriceAfterDiscount:
-                  price * numberOfYears - price * numberOfYears * discount / 100
-              })
-            }
-          />
           <Field
             label="Plan Info"
             name="plan"

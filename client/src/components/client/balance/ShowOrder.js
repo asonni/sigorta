@@ -46,8 +46,7 @@ class ShowOrder extends Component {
         <Fragment>
           <Alert color="info" style={{ marginBottom: 0, paddingTop: '20px' }}>
             <h5 className="text-center">
-              <strong>Client Name:</strong>{' '}
-              {client ? client.name : 'Loading...'}, <strong>Balance:</strong>{' '}
+              <strong>My Balance:</strong>{' '}
               {client ? (
                 <NumberFormat
                   value={client.balance}
@@ -132,7 +131,7 @@ class ShowOrder extends Component {
       <Fragment>
         <Button color="info" onClick={this.onOpenShowOrderModal}>
           <i className="fa fa-shopping-cart" aria-hidden="true" />
-          <span className="hidden-xs-down">&nbsp;Show Order</span>
+          <span className="hidden-xs-down">&nbsp;Show</span>
         </Button>
         <Modal
           isOpen={this.state.modal}
@@ -140,7 +139,7 @@ class ShowOrder extends Component {
           className="modal-xlg"
         >
           <ModalHeader toggle={this.onCloseShowOrderModal}>
-            Show Order Info
+            Show My Order Info
           </ModalHeader>
           <ModalBody className="text-center">
             {this.renderOrderInfo()}
