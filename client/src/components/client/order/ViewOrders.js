@@ -30,7 +30,6 @@ export class ViewOrders extends Component {
 
   componentWillMount() {
     document.title = 'Sigorta | View My Orders';
-    console.log('crash');
     this.props.fetchClientOrders();
   }
 

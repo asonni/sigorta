@@ -28,6 +28,10 @@ class Login extends Component {
     document.title = 'Sigorta | Login';
   }
 
+  onAlertDismiss = () => {
+    this.setState({ alertVisible: false });
+  };
+
   onSubmintLogin = values => {
     this.setState({ loginLoading: true, alertVisible: false });
     const { loginUser, history, location: { search }, isAdmin } = this.props;
@@ -46,14 +50,10 @@ class Login extends Component {
         } else {
           history.push('/client/orders/view');
         }
-      } else {
+      } else if (callback === false) {
         this.setState({ loginLoading: false, alertVisible: true });
       }
     });
-  };
-
-  onAlertDismiss = () => {
-    this.setState({ alertVisible: false });
   };
 
   render() {

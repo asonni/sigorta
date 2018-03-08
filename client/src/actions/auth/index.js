@@ -10,16 +10,15 @@ export const loginUser = ({ email, password }, callback) => async dispatch => {
       password
     });
     const { id_token, user } = response.data;
+    localStorage.setItem('si_token', id_token);
+    localStorage.setItem('si_clientID', user.client);
     if (id_token && user && user.isAdmin === true) {
-      dispatch({ type: AUTH_USER, payload: user.isAdmin });
-      localStorage.setItem('si_token', id_token);
       localStorage.setItem('si_isAdmin', user.isAdmin);
+      dispatch({ type: AUTH_USER, payload: user.isAdmin });
       callback(true);
     } else if (id_token && user && user.isAdmin === false && user.client) {
-      dispatch({ type: AUTH_USER, payload: user.isAdmin });
-      localStorage.setItem('si_token', id_token);
       localStorage.setItem('si_isAdmin', user.isAdmin);
-      localStorage.setItem('si_clientID', user.client);
+      dispatch({ type: AUTH_USER, payload: user.isAdmin });
       callback(true);
     } else {
       dispatch(

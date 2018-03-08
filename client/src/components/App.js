@@ -15,8 +15,15 @@ import Page404 from './Page404';
 import { requireAuthAdmin, requireAuthClient, requireGuest } from './common';
 import { AUTH_USER } from '../actions/auth/types';
 
+let middleware;
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const middleware = composeEnhancers(applyMiddleware(ReduxThunk, ReduxPromise));
+if (process.env.REACT_APP_ENV === 'development') {
+  middleware = composeEnhancers(
+    applyMiddleware(ReduxThunk, ReduxPromise, ReduxLogger)
+  );
+} else {
+  middleware = composeEnhancers(applyMiddleware(ReduxThunk, ReduxPromise));
+}
 const store = createStore(rootReducer, middleware);
 
 const token = localStorage.getItem('si_token');
