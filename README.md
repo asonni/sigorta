@@ -19,10 +19,5 @@ now type this line on your console
 
 For the development mode
 ```
-  cd sigorta/server && npm run dev
-```
-
-For the production mode
-```
-  cd sigorta/server && npm run prod
+  cd sigorta/client && npm run dev
 ```
