@@ -37,7 +37,7 @@ class EditPlan extends Component {
             <Card>
               <CardHeader>
                 <i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit
-                Plan
+                Plan (تعديل الخطة)
               </CardHeader>
               <PlanForm
                 {...this.props}

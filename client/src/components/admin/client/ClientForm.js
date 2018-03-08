@@ -66,7 +66,7 @@ class ClientForm extends Component {
         <CardBody>
           {this.renderAlerts()}
           <Field
-            label="Clinet Name"
+            label="Clinet Name (اسم الزبون)"
             placeholder="Type any clinet name"
             type="text"
             name="name"
@@ -75,7 +75,7 @@ class ClientForm extends Component {
           <Row>
             <Col xs="12" md="6">
               <Field
-                label="Discount"
+                label="Discount (نسبة الخصم)"
                 placeholder="Type any discount number"
                 type="text"
                 name="discount"
@@ -84,7 +84,7 @@ class ClientForm extends Component {
             </Col>
             <Col xs="12" md="6" className="text-center pt-30">
               <Field
-                label="Limit by Balance"
+                label="Limit by Balance (تقييد الرصيد)"
                 name="limit"
                 component={renderCheckboxField}
                 defaultChecked={!this.props.client}
@@ -92,7 +92,7 @@ class ClientForm extends Component {
             </Col>
           </Row>
           <Field
-            label="User Info"
+            label="User Info (معلومات المستخدم)"
             name="user"
             placeholder="Select any user info"
             options={renderUsers}

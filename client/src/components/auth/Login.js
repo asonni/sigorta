@@ -39,7 +39,7 @@ class Login extends Component {
         } else {
           history.push('/admin/orders/view');
         }
-      } else if (callback && !isAdmin) {
+      } else if (callback && isAdmin === false) {
         if (search) {
           const params = new URLSearchParams(search);
           history.push(params.get('next'));

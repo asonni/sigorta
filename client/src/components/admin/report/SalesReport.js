@@ -88,13 +88,14 @@ export class SalesReport extends Component {
               <Form onSubmit={handleSubmit(this.onSubmintFetchSales)}>
                 <CardHeader>
                   <i className="fa fa-print" aria-hidden="true" /> Sales Report
+                  (تقرير المبيعات)
                 </CardHeader>
                 <CardBody>
                   {this.renderAlerts()}
                   <Field
-                    label="Date Type"
+                    label="Report Type (نوع التقرير)"
                     name="dateType"
-                    placeholder="Select any date type"
+                    placeholder="Select any report type"
                     options={[
                       { value: 'day', label: 'Day' },
                       { value: 'month', label: 'Month' },
@@ -106,7 +107,7 @@ export class SalesReport extends Component {
                     <Col xs="12" md="6">
                       <Field
                         dropUp={false}
-                        label="Date From"
+                        label="Date From (التاريخ من)"
                         name="from"
                         showTime={false}
                         placeholder="Select any date from"
@@ -116,7 +117,7 @@ export class SalesReport extends Component {
                     <Col xs="12" md="6">
                       <Field
                         dropUp={false}
-                        label="Date To"
+                        label="To (الي)"
                         name="to"
                         showTime={false}
                         placeholder="Select any date to"

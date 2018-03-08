@@ -8,6 +8,7 @@ import {
   Col,
   Card,
   Input,
+  Label,
   Badge,
   Table,
   Button,
@@ -22,11 +23,14 @@ export class ViewOrders extends Component {
     activePage: 1,
     itemsCountPerPage: 10,
     totalItemsCount: 450,
-    pageRangeDisplayed: 5
+    pageRangeDisplayed: 5,
+    filterByApproved: true,
+    filterByPending: true
   };
 
   componentWillMount() {
     document.title = 'Sigorta | View My Orders';
+    console.log('crash');
     this.props.fetchClientOrders();
   }
 
@@ -35,129 +39,139 @@ export class ViewOrders extends Component {
   };
 
   renderOrdersBody = () =>
-    this.props.orders.map((item, index) => {
-      const {
-        dob,
-        name,
-        plan,
-        phone,
-        price,
-        gender,
-        status,
-        address,
-        passport,
-        createdAt,
-        totalPrice,
-        fatherName,
-        motherName,
-        nationality,
-        numberOfYears,
-        fatherPassport,
-        motherPassport,
-        totalPriceAfterDiscount
-      } = item;
-      return (
-        <tr key={index}>
-          <td className="text-center" width="2%">
-            {index + 1}
-          </td>
-          <td>
-            <span className="text-capitalize">{plan ? plan.name : null}</span>
-            <div className="small text-muted">
-              <span>
-                <strong>Price:</strong>{' '}
-                <NumberFormat
-                  value={plan.price}
-                  displayType={'text'}
-                  thousandSeparator
-                  suffix={'TLY'}
-                />
+    this.props.orders
+      .filter(
+        ({ status }) =>
+          (status.toLowerCase() === 'approved' &&
+            this.state.filterByApproved) ||
+          (status.toLowerCase() === 'pending' && this.state.filterByPending)
+      )
+      .map((item, index) => {
+        const {
+          dob,
+          name,
+          plan,
+          phone,
+          price,
+          gender,
+          status,
+          address,
+          passport,
+          createdAt,
+          totalPrice,
+          fatherName,
+          motherName,
+          nationality,
+          numberOfYears,
+          fatherPassport,
+          motherPassport,
+          totalPriceAfterDiscount
+        } = item;
+        return (
+          <tr key={index}>
+            <td className="text-center" width="2%">
+              {index + 1}
+            </td>
+            <td>
+              <span className="text-capitalize">{plan ? plan.name : null}</span>
+              <div className="small text-muted">
+                <span>
+                  <strong>Price:</strong>{' '}
+                  <NumberFormat
+                    value={plan.price}
+                    displayType={'text'}
+                    thousandSeparator
+                    suffix={'TR'}
+                  />
+                </span>
+              </div>
+            </td>
+            <td>
+              <div className="text-capitalize">{name}</div>
+              <div className="small text-muted">
+                <strong>Gender:</strong>{' '}
+                <span className="text-capitalize">{gender}</span>
+                <br />
+                <strong>Nationality:</strong>{' '}
+                <span className="text-capitalize">{nationality}</span>
+                <br />
+                <strong>Passport:</strong>{' '}
+                <span className="text-uppercase">{passport}</span>
+                <br />
+                <strong>Date of Birth:</strong>{' '}
+                <Moment format="MMMM DD, YYYY">{dob}</Moment>
+              </div>
+            </td>
+            <td className="small text-muted">
+              <strong>Father Name:</strong>{' '}
+              <span className="text-capitalize">
+                {fatherName ? fatherName : 'N/A'}
               </span>
-            </div>
-          </td>
-          <td>
-            <div className="text-capitalize">{name}</div>
-            <div className="small text-muted">
-              <strong>Gender:</strong>{' '}
-              <span className="text-capitalize">{gender}</span>
               <br />
-              <strong>Nationality:</strong>{' '}
-              <span className="text-capitalize">{nationality}</span>
+              <strong>Father Passport:</strong>{' '}
+              <span className="text-uppercase">
+                {fatherPassport ? fatherPassport : 'N/A'}
+              </span>
               <br />
-              <strong>Passport:</strong>{' '}
-              <span className="text-uppercase">{passport}</span>
+              <strong>Mother Name:</strong>{' '}
+              <span className="text-capitalize">
+                {motherName ? motherName : 'N/A'}
+              </span>
               <br />
-              <strong>Date of Birth:</strong>{' '}
-              <Moment format="MMMM DD, YYYY">{dob}</Moment>
-            </div>
-          </td>
-          <td className="small text-muted">
-            <strong>Father Name:</strong>{' '}
-            <span className="text-capitalize">
-              {fatherName ? fatherName : 'N/A'}
-            </span>
-            <br />
-            <strong>Father Passport:</strong>{' '}
-            <span className="text-uppercase">
-              {fatherPassport ? fatherPassport : 'N/A'}
-            </span>
-            <br />
-            <strong>Mother Name:</strong>{' '}
-            <span className="text-capitalize">
-              {motherName ? motherName : 'N/A'}
-            </span>
-            <br />
-            <strong>Mother Passport:</strong>{' '}
-            <span className="text-uppercase">
-              {motherPassport ? motherPassport : 'N/A'}
-            </span>
-          </td>
-          <td className="small text-capitalize text-muted">
-            <strong>Phone:</strong> {phone}
-            <br />
-            <strong>Address:</strong> {address}
-          </td>
-          <td className="small text-muted">
-            <strong>Price:</strong>{' '}
-            <NumberFormat
-              value={price}
-              displayType={'text'}
-              thousandSeparator
-              suffix={'TLY'}
-            />
-            <br />
-            <strong>Total Price:</strong>{' '}
-            <NumberFormat
-              value={totalPrice}
-              displayType={'text'}
-              thousandSeparator
-              suffix={'TLY'}
-            />
-            <br />
-            <strong>Total Price After Discount:</strong>{' '}
-            <NumberFormat
-              value={totalPriceAfterDiscount}
-              displayType={'text'}
-              thousandSeparator
-              suffix={'TLY'}
-            />
-            <br />
-            <strong>Number of Years:</strong>{' '}
-            <span>{numberOfYears === 1 ? 'One Year' : 'Two Years'}</span>
-          </td>
-          <td className="text-center" width="8%">
-            <Moment format="DD-MM-YYYY">{createdAt}</Moment>
-          </td>
-          <td className="text-center">
-            <h5>
-              <Badge pill color={status === 'pending' ? 'warning' : 'success'}>
-                {status.toLowerCase() === 'pending' ? 'Pending' : 'Approved'}
-              </Badge>
-            </h5>
-          </td>
-        </tr>
-      );
-    });
+              <strong>Mother Passport:</strong>{' '}
+              <span className="text-uppercase">
+                {motherPassport ? motherPassport : 'N/A'}
+              </span>
+            </td>
+            <td className="small text-capitalize text-muted">
+              <strong>Phone:</strong> {phone}
+              <br />
+              <strong>Address:</strong> {address}
+            </td>
+            <td className="small text-muted">
+              <strong>Price:</strong>{' '}
+              <NumberFormat
+                value={price}
+                displayType={'text'}
+                thousandSeparator
+                suffix={'TR'}
+              />
+              <br />
+              <strong>Total Price:</strong>{' '}
+              <NumberFormat
+                value={totalPrice}
+                displayType={'text'}
+                thousandSeparator
+                suffix={'TR'}
+              />
+              <br />
+              <strong>Total Price After Discount:</strong>{' '}
+              <NumberFormat
+                value={totalPriceAfterDiscount}
+                displayType={'text'}
+                thousandSeparator
+                suffix={'TR'}
+              />
+              <br />
+              <strong>Number of Years:</strong>{' '}
+              <span>{numberOfYears === 1 ? 'One Year' : 'Two Years'}</span>
+            </td>
+            <td className="text-center" width="8%">
+              <Moment format="DD-MM-YYYY">{createdAt}</Moment>
+            </td>
+            <td className="text-center">
+              <h5>
+                <Badge
+                  pill
+                  color={status === 'pending' ? 'warning' : 'success'}
+                >
+                  {status.toLowerCase() === 'pending' ? 'Pending' : 'Approved'}
+                </Badge>
+              </h5>
+            </td>
+          </tr>
+        );
+      });
 
   renderOrders = () => {
     const { orders, loading, error } = this.props;
@@ -184,7 +198,7 @@ export class ViewOrders extends Component {
         </div>
       );
     }
-    return (
+    return this.renderOrdersBody().length > 0 ? (
       <Fragment>
         <Table responsive hover>
           <thead className="thead-light">
@@ -206,7 +220,7 @@ export class ViewOrders extends Component {
           <tbody>{this.renderOrdersBody()}</tbody>
         </Table>
         {/* <br />
-        <Pagination
+          <Pagination
           activePage={activePage}
           itemsCountPerPage={itemsCountPerPage}
           totalItemsCount={totalItemsCount}
@@ -214,6 +228,10 @@ export class ViewOrders extends Component {
           onChange={this.onChangePage}
         /> */}
       </Fragment>
+    ) : (
+      <div className="text-center">
+        <h2>No Orders Result Found :(</h2>
+      </div>
     );
   };
 
@@ -223,9 +241,9 @@ export class ViewOrders extends Component {
         <Row>
           <Col xs="12" lg="12">
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-1">
                 <Row>
-                  <Col lg="2" className="pt-1">
+                  <Col xs="6" lg="1" className="pt-1">
                     <Button
                       color="primary"
                       size="sm"
@@ -236,8 +254,50 @@ export class ViewOrders extends Component {
                       <i className="fa fa-plus" aria-hidden="true" /> New Order
                     </Button>
                   </Col>
-                  <Col lg={{ size: 4, offset: 6 }}>
-                    <Input type="text" bsSize="sm" placeholder="Search" />
+                  <Col
+                    xs="6"
+                    lg={{ size: 5, offset: 6 }}
+                    className="pt-1 text-right"
+                  >
+                    {/* <Input type="text" bsSize="sm" placeholder="Search" /> */}
+                    Filter By: <strong>Approved</strong>{' '}
+                    <Label className="switch switch-text switch-pill switch-success">
+                      <Input
+                        type="checkbox"
+                        className="switch-input"
+                        checked={this.state.filterByApproved}
+                        onChange={() =>
+                          this.setState({
+                            filterByApproved: !this.state.filterByApproved
+                          })
+                        }
+                      />
+                      <span
+                        className="switch-label"
+                        data-on="On"
+                        data-off="Off"
+                      />
+                      <span className="switch-handle" />
+                    </Label>
+                    &nbsp;&nbsp; <strong>Pending</strong>{' '}
+                    <Label className="switch switch-text switch-pill switch-warning">
+                      <Input
+                        type="checkbox"
+                        className="switch-input"
+                        checked={this.state.filterByPending}
+                        onChange={() =>
+                          this.setState({
+                            filterByPending: !this.state.filterByPending
+                          })
+                        }
+                      />
+                      <span
+                        className="switch-label"
+                        data-on="On"
+                        data-off="Off"
+                      />
+                      <span className="switch-handle" />
+                    </Label>
                   </Col>
                 </Row>
               </CardHeader>

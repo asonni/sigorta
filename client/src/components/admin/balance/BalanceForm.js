@@ -63,7 +63,7 @@ class BalanceForm extends Component {
         <CardBody>
           {this.renderAlerts()}
           <Field
-            label="Clinet Info"
+            label="Clinet Info (معلومات الزبون)"
             name="client"
             placeholder="Select any client info"
             options={renderClients}
@@ -71,7 +71,7 @@ class BalanceForm extends Component {
             component={renderDropdownField}
           />
           <Field
-            label="Balance"
+            label="Balance (الرصيد)"
             placeholder="Type any balance"
             type="text"
             name="balance"

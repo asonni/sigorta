@@ -86,11 +86,11 @@ class ResetPassword extends PureComponent {
             <Card>
               <CardHeader>
                 <i className="fa fa-pencil-square-o" aria-hidden="true" /> Reset
-                Password
+                Password (إعادة تعيين كلمة المرور)
               </CardHeader>
               <Form
                 onSubmit={handleSubmit(this.onSubmintResetPassword)}
-                loading={loading}
+                loading={loading && !submitting}
               >
                 <CardBody>
                   {this.renderAlerts()}
@@ -105,7 +105,7 @@ class ResetPassword extends PureComponent {
                     </h6>
                   </Alert>
                   <Field
-                    label="Password"
+                    label="Password (كلمة المرور)"
                     placeholder="Password"
                     type="password"
                     name="password"
@@ -124,7 +124,7 @@ class ResetPassword extends PureComponent {
                     </PopoverBody>
                   </Popover>
                   <Field
-                    label="Retype Password"
+                    label="Retype Password (اعادة ادخال كلمة المرور)"
                     placeholder="Retype password"
                     type="password"
                     name="confirmPassword"
@@ -140,12 +140,11 @@ class ResetPassword extends PureComponent {
                   >
                     {submitting ? (
                       <Fragment>
-                        <i className="fa fa-circle-o-notch fa-spin" />{' '}
-                        Submitting
+                        <i className="fa fa-circle-o-notch fa-spin" /> Resetting
                       </Fragment>
                     ) : (
                       <Fragment>
-                        <i className="fa fa-dot-circle-o" /> Submit
+                        <i className="fa fa-key" /> Reset
                       </Fragment>
                     )}
                   </Button>{' '}

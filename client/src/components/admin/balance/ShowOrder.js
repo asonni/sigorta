@@ -53,7 +53,7 @@ class ShowOrder extends Component {
                   value={client.balance}
                   displayType={'text'}
                   thousandSeparator
-                  suffix={'TLY'}
+                  suffix={'TR'}
                 />
               ) : (
                 'Loading...'
@@ -90,7 +90,7 @@ class ShowOrder extends Component {
                     value={order.price}
                     displayType={'text'}
                     thousandSeparator
-                    suffix={'TLY'}
+                    suffix={'TR'}
                   />
                 </td>
                 <td>
@@ -98,7 +98,7 @@ class ShowOrder extends Component {
                     value={order.totalPrice}
                     displayType={'text'}
                     thousandSeparator
-                    suffix={'TLY'}
+                    suffix={'TR'}
                   />
                 </td>
                 <td>
@@ -106,7 +106,7 @@ class ShowOrder extends Component {
                     value={order.totalPriceAfterDiscount}
                     displayType={'text'}
                     thousandSeparator
-                    suffix={'TLY'}
+                    suffix={'TR'}
                   />
                 </td>
                 <td>

@@ -3,7 +3,6 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import vfsFonts from 'pdfmake/build/vfs_fonts';
 
 export default salesObj => {
-  console.log(salesObj);
   const { vfs } = vfsFonts.pdfMake;
   pdfMake.vfs = vfs;
 
@@ -17,10 +16,10 @@ export default salesObj => {
           arr.push([
             { text: clientIndex + 1 },
             { text: clientItem.name },
-            { text: `${clientItem.balance}TLY` },
+            { text: `${clientItem.balance}TR` },
             { text: `${clientItem.discount}%` },
-            { text: `${saleItem.totalPrice}TLY` },
-            { text: `${saleItem.totalPriceAfterDiscount}TLY` },
+            { text: `${saleItem.totalPrice}TR` },
+            { text: `${saleItem.totalPriceAfterDiscount}TR` },
             {
               text: `${day ? (day.length > 1 ? `${day}/` : `0${day}/`) : ''}${
                 month ? (month.length > 1 ? `${month}/` : `0${month}/`) : ''
@@ -50,7 +49,6 @@ export default salesObj => {
     pageSize: 'A4',
     pageOrientation: 'landscape',
     content: [
-      // { text: 'Sigorta Sales Report', style: 'headerStyle' },
       {
         columns: [
           {
@@ -113,7 +111,7 @@ export default salesObj => {
                 fontSize: 10
               },
               {
-                text: `${salesObj.totalPriceSum}TLY`,
+                text: `${salesObj.totalPriceSum}TR`,
                 alignment: 'center',
                 bold: true,
                 fontSize: 10
@@ -127,7 +125,7 @@ export default salesObj => {
                 fontSize: 10
               },
               {
-                text: `${salesObj.totalPriceAfterDiscountSum}TLY`,
+                text: `${salesObj.totalPriceAfterDiscountSum}TR`,
                 alignment: 'center',
                 bold: true,
                 fontSize: 10

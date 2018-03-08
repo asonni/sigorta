@@ -35,6 +35,7 @@ class NewUser extends PureComponent {
             <Card>
               <CardHeader>
                 <i className="fa fa-user-plus" aria-hidden="true" /> New User
+                (مستخدم جديد)
               </CardHeader>
               <UserForm
                 {...this.props}

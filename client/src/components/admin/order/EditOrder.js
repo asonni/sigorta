@@ -81,7 +81,7 @@ export class EditOrder extends Component {
             <Card>
               <CardHeader>
                 <i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit
-                Order
+                Order (تعديل الطلب)
               </CardHeader>
               <OrderForm
                 {...this.props}

@@ -3,7 +3,7 @@ const validate = values => {
   const { dateType, from, to } = values;
 
   if (!dateType) {
-    errors.dateType = 'Please select any date type';
+    errors.dateType = 'Please select any report type';
   }
 
   if (!from) {

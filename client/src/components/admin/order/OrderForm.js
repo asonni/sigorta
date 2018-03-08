@@ -98,33 +98,33 @@ class OrderForm extends Component {
         <CardBody>
           {this.renderAlerts()}
           <Alert color="info text-center">
-            <h5>Order Price Details</h5>
+            <h5>Order Price Details (تفاصيل سعر الطلب)</h5>
             <h6>
               <strong>Price</strong>:{' '}
               <NumberFormat
                 value={price}
                 displayType={'text'}
                 thousandSeparator
-                suffix={'TLY'}
+                suffix={'TR'}
               />{' '}
               | <strong>Total Price</strong>:{' '}
               <NumberFormat
                 value={totalPrice}
                 displayType={'text'}
                 thousandSeparator
-                suffix={'TLY'}
+                suffix={'TR'}
               />{' '}
               | <strong>Total Price After Discount</strong>:{' '}
               <NumberFormat
                 value={totalPriceAfterDiscount}
                 displayType={'text'}
                 thousandSeparator
-                suffix={'TLY'}
+                suffix={'TR'}
               />
             </h6>
           </Alert>
           <Field
-            label="Clinet Info"
+            label="Clinet Info (معلومات الزبون)"
             name="client"
             placeholder="Select any client info"
             options={renderClients}
@@ -139,7 +139,7 @@ class OrderForm extends Component {
             }
           />
           <Field
-            label="Plan Info"
+            label="Plan Info (معلومات الخطة)"
             name="plan"
             placeholder="Select any plan info"
             options={renderPlans}
@@ -157,7 +157,7 @@ class OrderForm extends Component {
           <Row>
             <Col xs="12" md="6">
               <Field
-                label="Full Name"
+                label="Full Name (الأسم كامل)"
                 placeholder="Type any full name"
                 type="text"
                 name="name"
@@ -167,7 +167,7 @@ class OrderForm extends Component {
             <Col xs="12" md="6">
               <Field
                 dropUp
-                label="Date of Birth"
+                label="Date of Birth (تاريخ الميلاد)"
                 name="dob"
                 showTime={false}
                 placeholder="Select any date of birth"
@@ -178,7 +178,7 @@ class OrderForm extends Component {
           <Row>
             <Col xs="12" md="6">
               <Field
-                label="Gender"
+                label="Gender (الجنس)"
                 name="gender"
                 placeholder="Select any gender"
                 options={[
@@ -190,7 +190,7 @@ class OrderForm extends Component {
             </Col>
             <Col xs="12" md="6">
               <Field
-                label="Nationality"
+                label="Nationality (الجنسية)"
                 name="nationality"
                 placeholder="Select any nationality"
                 options={renderNationalities()}
@@ -201,7 +201,7 @@ class OrderForm extends Component {
           <Row>
             <Col xs="12" md="6">
               <Field
-                label="Passport"
+                label="Passport (رقم الجواز)"
                 placeholder="Type any passport number"
                 type="text"
                 name="passport"
@@ -210,7 +210,7 @@ class OrderForm extends Component {
             </Col>
             <Col xs="12" md="6">
               <Field
-                label="Phone"
+                label="Phone (الهاتف)"
                 placeholder="Type any phone number"
                 type="text"
                 name="phone"
@@ -221,7 +221,7 @@ class OrderForm extends Component {
           <Row>
             <Col xs="12" md="6">
               <Field
-                label="Father Name"
+                label="Father Name (اسم الأب)"
                 placeholder="Type any father name"
                 type="text"
                 name="fatherName"
@@ -230,7 +230,7 @@ class OrderForm extends Component {
             </Col>
             <Col xs="12" md="6">
               <Field
-                label="Father Passport"
+                label="Father Passport (رقم جواز الأب)"
                 placeholder="Type any father's passport number"
                 type="text"
                 name="fatherPassport"
@@ -241,7 +241,7 @@ class OrderForm extends Component {
           <Row>
             <Col xs="12" md="6">
               <Field
-                label="Mother Name"
+                label="Mother Name (اسم الأم)"
                 placeholder="Type any mother name"
                 type="text"
                 name="motherName"
@@ -250,7 +250,7 @@ class OrderForm extends Component {
             </Col>
             <Col xs="12" md="6">
               <Field
-                label="Mother Passport"
+                label="Mother Passport (رقم جواز الأم)"
                 placeholder="Type any mother's passport number"
                 type="text"
                 name="motherPassport"
@@ -261,7 +261,7 @@ class OrderForm extends Component {
           <Row>
             <Col xs="12" md="6">
               <Field
-                label="Address"
+                label="Address (العنوان)"
                 placeholder="Type any address"
                 type="text"
                 name="address"
@@ -270,7 +270,7 @@ class OrderForm extends Component {
             </Col>
             <Col xs="12" md="6">
               <Field
-                label="Number of Years"
+                label="Number of Years (عدد السنوات)"
                 name="numberOfYears"
                 placeholder="Select any number of years"
                 options={[

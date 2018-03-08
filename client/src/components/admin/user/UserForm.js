@@ -63,21 +63,21 @@ class UserForm extends PureComponent {
         <CardBody>
           {this.renderAlerts()}
           <Field
-            label="First Name"
+            label="First Name (الاسم الأول)"
             placeholder="John"
             type="text"
             name="fname"
             component={renderInputField}
           />
           <Field
-            label="Last Name"
+            label="Last Name (اللقب)"
             placeholder="Doe"
             type="text"
             name="lname"
             component={renderInputField}
           />
           <Field
-            label="Email Address"
+            label="Email Address (البريد الالكتروني)"
             placeholder="john.doe@example.com"
             type="text"
             name="email"
@@ -86,7 +86,7 @@ class UserForm extends PureComponent {
           {!this.props.user && (
             <Fragment>
               <Field
-                label="Password"
+                label="Password (كلمة المرور)"
                 placeholder="Password"
                 type="password"
                 name="password"
@@ -105,7 +105,7 @@ class UserForm extends PureComponent {
                 </PopoverBody>
               </Popover>
               <Field
-                label="Retype Password"
+                label="Retype Password (اعادة ادخال كلمة المرور)"
                 placeholder="Retype password"
                 type="password"
                 name="confirmPassword"

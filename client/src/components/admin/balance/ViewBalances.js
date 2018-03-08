@@ -7,7 +7,6 @@ import {
   Row,
   Col,
   Card,
-  Input,
   Table,
   Button,
   CardBody,
@@ -52,7 +51,7 @@ export class ViewBalances extends Component {
                   value={balance}
                   displayType={'text'}
                   thousandSeparator
-                  suffix={'TLY'}
+                  suffix={'TR'}
                 />
               </strong>
             </td>
@@ -150,7 +149,7 @@ export class ViewBalances extends Component {
                     </Button>
                   </Col>
                   <Col lg={{ size: 4, offset: 6 }}>
-                    <Input type="text" bsSize="sm" placeholder="Search" />
+                    {/* <Input type="text" bsSize="sm" placeholder="Search" /> */}
                   </Col>
                 </Row>
               </CardHeader>

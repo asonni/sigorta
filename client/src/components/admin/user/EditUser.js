@@ -37,7 +37,7 @@ class EditUser extends PureComponent {
             <Card>
               <CardHeader>
                 <i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit
-                User
+                User (تعديل المستخدم)
               </CardHeader>
               <UserForm
                 {...this.props}

@@ -1,14 +1,13 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
-import Pagination from 'react-js-pagination';
+// import Pagination from 'react-js-pagination';
 import {
   Row,
   Col,
   Card,
   Table,
   Badge,
-  Input,
   Button,
   CardBody,
   CardHeader,
@@ -91,12 +90,12 @@ class ViewUsers extends PureComponent {
 
   renderUsers = () => {
     const { users, loading, error } = this.props;
-    const {
-      activePage,
-      itemsCountPerPage,
-      totalItemsCount,
-      pageRangeDisplayed
-    } = this.state;
+    // const {
+    //   activePage,
+    //   itemsCountPerPage,
+    //   totalItemsCount,
+    //   pageRangeDisplayed
+    // } = this.state;
     if (loading) {
       return <LoadingContent />;
     }
@@ -132,14 +131,14 @@ class ViewUsers extends PureComponent {
           </thead>
           <tbody>{this.renderUsersBody()}</tbody>
         </Table>
-        <br />
+        {/* <br />
         <Pagination
           activePage={activePage}
           itemsCountPerPage={itemsCountPerPage}
           totalItemsCount={totalItemsCount}
           pageRangeDisplayed={pageRangeDisplayed}
           onChange={this.onChangePage}
-        />
+        /> */}
       </Fragment>
     );
   };
@@ -165,7 +164,7 @@ class ViewUsers extends PureComponent {
                     </Button>
                   </Col>
                   <Col lg={{ size: 4, offset: 6 }}>
-                    <Input type="text" bsSize="sm" placeholder="Search" />
+                    {/* <Input type="text" bsSize="sm" placeholder="Search" /> */}
                   </Col>
                 </Row>
               </CardHeader>

@@ -54,6 +54,7 @@ export class NewBalance extends Component {
             <Card>
               <CardHeader>
                 <i className="fa fa-plus" aria-hidden="true" /> New Balance
+                (اضافة رصيد جديد)
               </CardHeader>
               <BalanceForm
                 {...this.props}

@@ -34,7 +34,8 @@ class NewPlan extends Component {
           <Col xs="12" md={{ size: 6, offset: 3 }}>
             <Card>
               <CardHeader>
-                <i className="fa fa-plus" aria-hidden="true" /> New Plan
+                <i className="fa fa-plus" aria-hidden="true" /> New Plan (خطة
+                جديدة)
               </CardHeader>
               <PlanForm
                 {...this.props}

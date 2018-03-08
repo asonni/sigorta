@@ -86,21 +86,21 @@ class ApproveOrder extends Component {
                 value={orderObj.price}
                 displayType={'text'}
                 thousandSeparator
-                suffix={'TLY'}
+                suffix={'TR'}
               />{' '}
               | <strong>Total Price:</strong>{' '}
               <NumberFormat
                 value={orderObj.totalPrice}
                 displayType={'text'}
                 thousandSeparator
-                suffix={'TLY'}
+                suffix={'TR'}
               />{' '}
               | <strong>Total Price After Discount:</strong>{' '}
               <NumberFormat
                 value={orderObj.totalPriceAfterDiscount}
                 displayType={'text'}
                 thousandSeparator
-                suffix={'TLY'}
+                suffix={'TR'}
               />
             </div>
             <hr />

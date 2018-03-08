@@ -7,7 +7,6 @@ import {
   Row,
   Col,
   Card,
-  Input,
   Table,
   CardBody,
   CardHeader,
@@ -27,7 +26,7 @@ export class ViewBalances extends Component {
 
   componentWillMount() {
     document.title = 'Sigorta | View My Balances';
-    this.props.fetchBalances();
+    this.props.fetchClientBalances();
   }
 
   onChangePage = activePage => {
@@ -49,7 +48,7 @@ export class ViewBalances extends Component {
                   value={balance}
                   displayType={'text'}
                   thousandSeparator
-                  suffix={'TLY'}
+                  suffix={'TR'}
                 />
               </strong>
             </td>
@@ -128,7 +127,7 @@ export class ViewBalances extends Component {
               <CardHeader>
                 <Row>
                   <Col lg={{ size: 4, offset: 8 }}>
-                    <Input type="text" bsSize="sm" placeholder="Search" />
+                    {/* <Input type="text" bsSize="sm" placeholder="Search" /> */}
                   </Col>
                 </Row>
               </CardHeader>

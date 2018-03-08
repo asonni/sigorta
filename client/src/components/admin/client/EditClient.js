@@ -56,7 +56,7 @@ class EditClient extends Component {
             <Card>
               <CardHeader>
                 <i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit
-                Clinet
+                Clinet (تعديل زبون)
               </CardHeader>
               <ClientForm
                 {...this.props}

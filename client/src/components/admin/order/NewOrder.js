@@ -69,7 +69,8 @@ export class NewOrder extends Component {
           <Col xs="12" md={{ size: 6, offset: 3 }}>
             <Card>
               <CardHeader>
-                <i className="fa fa-plus" aria-hidden="true" /> New Order
+                <i className="fa fa-plus" aria-hidden="true" /> New Order (طلب
+                جديد)
               </CardHeader>
               <OrderForm
                 {...this.props}

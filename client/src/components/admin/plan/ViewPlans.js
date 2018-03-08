@@ -1,14 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
-import Pagination from 'react-js-pagination';
+// import Pagination from 'react-js-pagination';
 import NumberFormat from 'react-number-format';
 import {
   Row,
   Col,
   Card,
   Table,
-  Input,
   Button,
   CardBody,
   CardHeader,
@@ -53,7 +52,7 @@ class ViewPlans extends Component {
                 value={price}
                 displayType={'text'}
                 thousandSeparator
-                suffix={'TLY'}
+                suffix={'TR'}
               />
             </strong>
           </td>
@@ -80,12 +79,12 @@ class ViewPlans extends Component {
 
   renderPlans = () => {
     const { plans, loading, error } = this.props;
-    const {
-      activePage,
-      itemsCountPerPage,
-      totalItemsCount,
-      pageRangeDisplayed
-    } = this.state;
+    // const {
+    //   activePage,
+    //   itemsCountPerPage,
+    //   totalItemsCount,
+    //   pageRangeDisplayed
+    // } = this.state;
     if (loading) {
       return <LoadingContent />;
     }
@@ -119,14 +118,14 @@ class ViewPlans extends Component {
           </thead>
           <tbody>{this.renderPlansBody()}</tbody>
         </Table>
-        <br />
+        {/* <br />
         <Pagination
           activePage={activePage}
           itemsCountPerPage={itemsCountPerPage}
           totalItemsCount={totalItemsCount}
           pageRangeDisplayed={pageRangeDisplayed}
           onChange={this.onChangePage}
-        />
+        /> */}
       </Fragment>
     );
   };
@@ -151,7 +150,7 @@ class ViewPlans extends Component {
                     </Button>
                   </Col>
                   <Col lg={{ size: 4, offset: 6 }}>
-                    <Input type="text" bsSize="sm" placeholder="Search" />
+                    {/* <Input type="text" bsSize="sm" placeholder="Search" /> */}
                   </Col>
                 </Row>
               </CardHeader>

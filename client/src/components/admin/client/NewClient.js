@@ -52,7 +52,8 @@ class NewClient extends Component {
           <Col xs="12" md={{ size: 6, offset: 3 }}>
             <Card>
               <CardHeader>
-                <i className="fa fa-plus" aria-hidden="true" /> New Clinet
+                <i className="fa fa-plus" aria-hidden="true" /> New Clinet (زبون
+                جديد)
               </CardHeader>
               <ClientForm
                 {...this.props}

@@ -16,9 +16,7 @@ import { requireAuthAdmin, requireAuthClient, requireGuest } from './common';
 import { AUTH_USER } from '../actions/auth/types';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const middleware = composeEnhancers(
-  applyMiddleware(ReduxThunk, ReduxPromise, ReduxLogger)
-);
+const middleware = composeEnhancers(applyMiddleware(ReduxThunk, ReduxPromise));
 const store = createStore(rootReducer, middleware);
 
 const token = localStorage.getItem('si_token');

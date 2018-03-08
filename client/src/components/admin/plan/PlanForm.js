@@ -46,14 +46,14 @@ class PlanForm extends Component {
         <CardBody>
           {this.renderAlerts()}
           <Field
-            label="Name"
+            label="Name (الاسم)"
             placeholder="Type any plan name"
             type="text"
             name="name"
             component={renderInputField}
           />
           <Field
-            label="Price"
+            label="Price (السعر)"
             placeholder="Type any plan price"
             type="text"
             name="price"

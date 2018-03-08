@@ -80,21 +80,21 @@ class OrderForm extends Component {
                 value={price}
                 displayType={'text'}
                 thousandSeparator
-                suffix={'TLY'}
+                suffix={'TR'}
               />{' '}
               | <strong>Total Price</strong>:{' '}
               <NumberFormat
                 value={totalPrice}
                 displayType={'text'}
                 thousandSeparator
-                suffix={'TLY'}
+                suffix={'TR'}
               />{' '}
               | <strong>Total Price After Discount</strong>:{' '}
               <NumberFormat
                 value={totalPriceAfterDiscount}
                 displayType={'text'}
                 thousandSeparator
-                suffix={'TLY'}
+                suffix={'TR'}
               />
             </h6>
           </Alert>

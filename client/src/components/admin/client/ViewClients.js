@@ -1,13 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
-import Pagination from 'react-js-pagination';
+// import Pagination from 'react-js-pagination';
 import NumberFormat from 'react-number-format';
 import {
   Row,
   Col,
   Card,
-  Input,
   Badge,
   Table,
   Button,
@@ -65,7 +64,7 @@ class ViewClients extends Component {
                 value={balance}
                 displayType={'text'}
                 thousandSeparator
-                suffix={'TLY'}
+                suffix={'TR'}
               />
             </strong>
           </td>
@@ -105,12 +104,12 @@ class ViewClients extends Component {
 
   renderClients = () => {
     const { clients, loading, error } = this.props;
-    const {
-      activePage,
-      itemsCountPerPage,
-      totalItemsCount,
-      pageRangeDisplayed
-    } = this.state;
+    // const {
+    //   activePage,
+    //   itemsCountPerPage,
+    //   totalItemsCount,
+    //   pageRangeDisplayed
+    // } = this.state;
     if (loading) {
       return <LoadingContent />;
     }
@@ -152,14 +151,14 @@ class ViewClients extends Component {
           </thead>
           <tbody>{this.renderClientsBody()}</tbody>
         </Table>
-        <br />
+        {/* <br />
         <Pagination
           activePage={activePage}
           itemsCountPerPage={itemsCountPerPage}
           totalItemsCount={totalItemsCount}
           pageRangeDisplayed={pageRangeDisplayed}
           onChange={this.onChangePage}
-        />
+        /> */}
       </Fragment>
     );
   };
@@ -184,7 +183,7 @@ class ViewClients extends Component {
                     </Button>
                   </Col>
                   <Col lg={{ size: 4, offset: 6 }}>
-                    <Input type="text" bsSize="sm" placeholder="Search" />
+                    {/* <Input type="text" bsSize="sm" placeholder="Search" /> */}
                   </Col>
                 </Row>
               </CardHeader>
