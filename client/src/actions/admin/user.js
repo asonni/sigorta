@@ -70,7 +70,7 @@ export const newUser = ({
     );
     dispatch({ type: NEW_USER_FULFILLED, payload: response });
   } catch ({ error }) {
-    dispatch(reset('newUser'));
+    dispatch(reset('userForm'));
     dispatch({ type: NEW_USER_REJECTED, payload: error });
   }
 };
@@ -87,6 +87,7 @@ export const editUser = values => async dispatch => {
     });
     dispatch({ type: EDIT_USER_FULFILLED, payload: response });
   } catch ({ error }) {
+    dispatch(reset('userForm'));
     dispatch({ type: EDIT_USER_REJECTED, payload: error });
   }
 };

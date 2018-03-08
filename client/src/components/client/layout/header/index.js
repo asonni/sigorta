@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { Nav, NavbarBrand, NavbarToggler, Button } from 'reactstrap';
+import ConfirmLogout from './ConfirmLogout';
 // import HeaderNotificationsDropdown from './HeaderNotificationsDropdown';
 
 class Header extends Component {
+  state = { modal: false };
+
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+
   sidebarToggle = () => {
     // e.preventDefault();
     document.body.classList.toggle('sidebar-hidden');
@@ -34,14 +41,11 @@ class Header extends Component {
           <span className="navbar-toggler-icon" />
         </NavbarToggler>
         <Nav className="ml-auto" navbar>
-          <Button
-            type="button"
-            color="danger"
-            style={{ marginRight: '10px', marginLeft: '10px' }}
-            onClick={() => this.props.history.push('/logout')}
-          >
-            <i className="fa fa-lock fa-lg" />
-          </Button>
+          <ConfirmLogout
+            toggle={this.toggle}
+            modal={this.state.modal}
+            onAccept={() => this.props.history.push('/logout')}
+          />
         </Nav>
       </header>
     );

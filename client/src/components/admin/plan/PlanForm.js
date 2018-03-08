@@ -90,4 +90,4 @@ class PlanForm extends Component {
   }
 }
 
-export default reduxForm({ form: 'plan', validate })(PlanForm);
+export default reduxForm({ form: 'planForm', validate })(PlanForm);

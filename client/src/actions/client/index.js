@@ -1,3 +1,3 @@
-export { fetchClientBalances } from './balance';
+export { fetchBalances } from './balance';
 
-export { fetchClientOrders, newClientOrder } from './order';
+export { fetchOrders, newOrder } from './order';

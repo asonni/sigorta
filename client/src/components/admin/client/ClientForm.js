@@ -130,4 +130,4 @@ class ClientForm extends Component {
   }
 }
 
-export default reduxForm({ form: 'clinet', validate })(ClientForm);
+export default reduxForm({ form: 'clinetForm', validate })(ClientForm);

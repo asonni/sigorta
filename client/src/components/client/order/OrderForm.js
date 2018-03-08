@@ -280,4 +280,4 @@ class OrderForm extends Component {
   }
 }
 
-export default reduxForm({ form: 'order', validate })(OrderForm);
+export default reduxForm({ form: 'orderForm', validate })(OrderForm);

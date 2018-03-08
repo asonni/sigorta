@@ -68,7 +68,7 @@ export const newOrder = values => async dispatch => {
     });
     dispatch({ type: NEW_ORDER_FULFILLED, payload: response });
   } catch ({ error }) {
-    console.log(error);
+    dispatch(reset('orderForm'));
     dispatch({ type: NEW_ORDER_REJECTED, payload: error });
   }
 };
@@ -95,7 +95,7 @@ export const editOrder = values => async dispatch => {
     );
     dispatch({ type: EDIT_ORDER_FULFILLED, payload: response });
   } catch ({ error }) {
-    dispatch(reset('clinet'));
+    dispatch(reset('orderForm'));
     dispatch({ type: EDIT_ORDER_REJECTED, payload: error });
   }
 };

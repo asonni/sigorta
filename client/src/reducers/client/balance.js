@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import {
-  FETCH_CLIENT_BALANCES_PENDING,
-  FETCH_CLIENT_BALANCES_FULFILLED,
-  FETCH_CLIENT_BALANCES_REJECTED
+  FETCH_BALANCES_PENDING,
+  FETCH_BALANCES_FULFILLED,
+  FETCH_BALANCES_REJECTED
 } from '../../actions/client/types';
 
 const initState = {
@@ -13,10 +13,10 @@ const initState = {
 
 export default (state = initState, { type, payload }) => {
   switch (type) {
-    case FETCH_CLIENT_BALANCES_PENDING:
+    case FETCH_BALANCES_PENDING:
       return { ...state, loading: true, balances: [], error: null };
 
-    case FETCH_CLIENT_BALANCES_FULFILLED:
+    case FETCH_BALANCES_FULFILLED:
       return {
         ...state,
         balances: _.orderBy(payload.data.balances, '_id', 'asc'),
@@ -24,7 +24,7 @@ export default (state = initState, { type, payload }) => {
         error: null
       };
 
-    case FETCH_CLIENT_BALANCES_REJECTED:
+    case FETCH_BALANCES_REJECTED:
       return { ...state, loading: false, balances: [], error: payload };
 
     default:

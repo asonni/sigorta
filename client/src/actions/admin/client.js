@@ -69,7 +69,7 @@ export const newClinet = values => async dispatch => {
     );
     dispatch({ type: NEW_CLINET_FULFILLED, payload: response });
   } catch ({ error }) {
-    dispatch(reset('clinet'));
+    dispatch(reset('clinetForm'));
     dispatch({ type: NEW_CLINET_REJECTED, payload: error });
   }
 };
@@ -101,7 +101,7 @@ export const editClinet = ({
     );
     dispatch({ type: EDIT_CLINET_FULFILLED, payload: response });
   } catch ({ error }) {
-    dispatch(reset('clinet'));
+    dispatch(reset('clinetForm'));
     dispatch({ type: EDIT_CLINET_REJECTED, payload: error });
   }
 };

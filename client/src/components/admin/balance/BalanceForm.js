@@ -108,4 +108,4 @@ class BalanceForm extends Component {
   }
 }
 
-export default reduxForm({ form: 'balance', validate })(BalanceForm);
+export default reduxForm({ form: 'balanceFrom', validate })(BalanceForm);

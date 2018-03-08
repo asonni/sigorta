@@ -59,7 +59,7 @@ class Login extends Component {
   render() {
     const { handleSubmit, message } = this.props;
     return (
-      <div className="app flex-row align-items-center">
+      <div className="app flex-row align-items-center animated fadeIn">
         <Container>
           <Row className="justify-content-center">
             <Col md="5">
@@ -139,6 +139,6 @@ const mapStateToProps = ({ authStore: { isAdmin, message } }) => {
   return { isAdmin, message };
 };
 
-const LgoinForm = reduxForm({ form: 'login' })(Login);
+const LgoinForm = reduxForm({ form: 'loginForm' })(Login);
 
 export default connect(mapStateToProps, { loginUser })(LgoinForm);

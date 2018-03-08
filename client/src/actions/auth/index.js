@@ -24,7 +24,7 @@ export const loginUser = ({ email, password }, callback) => async dispatch => {
       dispatch(
         authMessage("This account hasn't been assigned to any client yet")
       );
-      dispatch(reset('login'));
+      dispatch(reset('loginForm'));
       callback(false);
     }
   } catch ({ response }) {
@@ -33,7 +33,7 @@ export const loginUser = ({ email, password }, callback) => async dispatch => {
     } else {
       dispatch(authMessage('You must provide the email and the password'));
     }
-    dispatch(reset('login'));
+    dispatch(reset('loginForm'));
     callback(false);
   }
 };

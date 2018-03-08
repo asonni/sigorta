@@ -29,21 +29,6 @@ export const fetchBalances = () => async dispatch => {
   }
 };
 
-// export const fetchBalance = id => async dispatch => {
-//   dispatch({ type: FETCH_BALANCE_PENDING });
-//   try {
-//     const response = await axios.get(`${URL}/${id}`, {
-//       headers: {
-//         Authorization: `${PREFIX_TOKEN} ${localStorage.getItem('si_token')}`,
-//         'Content-Type': 'application/json'
-//       }
-//     });
-//     dispatch({ type: FETCH_BALANCE_FULFILLED, payload: response });
-//   } catch ({ error }) {
-//     dispatch({ type: FETCH_BALANCE_REJECTED, payload: error });
-//   }
-// };
-
 export const newBalance = ({ client, balance }) => async dispatch => {
   dispatch({ type: NEW_BALANCE_PENDING });
   try {
@@ -62,7 +47,7 @@ export const newBalance = ({ client, balance }) => async dispatch => {
     );
     dispatch({ type: NEW_BALANCE_FULFILLED, payload: response });
   } catch ({ error }) {
-    dispatch(reset('clinet'));
+    dispatch(reset('balanceForm'));
     dispatch({ type: NEW_BALANCE_REJECTED, payload: error });
   }
 };

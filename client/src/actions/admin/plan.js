@@ -68,7 +68,7 @@ export const newPlan = ({ name, price }) => async dispatch => {
     );
     dispatch({ type: NEW_PLAN_FULFILLED, payload: response });
   } catch ({ error }) {
-    dispatch(reset('clinet'));
+    dispatch(reset('planForm'));
     dispatch({ type: NEW_PLAN_REJECTED, payload: error });
   }
 };
@@ -91,7 +91,7 @@ export const editPlan = ({ _id, name, price }) => async dispatch => {
     );
     dispatch({ type: EDIT_PLAN_FULFILLED, payload: response });
   } catch ({ error }) {
-    dispatch(reset('clinet'));
+    dispatch(reset('planForm'));
     dispatch({ type: EDIT_PLAN_REJECTED, payload: error });
   }
 };

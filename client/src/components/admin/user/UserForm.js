@@ -144,4 +144,4 @@ class UserForm extends PureComponent {
   }
 }
 
-export default reduxForm({ form: 'user', validate })(UserForm);
+export default reduxForm({ form: 'userForm', validate })(UserForm);

@@ -14,7 +14,7 @@ import {
 } from 'reactstrap';
 import ShowOrder from './ShowOrder';
 import { LoadingContent, ErrorMessage } from '../../common';
-import { fetchClientBalances } from '../../../actions/client';
+import { fetchBalances } from '../../../actions/client';
 
 export class ViewBalances extends Component {
   state = {
@@ -26,7 +26,7 @@ export class ViewBalances extends Component {
 
   componentWillMount() {
     document.title = 'Sigorta | View My Balances';
-    this.props.fetchClientBalances();
+    this.props.fetchBalances();
   }
 
   onChangePage = activePage => {
@@ -144,4 +144,4 @@ const mapStateToProps = ({ balanceStore: { balances, loading, error } }) => {
   return { balances, loading, error };
 };
 
-export default connect(mapStateToProps, { fetchClientBalances })(ViewBalances);
+export default connect(mapStateToProps, { fetchBalances })(ViewBalances);

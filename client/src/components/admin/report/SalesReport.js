@@ -160,7 +160,7 @@ const mapStateToProps = ({ salesStore: { sales, loading, error } }) => {
   return { sales, loading, error };
 };
 
-const SalesReportForm = reduxForm({ validate, form: 'salesReport' })(
+const SalesReportForm = reduxForm({ validate, form: 'salesReportForm' })(
   SalesReport
 );
 
