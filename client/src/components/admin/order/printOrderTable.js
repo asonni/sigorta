@@ -27,6 +27,9 @@ export default orderObj => {
 
   const documentDefinition = {
     pageSize: 'A4',
+    info: {
+      title: `Ordered on ${moment(createdAt).format('MMMM DD, YYYY')}`
+    },
     content: [
       {
         columns: [

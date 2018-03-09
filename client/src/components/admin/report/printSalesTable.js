@@ -48,23 +48,32 @@ export default salesObj => {
   const documentDefinition = {
     pageSize: 'A4',
     pageOrientation: 'landscape',
+    info: {
+      title: `Sigorta Sales ${
+        salesObj.dateType === 'day'
+          ? 'Daily'
+          : salesObj.dateType === 'month'
+            ? 'Monthly'
+            : salesObj.dateType === 'year' ? 'Yearly' : null
+      } Report From ${moment(salesObj.from).format(
+        'MMMM DD, YYYY'
+      )} To ${moment(salesObj.to).format('MMMM DD, YYYY')}`
+    },
     content: [
       {
         columns: [
           {
-            text: `
-              Report Type: ${
-                salesObj.dateType === 'day'
-                  ? 'Daily'
-                  : salesObj.dateType === 'month'
-                    ? 'Monthly'
-                    : salesObj.dateType === 'year' ? 'Yearly' : null
-              }
-              Date From: ${moment(salesObj.from).format('MMMM DD, YYYY')}
-              Date To: ${moment(salesObj.to).format('MMMM DD, YYYY')}
-              `,
-            alignment: 'left',
-            bold: true
+            text: `${
+              salesObj.dateType === 'day'
+                ? 'Daily'
+                : salesObj.dateType === 'month'
+                  ? 'Monthly'
+                  : salesObj.dateType === 'year' ? 'Yearly' : null
+            } Report
+            From: ${moment(salesObj.from).format('MMMM DD, YYYY')} To: ${moment(
+              salesObj.to
+            ).format('MMMM DD, YYYY')}`,
+            alignment: 'left'
           },
           { text: 'Sigorta Sales Report', style: 'headerStyle' },
           {}
@@ -84,7 +93,14 @@ export default salesObj => {
               { text: 'Client Discount', style: 'tableHeader' },
               { text: 'Total Price', style: 'tableHeader' },
               { text: 'Total Price After Discount', style: 'tableHeader' },
-              { text: 'Created Date/Hour', style: 'tableHeader' },
+              {
+                text: `${
+                  salesObj.dateType === 'day'
+                    ? 'Created Date/Hour'
+                    : 'Created Date'
+                }`,
+                style: 'tableHeader'
+              },
               { text: 'User Name', style: 'tableHeader' },
               { text: 'User Email', style: 'tableHeader' }
             ],
@@ -93,7 +109,9 @@ export default salesObj => {
         },
         layout: {
           hLineColor: i =>
-            i === 0 || i === 1 || i === 10 + 1 ? 'black' : '#aaa',
+            i === 0 || i === 1 || i === salesObj.sales.length + 1
+              ? 'black'
+              : '#aaa',
           fillColor: (i, node) => (i % 2 === 0 ? '#CCCCCC' : null)
         }
       },
@@ -138,8 +156,7 @@ export default salesObj => {
     styles: {
       headerStyle: {
         bold: true,
-        fontSize: 16,
-        margin: [0, 15, 0, 0]
+        fontSize: 16
       }
     },
     defaultStyle: {

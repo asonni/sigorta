@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Nav, NavbarBrand, NavbarToggler, Button } from 'reactstrap';
+import { Nav, NavbarBrand, NavbarToggler } from 'reactstrap';
 import ConfirmLogout from './ConfirmLogout';
 // import HeaderNotificationsDropdown from './HeaderNotificationsDropdown';
 

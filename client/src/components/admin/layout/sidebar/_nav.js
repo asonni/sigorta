@@ -8,7 +8,7 @@ export default {
     {
       name: 'Orders',
       url: '/admin/orders',
-      icon: 'fa fa-address-book-o',
+      icon: 'fa fa-shopping-cart',
       children: [
         {
           name: 'View Orders',
@@ -25,7 +25,7 @@ export default {
     {
       name: 'Users',
       url: '/admin/users',
-      icon: 'fa fa-address-book-o',
+      icon: 'fa fa-users',
       children: [
         {
           name: 'View Users',
@@ -59,7 +59,7 @@ export default {
     {
       name: 'Plans',
       url: '/admin/plans',
-      icon: 'fa fa-address-book-o',
+      icon: 'fa fa-leaf',
       children: [
         {
           name: 'View Plans',
@@ -76,7 +76,7 @@ export default {
     {
       name: 'Balances',
       url: '/admin/balances',
-      icon: 'fa fa-address-book-o',
+      icon: 'fa fa-try',
       children: [
         {
           name: 'View Balances',
@@ -98,7 +98,7 @@ export default {
         {
           name: 'Sales Report',
           url: '/admin/reports/sales',
-          icon: 'fa fa-list'
+          icon: 'fa fa-file-pdf-o'
         }
       ]
     }
