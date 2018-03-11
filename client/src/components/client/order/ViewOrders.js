@@ -15,7 +15,7 @@ import {
   CardBody,
   CardHeader
 } from 'reactstrap';
-import { LoadingContent, ErrorMessage } from '../../common';
+import { LoadingContent, ErrorMessage, AuthorizedMessage } from '../../common';
 import { fetchOrders } from '../../../actions/client';
 
 export class ViewOrders extends Component {
@@ -28,7 +28,7 @@ export class ViewOrders extends Component {
     filterByPending: true
   };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | View My Orders';
     this.props.fetchOrders();
   }
@@ -77,6 +77,7 @@ export class ViewOrders extends Component {
                 <span>
                   <strong>Price:</strong>{' '}
                   <NumberFormat
+                    decimalScale={2}
                     value={plan.price}
                     displayType={'text'}
                     thousandSeparator
@@ -130,6 +131,7 @@ export class ViewOrders extends Component {
             <td className="small text-muted">
               <strong>Price:</strong>{' '}
               <NumberFormat
+                decimalScale={2}
                 value={price}
                 displayType={'text'}
                 thousandSeparator
@@ -138,6 +140,7 @@ export class ViewOrders extends Component {
               <br />
               <strong>Total Price:</strong>{' '}
               <NumberFormat
+                decimalScale={2}
                 value={totalPrice}
                 displayType={'text'}
                 thousandSeparator
@@ -146,6 +149,7 @@ export class ViewOrders extends Component {
               <br />
               <strong>Total Price After Discount:</strong>{' '}
               <NumberFormat
+                decimalScale={2}
                 value={totalPriceAfterDiscount}
                 displayType={'text'}
                 thousandSeparator
@@ -173,7 +177,7 @@ export class ViewOrders extends Component {
       });
 
   renderOrders = () => {
-    const { orders, loading, error } = this.props;
+    const { orders, loading, errors } = this.props;
     // const {
     //   activePage,
     //   itemsCountPerPage,
@@ -183,12 +187,12 @@ export class ViewOrders extends Component {
     if (loading) {
       return <LoadingContent />;
     }
-    if (error) {
+    if (errors === 400) {
       return <ErrorMessage />;
     }
-    // if (errors.authenticated === false) {
-    //   return <AuthorizedMessage />;
-    // }
+    if (errors.status === 401) {
+      return <AuthorizedMessage />;
+    }
     if (orders.length === 0) {
       return (
         <div className="text-center">
@@ -309,8 +313,12 @@ export class ViewOrders extends Component {
   }
 }
 
-const mapStateToProps = ({ clientOrderStore: { orders, loading, error } }) => {
-  return { orders, loading, error };
-};
+const mapStateToProps = ({
+  clientOrderStore: { orders, loading, errors }
+}) => ({
+  orders,
+  loading,
+  errors
+});
 
 export default connect(mapStateToProps, { fetchOrders })(ViewOrders);

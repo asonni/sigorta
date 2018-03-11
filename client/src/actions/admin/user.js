@@ -30,8 +30,8 @@ export const fetchUsers = () => async dispatch => {
       }
     });
     dispatch({ type: FETCH_USERS_FULFILLED, payload: response });
-  } catch ({ error }) {
-    dispatch({ type: FETCH_USERS_REJECTED, payload: error });
+  } catch ({ response }) {
+    dispatch({ type: FETCH_USERS_REJECTED, payload: response });
   }
 };
 
@@ -45,8 +45,8 @@ export const fetchUser = id => async dispatch => {
       }
     });
     dispatch({ type: FETCH_USER_FULFILLED, payload: response });
-  } catch ({ error }) {
-    dispatch({ type: FETCH_USER_REJECTED, payload: error });
+  } catch ({ response }) {
+    dispatch({ type: FETCH_USER_REJECTED, payload: response });
   }
 };
 
@@ -69,14 +69,13 @@ export const newUser = ({
       }
     );
     dispatch({ type: NEW_USER_FULFILLED, payload: response });
-  } catch ({ error }) {
+  } catch ({ response }) {
     dispatch(reset('userForm'));
-    dispatch({ type: NEW_USER_REJECTED, payload: error });
+    dispatch({ type: NEW_USER_REJECTED, payload: response });
   }
 };
 
 export const editUser = values => async dispatch => {
-  console.log(values);
   dispatch({ type: EDIT_USER_PENDING });
   try {
     const response = await axios.put(`${URL}/${values._id}`, values, {
@@ -86,9 +85,9 @@ export const editUser = values => async dispatch => {
       }
     });
     dispatch({ type: EDIT_USER_FULFILLED, payload: response });
-  } catch ({ error }) {
+  } catch ({ response }) {
     dispatch(reset('userForm'));
-    dispatch({ type: EDIT_USER_REJECTED, payload: error });
+    dispatch({ type: EDIT_USER_REJECTED, payload: response });
   }
 };
 
@@ -101,10 +100,10 @@ export const deleteUser = id => async dispatch => {
       }
     });
     dispatch({ type: DELETE_USER_FULFILLED, payload: response });
-  } catch ({ error }) {
+  } catch ({ response }) {
     dispatch({
       type: DELETE_USER_REJECTED,
-      payload: error
+      payload: response
     });
   }
 };

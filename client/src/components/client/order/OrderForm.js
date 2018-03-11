@@ -6,9 +6,7 @@ import { Row, Col, Alert, Button, CardBody, CardFooter } from 'reactstrap';
 
 import validate from './validate';
 import {
-  ErrorMessage,
   renderInputField,
-  AuthorizedMessage,
   renderNationalities,
   renderDropdownField,
   renderDateTimePickerField
@@ -31,22 +29,31 @@ class OrderForm extends Component {
     const {
       orderError,
       plansError,
-      clientError,
       alertVisible,
+      clientError,
       onAlertDismiss
     } = this.props;
-    if ((orderError || clientError || plansError) === undefined) {
+    if (
+      (clientError && clientError.status === 401) ||
+      (plansError && plansError.status === 401)
+    ) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          <AuthorizedMessage />
+          You are not authorized to do this action
         </Alert>
       );
     }
-
-    if (orderError || clientError || plansError) {
+    if (orderError && orderError.status === 400) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          <ErrorMessage />
+          {orderError.message}
+        </Alert>
+      );
+    }
+    if (orderError && orderError.status === 401) {
+      return (
+        <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
+          {orderError.message}
         </Alert>
       );
     }
@@ -77,6 +84,7 @@ class OrderForm extends Component {
             <h6>
               <strong>Price</strong>:{' '}
               <NumberFormat
+                decimalScale={2}
                 value={price}
                 displayType={'text'}
                 thousandSeparator
@@ -84,6 +92,7 @@ class OrderForm extends Component {
               />{' '}
               | <strong>Total Price</strong>:{' '}
               <NumberFormat
+                decimalScale={2}
                 value={totalPrice}
                 displayType={'text'}
                 thousandSeparator
@@ -91,6 +100,7 @@ class OrderForm extends Component {
               />{' '}
               | <strong>Total Price After Discount</strong>:{' '}
               <NumberFormat
+                decimalScale={2}
                 value={totalPriceAfterDiscount}
                 displayType={'text'}
                 thousandSeparator

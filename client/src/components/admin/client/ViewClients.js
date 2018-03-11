@@ -15,21 +15,31 @@ import {
   ButtonGroup
 } from 'reactstrap';
 import DeleteClient from './DeleteClient';
-import { LoadingContent, ErrorMessage } from '../../common';
+import { LoadingContent, ErrorMessage, AuthorizedMessage } from '../../common';
 import { fetchClients } from '../../../actions/admin';
 
 class ViewClients extends Component {
   state = {
+    client: {},
     activePage: 1,
     itemsCountPerPage: 10,
     totalItemsCount: 450,
-    pageRangeDisplayed: 5
+    pageRangeDisplayed: 5,
+    showDeleteModal: false
   };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | View Clients';
     this.props.fetchClients();
   }
+
+  onOpenDeleteModal = client => {
+    this.setState({ client, showDeleteModal: true });
+  };
+
+  onCloseDeleteModal = () => {
+    this.setState({ showDeleteModal: false });
+  };
 
   onChangePage = activePage => {
     this.setState({ activePage });
@@ -39,7 +49,7 @@ class ViewClients extends Component {
     this.props.clients.map((client, index) => {
       const {
         _id,
-        user: { fname, lname, email, phone },
+        user: { fname, lname, email },
         name,
         discount,
         balance,
@@ -61,6 +71,7 @@ class ViewClients extends Component {
           <td className="text-center">
             <strong>
               <NumberFormat
+                decimalScale={2}
                 value={balance}
                 displayType={'text'}
                 thousandSeparator
@@ -79,7 +90,6 @@ class ViewClients extends Component {
           </td>
           <td>{`${fname} ${lname}`}</td>
           <td>{email}</td>
-          <td className="text-center">{phone || 'N/A'}</td>
           <td className="text-center">
             <ButtonGroup size="sm">
               <Button
@@ -91,11 +101,22 @@ class ViewClients extends Component {
                 <i className="fa fa-pencil-square-o" aria-hidden="true" />
                 <span className="hidden-xs-down">&nbsp;Edit</span>
               </Button>
-              <DeleteClient
-                clientId={_id}
-                clientName={name}
-                clinetUserEmail={email}
-              />
+              <Button
+                color="danger"
+                onClick={() =>
+                  this.onOpenDeleteModal({
+                    _id,
+                    name,
+                    discount,
+                    balance,
+                    username: `${fname} ${lname}`,
+                    email
+                  })
+                }
+              >
+                <i className="fa fa-trash" aria-hidden="true" />
+                <span className="hidden-xs-down">&nbsp;Delete</span>
+              </Button>
             </ButtonGroup>
           </td>
         </tr>
@@ -103,7 +124,7 @@ class ViewClients extends Component {
     });
 
   renderClients = () => {
-    const { clients, loading, error } = this.props;
+    const { clients, loading, errors } = this.props;
     // const {
     //   activePage,
     //   itemsCountPerPage,
@@ -113,12 +134,12 @@ class ViewClients extends Component {
     if (loading) {
       return <LoadingContent />;
     }
-    if (error) {
+    if (errors.status === 400) {
       return <ErrorMessage />;
     }
-    // if (errors.authenticated === false) {
-    //   return <AuthorizedMessage />;
-    // }
+    if (errors.status === 401) {
+      return <AuthorizedMessage />;
+    }
     if (clients.length === 0) {
       return (
         <div className="text-center">
@@ -143,9 +164,6 @@ class ViewClients extends Component {
               <th className="text-center">Limit by Balance</th>
               <th>User Name</th>
               <th>User Email</th>
-              <th className="text-center" width="10%">
-                User Phone
-              </th>
               <th className="text-center">Actions</th>
             </tr>
           </thead>
@@ -164,9 +182,10 @@ class ViewClients extends Component {
   };
 
   render() {
+    const { client, showDeleteModal } = this.state;
     return (
-      <div className="animated fadeIn">
-        <Row>
+      <Fragment>
+        <Row className="animated fadeIn">
           <Col xs="12" lg="12">
             <Card>
               <CardHeader>
@@ -191,13 +210,20 @@ class ViewClients extends Component {
             </Card>
           </Col>
         </Row>
-      </div>
+        <DeleteClient
+          client={client}
+          showDeleteModal={showDeleteModal}
+          onCloseDeleteModal={this.onCloseDeleteModal}
+        />
+      </Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ clientStore: { clients, loading, error } }) => {
-  return { clients, loading, error };
-};
+const mapStateToProps = ({ clientStore: { clients, loading, errors } }) => ({
+  clients,
+  loading,
+  errors
+});
 
 export default connect(mapStateToProps, { fetchClients })(ViewClients);

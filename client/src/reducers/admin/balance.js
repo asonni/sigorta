@@ -11,89 +11,65 @@ import {
 } from '../../actions/admin/types';
 
 const initState = {
-  // balance: {},
+  errors: {},
   balances: [],
-  error: null,
-  loading: false
+  loading: false,
+  deleteErrors: {}
 };
 
 export default (state = initState, { type, payload }) => {
   switch (type) {
     case FETCH_BALANCES_PENDING:
-      return { ...state, loading: true, balances: [], error: null };
+      return { ...state, loading: true, balances: [], errors: {} };
 
     case FETCH_BALANCES_FULFILLED:
       return {
         ...state,
         balances: _.orderBy(payload.data.balances, '_id', 'asc'),
         loading: false,
-        error: null
+        errors: {}
       };
 
     case FETCH_BALANCES_REJECTED:
-      return { ...state, loading: false, balances: [], error: payload };
-
-    // case FETCH_BALANCE_PENDING:
-    //   return { ...state, loading: true, balance: {}, error: null };
-    //
-    // case FETCH_BALANCE_FULFILLED:
-    //   return {
-    //     ...state,
-    //     balance: payload.data.balance,
-    //     loading: false,
-    //     error: null
-    //   };
-    //
-    // case FETCH_BALANCE_REJECTED:
-    //   const { message } = payload.data.error;
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     balance: {},
-    //     error: message ? message : 'error'
-    //   };
+      return { ...state, loading: false, balances: [], errors: payload };
 
     case NEW_BALANCE_PENDING:
-      return { ...state, loading: true, error: null };
+      return { ...state, loading: true, errors: {} };
 
     case NEW_BALANCE_FULFILLED:
       return {
         ...state,
         balances: [...state.balances, payload.data.balance],
         loading: false,
-        error: null
+        errors: {}
       };
 
     case NEW_BALANCE_REJECTED:
-      return { ...state, loading: false, error: payload };
-
-    // case EDIT_BALANCE_PENDING:
-    //   return { ...state, loading: true };
-    //
-    // case EDIT_BALANCE_FULFILLED:
-    //   const balance = payload.data;
-    //   return {
-    //     ...state,
-    //     balances: state.balances.map(
-    //       item => (item._id === balance._id ? balance : item)
-    //     ),
-    //     loading: false,
-    //     error: null
-    //   };
-    //
-    // case EDIT_BALANCE_REJECTED:
-    //   return { ...state, loading: false, error: payload };
+      return {
+        ...state,
+        loading: false,
+        errors: {
+          message: 'Something went wrong please try again later',
+          status: 400
+        }
+      };
 
     case DELETE_BALANCE_FULFILLED:
       const { id } = payload.data;
       return {
         ...state,
         balances: state.balances.filter(item => item._id !== id),
-        error: null
+        deleteErrors: {}
       };
 
     case DELETE_BALANCE_REJECTED:
-      return { ...state, error: payload };
+      return {
+        ...state,
+        deleteErrors: {
+          message: payload.data.error.message,
+          status: payload.status
+        }
+      };
 
     default:
       return state;

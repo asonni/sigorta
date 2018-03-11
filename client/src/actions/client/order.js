@@ -25,8 +25,8 @@ export const fetchOrders = () => async dispatch => {
       }
     );
     dispatch({ type: FETCH_ORDERS_FULFILLED, payload: response });
-  } catch ({ error }) {
-    dispatch({ type: FETCH_ORDERS_REJECTED, payload: error });
+  } catch ({ response }) {
+    dispatch({ type: FETCH_ORDERS_REJECTED, payload: response });
   }
 };
 
@@ -50,8 +50,8 @@ export const newOrder = values => async dispatch => {
       }
     );
     dispatch({ type: NEW_ORDER_FULFILLED, payload: response });
-  } catch ({ error }) {
+  } catch ({ response }) {
     dispatch(reset('orderForm'));
-    dispatch({ type: NEW_ORDER_REJECTED, payload: error });
+    dispatch({ type: NEW_ORDER_REJECTED, payload: response });
   }
 };

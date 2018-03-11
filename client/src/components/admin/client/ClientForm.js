@@ -5,9 +5,7 @@ import { Row, Col, Alert, Button, CardBody, CardFooter } from 'reactstrap';
 
 import validate from './validate';
 import {
-  ErrorMessage,
   renderInputField,
-  AuthorizedMessage,
   renderDropdownField,
   renderCheckboxField
 } from '../../common';
@@ -35,18 +33,27 @@ class ClientForm extends Component {
       clientError,
       usersError
     } = this.props;
-    if ((clientError || usersError) === undefined) {
+    if (
+      (clientError && clientError.status === 401) ||
+      (usersError && usersError.status === 401)
+    ) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          <AuthorizedMessage />
+          You are not authorized to do this action
         </Alert>
       );
     }
-
-    if (clientError || usersError) {
+    if (clientError && clientError.status === 400) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          <ErrorMessage />
+          {clientError.message}
+        </Alert>
+      );
+    }
+    if (usersError && usersError.status === 400) {
+      return (
+        <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
+          Something went wrong please try again later
         </Alert>
       );
     }

@@ -13,22 +13,32 @@ import {
   CardHeader,
   ButtonGroup
 } from 'reactstrap';
-import { LoadingContent, ErrorMessage } from '../../common';
+import { LoadingContent, ErrorMessage, AuthorizedMessage } from '../../common';
 import { fetchPlans } from '../../../actions/admin';
 import DeletePlan from './DeletePlan';
 
 class ViewPlans extends Component {
   state = {
+    plan: {},
     activePage: 1,
     itemsCountPerPage: 10,
     totalItemsCount: 450,
-    pageRangeDisplayed: 5
+    pageRangeDisplayed: 5,
+    showDeleteModal: false
   };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | View Plans';
     this.props.fetchPlans();
   }
+
+  onOpenDeleteModal = plan => {
+    this.setState({ plan, showDeleteModal: true });
+  };
+
+  onCloseDeleteModal = () => {
+    this.setState({ showDeleteModal: false });
+  };
 
   onChangePage = activePage => {
     this.setState({ activePage });
@@ -49,6 +59,7 @@ class ViewPlans extends Component {
           <td className="text-center">
             <strong>
               <NumberFormat
+                decimalScale={2}
                 value={price}
                 displayType={'text'}
                 thousandSeparator
@@ -70,7 +81,13 @@ class ViewPlans extends Component {
                 <i className="fa fa-pencil-square-o" aria-hidden="true" />
                 <span className="hidden-xs-down">&nbsp;Edit</span>
               </Button>
-              <DeletePlan planId={_id} planName={name} planPrice={price} />
+              <Button
+                color="danger"
+                onClick={() => this.onOpenDeleteModal(plan)}
+              >
+                <i className="fa fa-trash" aria-hidden="true" />
+                <span className="hidden-xs-down">&nbsp;Delete</span>
+              </Button>
             </ButtonGroup>
           </td>
         </tr>
@@ -78,7 +95,7 @@ class ViewPlans extends Component {
     });
 
   renderPlans = () => {
-    const { plans, loading, error } = this.props;
+    const { plans, loading, errors } = this.props;
     // const {
     //   activePage,
     //   itemsCountPerPage,
@@ -88,12 +105,12 @@ class ViewPlans extends Component {
     if (loading) {
       return <LoadingContent />;
     }
-    if (error) {
+    if (errors.status === 400) {
       return <ErrorMessage />;
     }
-    // if (error.authenticated === false) {
-    //   return <AuthorizedMessage />;
-    // }
+    if (errors.status === 401) {
+      return <AuthorizedMessage />;
+    }
     if (plans.length === 0) {
       return (
         <div className="text-center">
@@ -131,9 +148,10 @@ class ViewPlans extends Component {
   };
 
   render() {
+    const { plan, showDeleteModal } = this.state;
     return (
-      <div className="animated fadeIn">
-        <Row>
+      <Fragment>
+        <Row className="animated fadeIn">
           <Col xs="12" lg="12">
             <Card>
               <CardHeader>
@@ -158,13 +176,20 @@ class ViewPlans extends Component {
             </Card>
           </Col>
         </Row>
-      </div>
+        <DeletePlan
+          plan={plan}
+          showDeleteModal={showDeleteModal}
+          onCloseDeleteModal={this.onCloseDeleteModal}
+        />
+      </Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ planStore: { plans, loading, error } }) => {
-  return { plans, loading, error };
-};
+const mapStateToProps = ({ planStore: { plans, loading, errors } }) => ({
+  plans,
+  loading,
+  errors
+});
 
 export default connect(mapStateToProps, { fetchPlans })(ViewPlans);

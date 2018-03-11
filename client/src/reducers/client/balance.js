@@ -6,26 +6,26 @@ import {
 } from '../../actions/client/types';
 
 const initState = {
+  errors: {},
   balances: [],
-  error: null,
   loading: false
 };
 
 export default (state = initState, { type, payload }) => {
   switch (type) {
     case FETCH_BALANCES_PENDING:
-      return { ...state, loading: true, balances: [], error: null };
+      return { ...state, loading: true, balances: [], errors: {} };
 
     case FETCH_BALANCES_FULFILLED:
       return {
         ...state,
         balances: _.orderBy(payload.data.balances, '_id', 'asc'),
         loading: false,
-        error: null
+        errors: {}
       };
 
     case FETCH_BALANCES_REJECTED:
-      return { ...state, loading: false, balances: [], error: payload };
+      return { ...state, loading: false, balances: [], errors: payload };
 
     default:
       return state;

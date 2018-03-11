@@ -19,35 +19,36 @@ import {
 const initState = {
   plan: {},
   plans: [],
-  error: null,
-  loading: false
+  errors: {},
+  loading: false,
+  deleteErrors: {}
 };
 
 export default (state = initState, { type, payload }) => {
   switch (type) {
     case FETCH_PLANS_PENDING:
-      return { ...state, loading: true, plans: [], error: null };
+      return { ...state, loading: true, plans: [], errors: {} };
 
     case FETCH_PLANS_FULFILLED:
       return {
         ...state,
         plans: _.orderBy(payload.data.plans, '_id', 'asc'),
         loading: false,
-        error: null
+        errors: {}
       };
 
     case FETCH_PLANS_REJECTED:
-      return { ...state, loading: false, plans: [], error: payload };
+      return { ...state, loading: false, plans: [], errors: payload };
 
     case FETCH_PLAN_PENDING:
-      return { ...state, loading: true, plan: {}, error: null };
+      return { ...state, loading: true, plan: {}, errors: {} };
 
     case FETCH_PLAN_FULFILLED:
       return {
         ...state,
         plan: payload.data.plan,
         loading: false,
-        error: null
+        errors: {}
       };
 
     case FETCH_PLAN_REJECTED:
@@ -56,22 +57,26 @@ export default (state = initState, { type, payload }) => {
         ...state,
         loading: false,
         plan: {},
-        error: message ? message : 'error'
+        errors: { message, status: payload.status }
       };
 
     case NEW_PLAN_PENDING:
-      return { ...state, loading: true, error: null };
+      return { ...state, loading: true, errors: {} };
 
     case NEW_PLAN_FULFILLED:
       return {
         ...state,
         plans: [...state.plans, payload.data.plan],
         loading: false,
-        error: null
+        errors: {}
       };
 
     case NEW_PLAN_REJECTED:
-      return { ...state, loading: false, error: payload.data.error };
+      return {
+        ...state,
+        loading: false,
+        errors: { message: payload.data.error, status: payload.status }
+      };
 
     case EDIT_PLAN_PENDING:
       return { ...state, loading: true };
@@ -82,22 +87,32 @@ export default (state = initState, { type, payload }) => {
         ...state,
         plans: state.plans.map(item => (item.id === plan._id ? plan : item)),
         loading: false,
-        error: null
+        errors: {}
       };
 
     case EDIT_PLAN_REJECTED:
-      return { ...state, loading: false, error: payload };
+      return {
+        ...state,
+        loading: false,
+        errors: { message: payload.data.error, status: payload.status }
+      };
 
     case DELETE_PLAN_FULFILLED:
       const { id } = payload.data;
       return {
         ...state,
         plans: state.plans.filter(item => item._id !== id),
-        error: null
+        deleteErrors: {}
       };
 
     case DELETE_PLAN_REJECTED:
-      return { ...state, error: payload };
+      return {
+        ...state,
+        deleteErrors: {
+          message: payload.data.error.message,
+          status: payload.status
+        }
+      };
 
     default:
       return state;

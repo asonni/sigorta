@@ -1,52 +1,74 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, SubmissionError } from 'redux-form';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { reduxForm } from 'redux-form';
+import NumberFormat from 'react-number-format';
+import {
+  Alert,
+  Modal,
+  Button,
+  ModalBody,
+  ModalHeader,
+  ModalFooter
+} from 'reactstrap';
 
 import { deleteBalance } from '../../../actions/admin';
 
 class DeleteBalance extends Component {
-  state = { modal: false };
+  state = { alertVisible: false };
 
-  toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    });
+  onAlertDismiss = () => {
+    this.setState({ alertVisible: false });
+  };
+
+  onCloseDeleteModal = () => {
+    this.props.onCloseDeleteModal();
+    this.onAlertDismiss();
   };
 
   onSubmitDeleteBalance = async () => {
-    try {
-      await this.props.deleteBalance(this.props.balanceId);
-      this.toggle();
-    } catch (err) {
-      this.toggle();
-      throw new SubmissionError(this.props.error);
+    await this.props.deleteBalance(this.props.balance._id);
+    if (
+      this.props.deleteErrors.status === 400 ||
+      this.props.deleteErrors.status === 401
+    ) {
+      this.setState({ alertVisible: true });
+    } else {
+      this.onCloseDeleteModal();
     }
   };
 
   render() {
-    const {
-      balance,
-      balanceTransaction,
-      handleSubmit,
-      submitting
-    } = this.props;
+    const { balance, submitting, handleSubmit, showDeleteModal } = this.props;
     return (
       <Fragment>
-        <Button color="danger" onClick={this.toggle}>
-          <i className="fa fa-trash" aria-hidden="true" />
-          <span className="hidden-xs-down">&nbsp;Delete</span>
-        </Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>
+        <Modal isOpen={showDeleteModal} toggle={this.onCloseDeleteModal}>
+          <ModalHeader toggle={this.onCloseDeleteModal}>
             Delete Balance Warning!
           </ModalHeader>
           <ModalBody className="text-center">
+            <Alert
+              color="danger"
+              toggle={this.onAlertDismiss}
+              isOpen={this.state.alertVisible}
+            >
+              <h6 className="text-center">
+                <i className="fa fa-clock-o" aria-hidden="true" />&nbsp;
+                Something went wrong please try again later
+              </h6>
+            </Alert>
             <h5>Are you sure you want to delete this balance information?</h5>
             <br />
             <p>
-              <strong>Balance:</strong> {balance}, <strong>Transaction:</strong>{' '}
-              {balanceTransaction}
+              <strong>Balance:</strong>{' '}
+              <NumberFormat
+                decimalScale={2}
+                value={balance.balance}
+                displayType={'text'}
+                thousandSeparator
+                suffix={'TR'}
+              />{' '}
+              | <strong>Transaction:</strong>{' '}
+              <span className="text-capitalize">{balance.transaction}</span>
             </p>
           </ModalBody>
           <ModalFooter>
@@ -66,7 +88,7 @@ class DeleteBalance extends Component {
                 </Fragment>
               )}
             </Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>
+            <Button color="secondary" onClick={this.onCloseDeleteModal}>
               <i className="fa fa-times-circle" aria-hidden="true" />&nbsp;
               {submitting ? 'Cancel' : 'No'}
             </Button>
@@ -77,9 +99,9 @@ class DeleteBalance extends Component {
   }
 }
 
-const mapStateToProps = ({ balanceStore: { error } }) => {
-  return { error };
-};
+const mapStateToProps = ({ balanceStore: { deleteErrors } }) => ({
+  deleteErrors
+});
 
 const DeleteBalanceModal = reduxForm({ form: 'deleteBalance' })(DeleteBalance);
 

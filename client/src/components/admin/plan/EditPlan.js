@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { Row, Col, Card, CardHeader } from 'reactstrap';
 
@@ -9,19 +8,18 @@ import { fetchPlan, editPlan } from '../../../actions/admin';
 class EditPlan extends Component {
   state = { alertVisible: false };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | Edit Plan';
     const { id } = this.props.match.params;
     this.props.fetchPlan(id);
   }
 
   onSubmintEditPlan = async values => {
-    try {
-      await this.props.editPlan(values);
-      this.props.history.push('/admin/plans/view');
-    } catch (err) {
+    await this.props.editPlan(values);
+    if (this.props.errors.status === 400 || this.props.errors.status === 401) {
       this.setState({ alertVisible: true });
-      throw new SubmissionError(this.props.error);
+    } else {
+      this.props.history.push('/admin/plans/view');
     }
   };
 
@@ -36,7 +34,7 @@ class EditPlan extends Component {
           <Col xs="12" md={{ size: 6, offset: 3 }}>
             <Card>
               <CardHeader>
-                <i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit
+                <i className="fa fa-pencil-square-o" aria-hidden="true" />Edit
                 Plan (تعديل الخطة)
               </CardHeader>
               <PlanForm
@@ -53,8 +51,10 @@ class EditPlan extends Component {
   }
 }
 
-const mapStateToProps = ({ planStore: { plan, loading, error } }) => {
-  return { plan, loading, error };
-};
+const mapStateToProps = ({ planStore: { plan, loading, errors } }) => ({
+  plan,
+  loading,
+  errors
+});
 
 export default connect(mapStateToProps, { fetchPlan, editPlan })(EditPlan);

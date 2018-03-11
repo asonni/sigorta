@@ -4,46 +4,37 @@ import { Field, reduxForm } from 'redux-form';
 import { Alert, Button, CardBody, CardFooter } from 'reactstrap';
 
 import validate from './validate';
-import {
-  ErrorMessage,
-  renderInputField,
-  AuthorizedMessage,
-  renderDropdownField
-} from '../../common';
+import { renderInputField, renderDropdownField } from '../../common';
 
 class BalanceForm extends Component {
-  // componentWillReceiveProps(nextProps) {
-  //   // Load Contact Asynchronously
-  //   const { balance } = nextProps;
-  //   // console.log(this.props.balance);
-  //   if (balance && balance._id !== this.props.balance._id) {
-  //     // Initialize form only once
-  //     this.props.initialize({
-  //       _id: balance._id,
-  //       balance: balance.balance
-  //     });
-  //   }
-  // }
-
   renderAlerts = () => {
     const {
       alertVisible,
       onAlertDismiss,
-      balanceError,
-      clientsError
+      balanceErrors,
+      clientsErrors
     } = this.props;
-    if (balanceError === undefined || clientsError === undefined) {
+    if (
+      (balanceErrors && balanceErrors.status === 401) ||
+      (clientsErrors && clientsErrors.status === 401)
+    ) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          <AuthorizedMessage />
+          You are not authorized to do this action
         </Alert>
       );
     }
-
-    if (balanceError || clientsError) {
+    if (balanceErrors && balanceErrors.status === 400) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          <ErrorMessage />
+          {balanceErrors.message}
+        </Alert>
+      );
+    }
+    if (clientsErrors && clientsErrors.status === 400) {
+      return (
+        <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
+          Something went wrong please try again later
         </Alert>
       );
     }
@@ -51,10 +42,10 @@ class BalanceForm extends Component {
 
   render() {
     const {
-      handleSubmit,
       loading,
       pristine,
       submitting,
+      handleSubmit,
       renderClients,
       itemComponent
     } = this.props;

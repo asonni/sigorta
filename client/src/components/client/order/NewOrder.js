@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { Row, Col, Card, CardHeader } from 'reactstrap';
 
@@ -10,22 +9,11 @@ import { newOrder } from '../../../actions/client';
 export class NewOrder extends Component {
   state = { alertVisible: false };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | New Order';
     this.props.fetchPlans();
     this.props.fetchClient(localStorage.getItem('si_clientID'));
   }
-
-  onSubmintNewOrder = async values => {
-    const { newOrder, history, orderError } = this.props;
-    try {
-      await newOrder(values);
-      history.push('/admin/orders/view');
-    } catch (err) {
-      this.setState({ alertVisible: true });
-      throw new SubmissionError(orderError);
-    }
-  };
 
   onAlertDismiss = () => {
     this.setState({ alertVisible: false });
@@ -43,6 +31,18 @@ export class NewOrder extends Component {
       <strong>Name:</strong> {name}, <strong>Price:</strong> {price}
     </span>
   );
+
+  onSubmintNewOrder = async values => {
+    await this.props.newOrder(values);
+    if (
+      this.props.orderError.status === 400 ||
+      this.props.orderError.status === 401
+    ) {
+      this.setState({ alertVisible: true });
+    } else {
+      this.props.history.push('/client/orders/view');
+    }
+  };
 
   render() {
     const { clientLoading, plansLoading } = this.props;
@@ -71,18 +71,16 @@ export class NewOrder extends Component {
   }
 }
 
-const mapStateToProps = ({ clientOrderStore, clientStore, planStore }) => {
-  return {
-    orderLoading: clientOrderStore.loading,
-    orderError: clientOrderStore.error,
-    client: clientStore.client,
-    clientLoading: clientStore.loading,
-    clientError: clientStore.error,
-    plans: planStore.plans,
-    plansLoading: planStore.loading,
-    plansError: planStore.error
-  };
-};
+const mapStateToProps = ({ clientOrderStore, clientStore, planStore }) => ({
+  orderLoading: clientOrderStore.loading,
+  orderError: clientOrderStore.errors,
+  client: clientStore.client,
+  clientLoading: clientStore.loading,
+  clientError: clientStore.errors,
+  plans: planStore.plans,
+  plansLoading: planStore.loading,
+  plansError: planStore.errors
+});
 
 export default connect(mapStateToProps, {
   newOrder,

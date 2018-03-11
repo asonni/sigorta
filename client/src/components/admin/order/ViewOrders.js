@@ -19,23 +19,42 @@ import {
 import ApproveOrder from './ApproveOrder';
 import DeleteOrder from './DeleteOrder';
 import printOrderTable from './printOrderTable';
-import { LoadingContent, ErrorMessage } from '../../common';
+import { LoadingContent, ErrorMessage, AuthorizedMessage } from '../../common';
 import { fetchOrders } from '../../../actions/admin';
 
 export class ViewOrders extends Component {
   state = {
+    order: {},
     activePage: 1,
     itemsCountPerPage: 10,
     totalItemsCount: 450,
     pageRangeDisplayed: 5,
     filterByApproved: true,
-    filterByPending: true
+    filterByPending: true,
+    showDeleteModal: false,
+    showApproveModal: false
   };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | View Orders';
     this.props.fetchOrders();
   }
+
+  onOpenDeleteModal = order => {
+    this.setState({ order, showDeleteModal: true });
+  };
+
+  onCloseDeleteModal = () => {
+    this.setState({ showDeleteModal: false });
+  };
+
+  onOpenApproveModal = order => {
+    this.setState({ order, showApproveModal: true });
+  };
+
+  onCloseApproveModal = () => {
+    this.setState({ showApproveModal: false });
+  };
 
   onChangePage = activePage => {
     this.setState({ activePage });
@@ -49,7 +68,7 @@ export class ViewOrders extends Component {
             this.state.filterByApproved) ||
           (status.toLowerCase() === 'pending' && this.state.filterByPending)
       )
-      .map((item, index) => {
+      .map((order, index) => {
         const {
           _id,
           dob,
@@ -71,7 +90,7 @@ export class ViewOrders extends Component {
           fatherPassport,
           motherPassport,
           totalPriceAfterDiscount
-        } = item;
+        } = order;
         return (
           <tr key={index}>
             <td className="text-center" width="2%">
@@ -79,29 +98,42 @@ export class ViewOrders extends Component {
             </td>
             <td>
               Client Name:{' '}
-              <span className="text-capitalize">{client.name}</span>
+              <span className="text-capitalize">
+                {client ? client.name : 'N/A'}
+              </span>
               <div className="small text-muted">
                 <strong>Balance:</strong>{' '}
-                <NumberFormat
-                  value={client.balance}
-                  displayType={'text'}
-                  thousandSeparator
-                  suffix={'TR'}
-                />
+                {client ? (
+                  <NumberFormat
+                    suffix={'TR'}
+                    decimalScale={2}
+                    thousandSeparator
+                    displayType={'text'}
+                    value={client.balance}
+                  />
+                ) : (
+                  'N/A'
+                )}
                 <br />
-                <strong>Discount:</strong> {client.discount}%
+                <strong>Discount:</strong>{' '}
+                {client ? `${client.discount}%` : 'N/A'}
               </div>
               Plan Name:{' '}
               <span className="text-capitalize">{plan ? plan.name : null}</span>
               <div className="small text-muted">
                 <span>
                   <strong>Price:</strong>{' '}
-                  <NumberFormat
-                    value={plan.price}
-                    displayType={'text'}
-                    thousandSeparator
-                    suffix={'TR'}
-                  />
+                  {plan ? (
+                    <NumberFormat
+                      decimalScale={2}
+                      value={plan.price}
+                      displayType={'text'}
+                      thousandSeparator
+                      suffix={'TR'}
+                    />
+                  ) : (
+                    'N/A'
+                  )}
                 </span>
               </div>
             </td>
@@ -150,6 +182,7 @@ export class ViewOrders extends Component {
             <td className="small text-muted">
               <strong>Price:</strong>{' '}
               <NumberFormat
+                decimalScale={2}
                 value={price}
                 displayType={'text'}
                 thousandSeparator
@@ -158,6 +191,7 @@ export class ViewOrders extends Component {
               <br />
               <strong>Total Price:</strong>{' '}
               <NumberFormat
+                decimalScale={2}
                 value={totalPrice}
                 displayType={'text'}
                 thousandSeparator
@@ -166,6 +200,7 @@ export class ViewOrders extends Component {
               <br />
               <strong>Total Price After Discount:</strong>{' '}
               <NumberFormat
+                decimalScale={2}
                 value={totalPriceAfterDiscount}
                 displayType={'text'}
                 thousandSeparator
@@ -191,7 +226,13 @@ export class ViewOrders extends Component {
             <td className="text-center">
               <ButtonGroup size="sm">
                 {status.toLowerCase() === 'pending' && (
-                  <ApproveOrder orderId={_id} orderObj={item} />
+                  <Button
+                    color="success"
+                    onClick={() => this.onOpenApproveModal(order)}
+                  >
+                    <i className="fa fa-thumbs-up" aria-hidden="true" />
+                    <span className="hidden-xs-down">&nbsp;Approve</span>
+                  </Button>
                 )}
                 <Button
                   color="info"
@@ -202,8 +243,17 @@ export class ViewOrders extends Component {
                   <i className="fa fa-pencil-square-o" aria-hidden="true" />
                   <span className="hidden-xs-down">&nbsp;Edit</span>
                 </Button>
-                <DeleteOrder orderId={_id} orderObj={item} />
-                <Button color="secondary" onClick={() => printOrderTable(item)}>
+                <Button
+                  color="danger"
+                  onClick={() => this.onOpenDeleteModal(order)}
+                >
+                  <i className="fa fa-trash" aria-hidden="true" />
+                  <span className="hidden-xs-down">&nbsp;Delete</span>
+                </Button>
+                <Button
+                  color="secondary"
+                  onClick={() => printOrderTable(order)}
+                >
                   <i className="fa fa-print" aria-hidden="true" />
                   <span className="hidden-xs-down">&nbsp;Print</span>
                 </Button>
@@ -214,7 +264,7 @@ export class ViewOrders extends Component {
       });
 
   renderOrders = () => {
-    const { orders, loading, error } = this.props;
+    const { orders, loading, errors } = this.props;
     // const {
     //   activePage,
     //   itemsCountPerPage,
@@ -224,12 +274,12 @@ export class ViewOrders extends Component {
     if (loading) {
       return <LoadingContent />;
     }
-    if (error) {
+    if (errors.status === 400) {
       return <ErrorMessage />;
     }
-    // if (errors.authenticated === false) {
-    //   return <AuthorizedMessage />;
-    // }
+    if (errors.status === 401) {
+      return <AuthorizedMessage />;
+    }
     if (orders.length === 0) {
       return (
         <div className="text-center">
@@ -277,9 +327,10 @@ export class ViewOrders extends Component {
   };
 
   render() {
+    const { order, showDeleteModal, showApproveModal } = this.state;
     return (
-      <div className="animated fadeIn">
-        <Row>
+      <Fragment>
+        <Row className="animated fadeIn">
           <Col xs="12" lg="12">
             <Card>
               <CardHeader className="pb-1">
@@ -346,13 +397,25 @@ export class ViewOrders extends Component {
             </Card>
           </Col>
         </Row>
-      </div>
+        <DeleteOrder
+          order={order}
+          showDeleteModal={showDeleteModal}
+          onCloseDeleteModal={this.onCloseDeleteModal}
+        />
+        <ApproveOrder
+          order={order}
+          showApproveModal={showApproveModal}
+          onCloseApproveModal={this.onCloseApproveModal}
+        />
+      </Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ orderStore: { orders, loading, error } }) => {
-  return { orders, loading, error };
-};
+const mapStateToProps = ({ orderStore: { orders, loading, errors } }) => ({
+  orders,
+  loading,
+  errors
+});
 
 export default connect(mapStateToProps, { fetchOrders })(ViewOrders);

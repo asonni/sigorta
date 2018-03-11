@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { reset } from 'redux-form';
 import { ROOT_URL, API_URL, PREFIX_TOKEN } from '../baseUrl';
 import {
   FETCH_BALANCES_PENDING,
@@ -24,8 +23,8 @@ export const fetchBalances = () => async dispatch => {
       }
     });
     dispatch({ type: FETCH_BALANCES_FULFILLED, payload: response });
-  } catch ({ error }) {
-    dispatch({ type: FETCH_BALANCES_REJECTED, payload: error });
+  } catch ({ response }) {
+    dispatch({ type: FETCH_BALANCES_REJECTED, payload: response });
   }
 };
 
@@ -46,9 +45,8 @@ export const newBalance = ({ client, balance }) => async dispatch => {
       }
     );
     dispatch({ type: NEW_BALANCE_FULFILLED, payload: response });
-  } catch ({ error }) {
-    dispatch(reset('balanceForm'));
-    dispatch({ type: NEW_BALANCE_REJECTED, payload: error });
+  } catch ({ response }) {
+    dispatch({ type: NEW_BALANCE_REJECTED, payload: response });
   }
 };
 
@@ -61,10 +59,10 @@ export const deleteBalance = id => async dispatch => {
       }
     });
     dispatch({ type: DELETE_BALANCE_FULFILLED, payload: response });
-  } catch ({ error }) {
+  } catch ({ response }) {
     dispatch({
       type: DELETE_BALANCE_REJECTED,
-      payload: error
+      payload: response
     });
   }
 };

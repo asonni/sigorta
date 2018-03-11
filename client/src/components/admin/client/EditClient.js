@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SubmissionError } from 'redux-form';
 import { Row, Col, Card, CardHeader } from 'reactstrap';
 
 import ClientForm from './ClientForm';
@@ -9,23 +8,12 @@ import { fetchClient, fetchUsers, editClinet } from '../../../actions/admin';
 class EditClient extends Component {
   state = { alertVisible: true };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | Edit Clinet';
     const { fetchClient, fetchUsers, match: { params: { id } } } = this.props;
     fetchClient(id);
     fetchUsers();
   }
-
-  onSubmintEditClient = async values => {
-    const { editClinet, history, clientError } = this.props;
-    try {
-      await editClinet(values);
-      history.push('/admin/clients/view');
-    } catch (err) {
-      this.setState({ alertVisible: true });
-      throw new SubmissionError(clientError);
-    }
-  };
 
   onAlertDismiss = () => {
     this.setState({ alertVisible: false });
@@ -47,6 +35,18 @@ class EditClient extends Component {
     </span>
   );
 
+  onSubmintEditClient = async values => {
+    await this.props.editClinet(values);
+    if (
+      this.props.clientError.status === 400 ||
+      this.props.clientError.status === 401
+    ) {
+      this.setState({ alertVisible: true });
+    } else {
+      this.props.history.push('/admin/clients/view');
+    }
+  };
+
   render() {
     const { clientLoading, usersLoading } = this.props;
     return (
@@ -55,7 +55,7 @@ class EditClient extends Component {
           <Col xs="12" md={{ size: 6, offset: 3 }}>
             <Card>
               <CardHeader>
-                <i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit
+                <i className="fa fa-pencil-square-o" aria-hidden="true" />Edit
                 Clinet (تعديل زبون)
               </CardHeader>
               <ClientForm
@@ -75,16 +75,14 @@ class EditClient extends Component {
   }
 }
 
-const mapStateToProps = ({ clientStore, userStore }) => {
-  return {
-    client: clientStore.client,
-    clientLoading: clientStore.loading,
-    clientError: clientStore.error,
-    users: userStore.users,
-    usersLoading: userStore.loading,
-    usersError: userStore.error
-  };
-};
+const mapStateToProps = ({ clientStore, userStore }) => ({
+  client: clientStore.client,
+  clientLoading: clientStore.loading,
+  clientError: clientStore.errors,
+  users: userStore.users,
+  usersLoading: userStore.loading,
+  usersError: userStore.errors
+});
 
 export default connect(mapStateToProps, {
   fetchClient,

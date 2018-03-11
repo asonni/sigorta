@@ -24,7 +24,7 @@ class Login extends Component {
     loginLoading: false
   };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | Login';
   }
 
@@ -135,9 +135,10 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = ({ authStore: { isAdmin, message } }) => {
-  return { isAdmin, message };
-};
+const mapStateToProps = ({ authStore: { isAdmin, message } }) => ({
+  isAdmin,
+  message
+});
 
 const LgoinForm = reduxForm({ form: 'loginForm' })(Login);
 

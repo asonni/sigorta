@@ -20,25 +20,21 @@ class ShowOrder extends Component {
   state = { modal: false };
 
   onOpenShowOrderModal = () => {
-    this.setState({
-      modal: true
-    });
+    this.setState({ modal: true });
     this.props.fetchOrder(this.props.orderID);
   };
 
   onCloseShowOrderModal = () => {
-    this.setState({
-      modal: false
-    });
+    this.setState({ modal: false });
   };
 
   renderOrderInfo = () => {
-    const { order, loading, error } = this.props;
+    const { order, loading, errors } = this.props;
     const { client } = order;
     if (loading) {
       return <LoadingContent />;
     }
-    if (error) {
+    if (errors.status === 400) {
       return <ErrorMessage />;
     }
     if (order) {
@@ -50,6 +46,7 @@ class ShowOrder extends Component {
               {client ? client.name : 'Loading...'}, <strong>Balance:</strong>{' '}
               {client ? (
                 <NumberFormat
+                  decimalScale={2}
                   value={client.balance}
                   displayType={'text'}
                   thousandSeparator
@@ -87,6 +84,7 @@ class ShowOrder extends Component {
                 <td>{order.phone}</td>
                 <td>
                   <NumberFormat
+                    decimalScale={2}
                     value={order.price}
                     displayType={'text'}
                     thousandSeparator
@@ -95,6 +93,7 @@ class ShowOrder extends Component {
                 </td>
                 <td>
                   <NumberFormat
+                    decimalScale={2}
                     value={order.totalPrice}
                     displayType={'text'}
                     thousandSeparator
@@ -103,6 +102,7 @@ class ShowOrder extends Component {
                 </td>
                 <td>
                   <NumberFormat
+                    decimalScale={2}
                     value={order.totalPriceAfterDiscount}
                     displayType={'text'}
                     thousandSeparator
@@ -156,8 +156,10 @@ class ShowOrder extends Component {
   }
 }
 
-const mapStateToProps = ({ orderStore: { order, loading, error } }) => {
-  return { order, loading, error };
-};
+const mapStateToProps = ({ orderStore: { order, loading, errors } }) => ({
+  order,
+  loading,
+  errors
+});
 
 export default connect(mapStateToProps, { fetchOrder })(ShowOrder);

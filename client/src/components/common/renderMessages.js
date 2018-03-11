@@ -18,10 +18,10 @@ const ErrorMessage = () => (
 );
 
 const AuthorizedMessage = () => (
-  <h2 className="text-center">
+  <h3 className="text-center">
     <i className="fa fa-clock-o" aria-hidden="true" />&nbsp; You are not
     authorized to access this page
-  </h2>
+  </h3>
 );
 
 export { LoadingContent, ErrorMessage, AuthorizedMessage };

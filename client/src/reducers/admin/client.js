@@ -19,35 +19,36 @@ import {
 const initState = {
   client: {},
   clients: [],
-  error: null,
-  loading: false
+  errors: {},
+  loading: false,
+  deleteErrors: {}
 };
 
 export default (state = initState, { type, payload }) => {
   switch (type) {
     case FETCH_CLINETS_PENDING:
-      return { ...state, loading: true, error: null };
+      return { ...state, loading: true, errors: {} };
 
     case FETCH_CLINETS_FULFILLED:
       return {
         ...state,
         clients: _.orderBy(payload.data.clients, '_id', 'asc'),
         loading: false,
-        error: null
+        errors: {}
       };
 
     case FETCH_CLINETS_REJECTED:
-      return { ...state, loading: false, error: payload };
+      return { ...state, loading: false, errors: payload };
 
     case FETCH_CLINET_PENDING:
-      return { ...state, loading: true, client: {}, error: null };
+      return { ...state, loading: true, client: {}, errors: {} };
 
     case FETCH_CLINET_FULFILLED:
       return {
         ...state,
         client: payload.data.client,
         loading: false,
-        error: null
+        errors: {}
       };
 
     case FETCH_CLINET_REJECTED:
@@ -56,22 +57,26 @@ export default (state = initState, { type, payload }) => {
         ...state,
         loading: false,
         client: {},
-        error: payload.data ? message : undefined
+        errors: { message, status: payload.status }
       };
 
     case NEW_CLINET_PENDING:
-      return { ...state, loading: true, error: null };
+      return { ...state, loading: true, errors: {} };
 
     case NEW_CLINET_FULFILLED:
       return {
         ...state,
         clients: [...state.clients, payload.data.client],
         loading: false,
-        error: null
+        errors: {}
       };
 
     case NEW_CLINET_REJECTED:
-      return { ...state, loading: false, error: payload.data.error };
+      return {
+        ...state,
+        loading: false,
+        errors: { message: payload.data.error, status: payload.status }
+      };
 
     case EDIT_CLINET_PENDING:
       return { ...state, loading: true };
@@ -84,22 +89,32 @@ export default (state = initState, { type, payload }) => {
           item => (item._id === client._id ? client : item)
         ),
         loading: false,
-        error: null
+        errors: {}
       };
 
     case EDIT_CLINET_REJECTED:
-      return { ...state, loading: false, error: payload };
+      return {
+        ...state,
+        loading: false,
+        errors: { message: payload.data.error, status: payload.status }
+      };
 
     case DELETE_CLINET_FULFILLED:
       const { id } = payload.data;
       return {
         ...state,
         clients: state.clients.filter(item => item._id !== id),
-        error: null
+        deleteErrors: {}
       };
 
     case DELETE_CLINET_REJECTED:
-      return { ...state, error: payload };
+      return {
+        ...state,
+        deleteErrors: {
+          message: payload.data.error.message,
+          status: payload.status
+        }
+      };
 
     default:
       return state;

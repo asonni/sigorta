@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SubmissionError } from 'redux-form';
 import { Row, Col, Card, CardHeader } from 'reactstrap';
 
 import OrderForm from './OrderForm';
@@ -14,7 +13,7 @@ import {
 export class EditOrder extends Component {
   state = { alertVisible: true };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | Edit Order';
     const {
       fetchOrder,
@@ -26,17 +25,6 @@ export class EditOrder extends Component {
     fetchClients();
     fetchPlans();
   }
-
-  onSubmintEditOrder = async values => {
-    const { editOrder, history, orderError } = this.props;
-    try {
-      await editOrder(values);
-      history.push('/admin/orders/view');
-    } catch (err) {
-      this.setState({ alertVisible: true });
-      throw new SubmissionError(orderError);
-    }
-  };
 
   onAlertDismiss = () => {
     this.setState({ alertVisible: false });
@@ -72,49 +60,57 @@ export class EditOrder extends Component {
     </span>
   );
 
+  onSubmintEditOrder = async values => {
+    await this.props.editOrder(values);
+    if (
+      this.props.orderError.status === 400 ||
+      this.props.orderError.status === 401
+    ) {
+      this.setState({ alertVisible: true });
+    } else {
+      this.props.history.push('/admin/orders/view');
+    }
+  };
+
   render() {
     const { orderLoading, clientsLoading, plansLoading } = this.props;
     return (
-      <div className="animated fadeIn">
-        <Row>
-          <Col xs="12" md={{ size: 6, offset: 3 }}>
-            <Card>
-              <CardHeader>
-                <i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit
-                Order (تعديل الطلب)
-              </CardHeader>
-              <OrderForm
-                {...this.props}
-                loading={orderLoading && clientsLoading && plansLoading}
-                onSubmit={this.onSubmintEditOrder}
-                renderClients={this.renderClients()}
-                renderPlans={this.renderPlans()}
-                itemClientComponent={this.itemClientComponent}
-                itemPlanComponent={this.itemPlanComponent}
-                onAlertDismiss={this.onAlertDismiss}
-                alertVisible={this.state.alertVisible}
-              />
-            </Card>
-          </Col>
-        </Row>
-      </div>
+      <Row className="animated fadeIn">
+        <Col xs="12" md={{ size: 6, offset: 3 }}>
+          <Card>
+            <CardHeader>
+              <i className="fa fa-pencil-square-o" aria-hidden="true" />Edit
+              Order (تعديل الطلب)
+            </CardHeader>
+            <OrderForm
+              {...this.props}
+              loading={orderLoading && clientsLoading && plansLoading}
+              onSubmit={this.onSubmintEditOrder}
+              renderClients={this.renderClients()}
+              renderPlans={this.renderPlans()}
+              itemClientComponent={this.itemClientComponent}
+              itemPlanComponent={this.itemPlanComponent}
+              onAlertDismiss={this.onAlertDismiss}
+              alertVisible={this.state.alertVisible}
+            />
+          </Card>
+        </Col>
+      </Row>
     );
   }
 }
 
-const mapStateToProps = ({ orderStore, clientStore, planStore }) => {
-  return {
-    order: orderStore.order,
-    orderLoading: orderStore.loading,
-    orderError: orderStore.error,
-    clients: clientStore.clients,
-    clientsLoading: clientStore.loading,
-    clientsError: clientStore.error,
-    plans: planStore.plans,
-    plansLoading: planStore.loading,
-    plansError: planStore.error
-  };
-};
+const mapStateToProps = ({ orderStore, clientStore, planStore }) => ({
+  order: orderStore.order,
+  orderLoading: orderStore.loading,
+  orderError: orderStore.errors,
+  clients: clientStore.clients,
+  clientsLoading: clientStore.loading,
+  clientsError: clientStore.errors,
+  plans: planStore.plans,
+  plansLoading: planStore.loading,
+  plansError: planStore.errors
+});
 
 export default connect(mapStateToProps, {
   fetchOrder,

@@ -13,22 +13,32 @@ import {
   CardHeader,
   ButtonGroup
 } from 'reactstrap';
-import { LoadingContent, ErrorMessage } from '../../common';
+import { LoadingContent, ErrorMessage, AuthorizedMessage } from '../../common';
 import { fetchUsers } from '../../../actions/admin';
 import DeleteUser from './DeleteUser';
 
 class ViewUsers extends PureComponent {
   state = {
+    user: {},
     activePage: 1,
     itemsCountPerPage: 10,
     totalItemsCount: 450,
-    pageRangeDisplayed: 5
+    pageRangeDisplayed: 5,
+    showDeleteModal: false
   };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | View Users';
     this.props.fetchUsers();
   }
+
+  onOpenDeleteModal = user => {
+    this.setState({ user, showDeleteModal: true });
+  };
+
+  onCloseDeleteModal = () => {
+    this.setState({ showDeleteModal: false });
+  };
 
   onChangePage = activePage => {
     this.setState({ activePage });
@@ -77,11 +87,13 @@ class ViewUsers extends PureComponent {
                 <i className="fa fa-pencil-square-o" aria-hidden="true" />
                 <span className="hidden-xs-down">&nbsp;Edit</span>
               </Button>
-              <DeleteUser
-                userId={_id}
-                userFullName={`${fname} ${lname}`}
-                userEmail={email}
-              />
+              <Button
+                color="danger"
+                onClick={() => this.onOpenDeleteModal(user)}
+              >
+                <i className="fa fa-trash" aria-hidden="true" />
+                <span className="hidden-xs-down">&nbsp;Delete</span>
+              </Button>
             </ButtonGroup>
           </td>
         </tr>
@@ -89,7 +101,7 @@ class ViewUsers extends PureComponent {
     });
 
   renderUsers = () => {
-    const { users, loading, error } = this.props;
+    const { users, loading, errors } = this.props;
     // const {
     //   activePage,
     //   itemsCountPerPage,
@@ -99,12 +111,12 @@ class ViewUsers extends PureComponent {
     if (loading) {
       return <LoadingContent />;
     }
-    if (error) {
+    if (errors.status === 400) {
       return <ErrorMessage />;
     }
-    // if (error.authenticated === false) {
-    //   return <AuthorizedMessage />;
-    // }
+    if (errors.status === 401) {
+      return <AuthorizedMessage />;
+    }
     if (users.length === 0) {
       return (
         <div className="text-center">
@@ -144,9 +156,10 @@ class ViewUsers extends PureComponent {
   };
 
   render() {
+    const { user, showDeleteModal } = this.state;
     return (
-      <div className="animated fadeIn">
-        <Row>
+      <Fragment>
+        <Row className="animated fadeIn">
           <Col xs="12" lg="12">
             <Card>
               <CardHeader>
@@ -172,13 +185,20 @@ class ViewUsers extends PureComponent {
             </Card>
           </Col>
         </Row>
-      </div>
+        <DeleteUser
+          user={user}
+          showDeleteModal={showDeleteModal}
+          onCloseDeleteModal={this.onCloseDeleteModal}
+        />
+      </Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ userStore: { users, loading, error } }) => {
-  return { users, loading, error };
-};
+const mapStateToProps = ({ userStore: { users, loading, errors } }) => ({
+  users,
+  loading,
+  errors
+});
 
 export default connect(mapStateToProps, { fetchUsers })(ViewUsers);

@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { Form } from 'semantic-ui-react';
-import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import {
@@ -27,7 +26,7 @@ import {
 export class SalesReport extends Component {
   state = { alertVisible: false };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | Sales Report';
   }
 
@@ -37,27 +36,16 @@ export class SalesReport extends Component {
     }
   }
 
-  onSubmintFetchSales = async values => {
-    const { fetchSales, error } = this.props;
-    try {
-      await fetchSales(values);
-    } catch (err) {
-      this.setState({ alertVisible: true });
-      throw new SubmissionError(error);
-    }
-  };
-
   onAlertDismiss = () => {
     this.setState({ alertVisible: false });
   };
 
   renderAlerts = () => {
-    const { alertVisible, error } = this.state;
-    if (error === undefined) {
+    if (this.props.errors.status === 401) {
       return (
         <Alert
           color="danger"
-          isOpen={alertVisible}
+          isOpen={this.state.alertVisible}
           toggle={this.onAlertDismiss}
         >
           <AuthorizedMessage />
@@ -65,16 +53,25 @@ export class SalesReport extends Component {
       );
     }
 
-    if (error) {
+    if (this.props.errors.status === 400) {
       return (
         <Alert
           color="danger"
-          isOpen={alertVisible}
+          isOpen={this.state.alertVisible}
           toggle={this.onAlertDismiss}
         >
           <ErrorMessage />
         </Alert>
       );
+    }
+  };
+
+  onSubmintFetchSales = async values => {
+    await this.props.fetchSales(values);
+    if (this.props.errors.status === 400 || this.props.errors.status === 401) {
+      this.setState({ alertVisible: true });
+    } else {
+      this.onAlertDismiss();
     }
   };
 
@@ -87,7 +84,7 @@ export class SalesReport extends Component {
             <Card>
               <Form onSubmit={handleSubmit(this.onSubmintFetchSales)}>
                 <CardHeader>
-                  <i className="fa fa-print" aria-hidden="true" /> Sales Report
+                  <i className="fa fa-print" aria-hidden="true" />Sales Report
                   (تقرير المبيعات)
                 </CardHeader>
                 <CardBody>
@@ -156,9 +153,11 @@ export class SalesReport extends Component {
   }
 }
 
-const mapStateToProps = ({ salesStore: { sales, loading, error } }) => {
-  return { sales, loading, error };
-};
+const mapStateToProps = ({ salesStore: { sales, loading, errors } }) => ({
+  sales,
+  loading,
+  errors
+});
 
 const SalesReportForm = reduxForm({ validate, form: 'salesReportForm' })(
   SalesReport

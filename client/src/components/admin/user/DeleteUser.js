@@ -1,43 +1,53 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, SubmissionError } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import { deleteUser } from '../../../actions/admin';
 
 class DeleteUser extends PureComponent {
-  state = { modal: false };
+  state = { alertVisible: false };
 
-  toggle = () => {
-    this.setState({ modal: !this.state.modal });
+  onAlertDismiss = () => {
+    this.setState({ alertVisible: false });
+  };
+
+  onCloseDeleteModal = () => {
+    this.props.onCloseDeleteModal();
+    this.onAlertDismiss();
   };
 
   onSubmitDeleteUser = async () => {
-    try {
-      await this.props.deleteUser(this.props.userId);
-      this.toggle();
-    } catch (err) {
-      this.toggle();
-      throw new SubmissionError(this.props.error);
+    await this.props.deleteUser(this.props.user._id);
+    if (
+      this.props.deleteErrors.status === 400 ||
+      this.props.deleteErrors.status === 401
+    ) {
+      this.setState({ alertVisible: true });
+    } else {
+      this.onCloseDeleteModal();
     }
   };
 
   render() {
-    const { userFullName, userEmail, handleSubmit, submitting } = this.props;
+    const {
+      submitting,
+      handleSubmit,
+      showDeleteModal,
+      user: { fname, lname, email }
+    } = this.props;
     return (
       <Fragment>
-        <Button color="danger" onClick={this.toggle}>
-          <i className="fa fa-trash" aria-hidden="true" />
-          <span className="hidden-xs-down">&nbsp;Delete</span>
-        </Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Delete User Warning!</ModalHeader>
+        <Modal isOpen={showDeleteModal} toggle={this.onCloseDeleteModal}>
+          <ModalHeader toggle={this.onCloseDeleteModal}>
+            Delete User Warning!
+          </ModalHeader>
           <ModalBody className="text-center">
             <h5>Are you sure you want to delete this user information?</h5>
             <br />
             <p>
-              <strong>Name:</strong> {userFullName}, <strong>Email:</strong>{' '}
-              {userEmail}
+              <strong>Name:</strong> {fname} {lname}, <strong>Email:</strong>{' '}
+              {email}
             </p>
           </ModalBody>
           <ModalFooter>
@@ -57,7 +67,7 @@ class DeleteUser extends PureComponent {
                 </Fragment>
               )}
             </Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>
+            <Button color="secondary" onClick={this.onCloseDeleteModal}>
               <i className="fa fa-times-circle" aria-hidden="true" />&nbsp;
               {submitting ? 'Cancel' : 'No'}
             </Button>
@@ -68,9 +78,7 @@ class DeleteUser extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ userStore: { loading, error } }) => {
-  return { loading, error };
-};
+const mapStateToProps = ({ userStore: { deleteUser } }) => ({ deleteUser });
 
 const DeleteUserModal = reduxForm({ form: 'deleteUser' })(DeleteUser);
 

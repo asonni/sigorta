@@ -68,6 +68,8 @@ export const NEW_ORDER_REJECTED = 'new_order_rejected';
 export const EDIT_ORDER_PENDING = 'edit_order_pending';
 export const EDIT_ORDER_FULFILLED = 'edit_order_fulfilled';
 export const EDIT_ORDER_REJECTED = 'edit_order_rejected';
+export const APPROVE_ORDER_FULFILLED = 'approve_order_fulfilled';
+export const APPROVE_ORDER_REJECTED = 'approve_order_rejected';
 export const DELETE_ORDER_FULFILLED = 'delete_order_fulfilled';
 export const DELETE_ORDER_REJECTED = 'delete_order_rejected';
 // Sales Types

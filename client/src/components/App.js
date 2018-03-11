@@ -19,10 +19,10 @@ let middleware;
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 if (process.env.REACT_APP_ENV === 'development') {
   middleware = composeEnhancers(
-    applyMiddleware(ReduxThunk, ReduxPromise, ReduxLogger)
+    applyMiddleware(ReduxPromise, ReduxThunk, ReduxLogger)
   );
 } else {
-  middleware = composeEnhancers(applyMiddleware(ReduxThunk, ReduxPromise));
+  middleware = composeEnhancers(applyMiddleware(ReduxPromise, ReduxThunk));
 }
 const store = createStore(rootReducer, middleware);
 

@@ -23,7 +23,7 @@ export const fetchSales = ({ dateType, from, to }) => async dispatch => {
     });
     dispatch({ type: FETCH_SALES_FULFILLED, payload: response });
     dispatch(reset('salesReportForm'));
-  } catch ({ error }) {
-    dispatch({ type: FETCH_SALES_REJECTED, payload: error });
+  } catch ({ response }) {
+    dispatch({ type: FETCH_SALES_REJECTED, payload: response });
   }
 };

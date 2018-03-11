@@ -13,7 +13,7 @@ import {
   ButtonGroup
 } from 'reactstrap';
 import ShowOrder from './ShowOrder';
-import { LoadingContent, ErrorMessage } from '../../common';
+import { LoadingContent, ErrorMessage, AuthorizedMessage } from '../../common';
 import { fetchBalances } from '../../../actions/client';
 
 export class ViewBalances extends Component {
@@ -24,7 +24,7 @@ export class ViewBalances extends Component {
     pageRangeDisplayed: 5
   };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | View My Balances';
     this.props.fetchBalances();
   }
@@ -45,6 +45,7 @@ export class ViewBalances extends Component {
             <td className="text-center">
               <strong>
                 <NumberFormat
+                  decimalScale={2}
                   value={balance}
                   displayType={'text'}
                   thousandSeparator
@@ -58,7 +59,7 @@ export class ViewBalances extends Component {
             </td>
             <td className="text-center">
               <ButtonGroup size="sm">
-                {order && <ShowOrder orderID={order} />}
+                {order ? <ShowOrder orderID={order} /> : 'N/A'}
               </ButtonGroup>
             </td>
           </tr>
@@ -67,7 +68,7 @@ export class ViewBalances extends Component {
     });
 
   renderBalances = () => {
-    const { balances, loading, error } = this.props;
+    const { balances, loading, errors } = this.props;
     // const {
     //   activePage,
     //   itemsCountPerPage,
@@ -77,12 +78,12 @@ export class ViewBalances extends Component {
     if (loading) {
       return <LoadingContent />;
     }
-    if (error) {
+    if (errors.status === 400) {
       return <ErrorMessage />;
     }
-    // if (errors.authenticated === false) {
-    //   return <AuthorizedMessage />;
-    // }
+    if (errors.status === 401) {
+      return <AuthorizedMessage />;
+    }
     if (balances.length === 0) {
       return (
         <div className="text-center">
@@ -120,28 +121,28 @@ export class ViewBalances extends Component {
 
   render() {
     return (
-      <div className="animated fadeIn">
-        <Row>
-          <Col xs="12" lg="12">
-            <Card>
-              <CardHeader>
-                <Row>
-                  <Col lg={{ size: 4, offset: 8 }}>
-                    {/* <Input type="text" bsSize="sm" placeholder="Search" /> */}
-                  </Col>
-                </Row>
-              </CardHeader>
-              <CardBody>{this.renderBalances()}</CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </div>
+      <Row className="animated fadeIn">
+        <Col xs="12" lg="12">
+          <Card>
+            <CardHeader>
+              <Row>
+                <Col lg={{ size: 4, offset: 8 }}>
+                  {/* <Input type="text" bsSize="sm" placeholder="Search" /> */}
+                </Col>
+              </Row>
+            </CardHeader>
+            <CardBody>{this.renderBalances()}</CardBody>
+          </Card>
+        </Col>
+      </Row>
     );
   }
 }
 
-const mapStateToProps = ({ balanceStore: { balances, loading, error } }) => {
-  return { balances, loading, error };
-};
+const mapStateToProps = ({ balanceStore: { balances, loading, errors } }) => ({
+  balances,
+  loading,
+  errors
+});
 
 export default connect(mapStateToProps, { fetchBalances })(ViewBalances);

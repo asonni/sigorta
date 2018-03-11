@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/auth';
 
 class Logout extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.logoutUser();
     this.props.history.push('/');
   }

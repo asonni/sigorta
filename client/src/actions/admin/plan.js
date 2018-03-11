@@ -30,8 +30,8 @@ export const fetchPlans = () => async dispatch => {
       }
     });
     dispatch({ type: FETCH_PLANS_FULFILLED, payload: response });
-  } catch ({ error }) {
-    dispatch({ type: FETCH_PLANS_REJECTED, payload: error });
+  } catch ({ response }) {
+    dispatch({ type: FETCH_PLANS_REJECTED, payload: response });
   }
 };
 
@@ -45,8 +45,8 @@ export const fetchPlan = id => async dispatch => {
       }
     });
     dispatch({ type: FETCH_PLAN_FULFILLED, payload: response });
-  } catch ({ error }) {
-    dispatch({ type: FETCH_PLAN_REJECTED, payload: error });
+  } catch ({ response }) {
+    dispatch({ type: FETCH_PLAN_REJECTED, payload: response });
   }
 };
 
@@ -67,9 +67,10 @@ export const newPlan = ({ name, price }) => async dispatch => {
       }
     );
     dispatch({ type: NEW_PLAN_FULFILLED, payload: response });
-  } catch ({ error }) {
+  } catch ({ response }) {
+    console.log(response);
     dispatch(reset('planForm'));
-    dispatch({ type: NEW_PLAN_REJECTED, payload: error });
+    dispatch({ type: NEW_PLAN_REJECTED, payload: response });
   }
 };
 
@@ -90,9 +91,9 @@ export const editPlan = ({ _id, name, price }) => async dispatch => {
       }
     );
     dispatch({ type: EDIT_PLAN_FULFILLED, payload: response });
-  } catch ({ error }) {
+  } catch ({ response }) {
     dispatch(reset('planForm'));
-    dispatch({ type: EDIT_PLAN_REJECTED, payload: error });
+    dispatch({ type: EDIT_PLAN_REJECTED, payload: response });
   }
 };
 
@@ -105,10 +106,10 @@ export const deletePlan = id => async dispatch => {
       }
     });
     dispatch({ type: DELETE_PLAN_FULFILLED, payload: response });
-  } catch ({ error }) {
+  } catch ({ response }) {
     dispatch({
       type: DELETE_PLAN_REJECTED,
-      payload: error
+      payload: response
     });
   }
 };

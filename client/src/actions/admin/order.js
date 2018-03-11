@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { reset } from 'redux-form';
 import { ROOT_URL, API_URL, PREFIX_TOKEN } from '../baseUrl';
 import {
   FETCH_ORDERS_PENDING,
@@ -14,6 +13,8 @@ import {
   EDIT_ORDER_PENDING,
   EDIT_ORDER_FULFILLED,
   EDIT_ORDER_REJECTED,
+  APPROVE_ORDER_FULFILLED,
+  APPROVE_ORDER_REJECTED,
   DELETE_ORDER_FULFILLED,
   DELETE_ORDER_REJECTED
 } from './types';
@@ -30,8 +31,8 @@ export const fetchOrders = () => async dispatch => {
       }
     });
     dispatch({ type: FETCH_ORDERS_FULFILLED, payload: response });
-  } catch ({ error }) {
-    dispatch({ type: FETCH_ORDERS_REJECTED, payload: error });
+  } catch ({ response }) {
+    dispatch({ type: FETCH_ORDERS_REJECTED, payload: response });
   }
 };
 
@@ -45,8 +46,8 @@ export const fetchOrder = id => async dispatch => {
       }
     });
     dispatch({ type: FETCH_ORDER_FULFILLED, payload: response });
-  } catch ({ error }) {
-    dispatch({ type: FETCH_ORDER_REJECTED, payload: error });
+  } catch ({ response }) {
+    dispatch({ type: FETCH_ORDER_REJECTED, payload: response });
   }
 };
 
@@ -67,9 +68,8 @@ export const newOrder = values => async dispatch => {
       }
     });
     dispatch({ type: NEW_ORDER_FULFILLED, payload: response });
-  } catch ({ error }) {
-    dispatch(reset('orderForm'));
-    dispatch({ type: NEW_ORDER_REJECTED, payload: error });
+  } catch ({ response }) {
+    dispatch({ type: NEW_ORDER_REJECTED, payload: response });
   }
 };
 
@@ -94,9 +94,8 @@ export const editOrder = values => async dispatch => {
       }
     );
     dispatch({ type: EDIT_ORDER_FULFILLED, payload: response });
-  } catch ({ error }) {
-    dispatch(reset('orderForm'));
-    dispatch({ type: EDIT_ORDER_REJECTED, payload: error });
+  } catch ({ response }) {
+    dispatch({ type: EDIT_ORDER_REJECTED, payload: response });
   }
 };
 
@@ -112,11 +111,11 @@ export const approveOrder = id => async dispatch => {
         }
       }
     );
-    dispatch({ type: EDIT_ORDER_FULFILLED, payload: response });
-  } catch ({ error }) {
+    dispatch({ type: APPROVE_ORDER_FULFILLED, payload: response });
+  } catch ({ response }) {
     dispatch({
-      type: EDIT_ORDER_REJECTED,
-      payload: error
+      type: APPROVE_ORDER_REJECTED,
+      payload: response
     });
   }
 };
@@ -130,10 +129,10 @@ export const deleteOrder = id => async dispatch => {
       }
     });
     dispatch({ type: DELETE_ORDER_FULFILLED, payload: response });
-  } catch ({ error }) {
+  } catch ({ response }) {
     dispatch({
       type: DELETE_ORDER_REJECTED,
-      payload: error
+      payload: response
     });
   }
 };

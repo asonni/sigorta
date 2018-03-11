@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { Row, Col, Card, CardHeader } from 'reactstrap';
 
@@ -9,22 +8,10 @@ import { fetchClients, newBalance } from '../../../actions/admin';
 export class NewBalance extends Component {
   state = { alertVisible: false };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | New Balance';
     this.props.fetchClients();
   }
-
-  onSubmintNewBalance = async values => {
-    console.log(values);
-    const { newBalance, history, balanceError } = this.props;
-    try {
-      await newBalance(values);
-      history.push('/admin/balances/view');
-    } catch (err) {
-      this.setState({ alertVisible: true });
-      throw new SubmissionError(balanceError);
-    }
-  };
 
   onAlertDismiss = () => {
     this.setState({ alertVisible: false });
@@ -33,7 +20,7 @@ export class NewBalance extends Component {
   renderClients = () =>
     this.props.clients.map(({ _id, name, user }) => ({
       value: _id,
-      label: `Client Name: ${name}, User Email: ${user.name}`,
+      label: `Client Name: ${name}, User Email: ${user.email}`,
       client: {
         name,
         email: user.email
@@ -46,42 +33,50 @@ export class NewBalance extends Component {
     </span>
   );
 
+  onSubmintNewBalance = async values => {
+    await this.props.newBalance(values);
+    if (
+      this.props.balanceErrors.status === 400 ||
+      this.props.balanceErrors.status === 401
+    ) {
+      this.setState({ alertVisible: true });
+    } else {
+      this.props.history.push('/admin/balances/view');
+    }
+  };
+
   render() {
     return (
-      <div className="animated fadeIn">
-        <Row>
-          <Col xs="12" md={{ size: 6, offset: 3 }}>
-            <Card>
-              <CardHeader>
-                <i className="fa fa-plus" aria-hidden="true" /> New Balance
-                (اضافة رصيد جديد)
-              </CardHeader>
-              <BalanceForm
-                {...this.props}
-                loading={this.props.clientsLoading}
-                onSubmit={this.onSubmintNewBalance}
-                renderClients={this.renderClients()}
-                itemComponent={this.itemComponent}
-                onAlertDismiss={this.onAlertDismiss}
-                alertVisible={this.state.alertVisible}
-              />
-            </Card>
-          </Col>
-        </Row>
-      </div>
+      <Row className="animated fadeIn">
+        <Col xs="12" md={{ size: 6, offset: 3 }}>
+          <Card>
+            <CardHeader>
+              <i className="fa fa-plus" aria-hidden="true" />New Balance (اضافة
+              رصيد جديد)
+            </CardHeader>
+            <BalanceForm
+              {...this.props}
+              loading={this.props.clientsLoading}
+              onSubmit={this.onSubmintNewBalance}
+              renderClients={this.renderClients()}
+              itemComponent={this.itemComponent}
+              onAlertDismiss={this.onAlertDismiss}
+              alertVisible={this.state.alertVisible}
+            />
+          </Card>
+        </Col>
+      </Row>
     );
   }
 }
 
-const mapStateToProps = ({ balanceStore, clientStore }) => {
-  return {
-    balanceLoading: balanceStore.loading,
-    balanceError: balanceStore.error,
-    clients: clientStore.clients,
-    clientsLoading: clientStore.loading,
-    clientsError: clientStore.error
-  };
-};
+const mapStateToProps = ({ balanceStore, clientStore }) => ({
+  balanceLoading: balanceStore.loading,
+  balanceErrors: balanceStore.errors,
+  clients: clientStore.clients,
+  clientsLoading: clientStore.loading,
+  clientsErrors: clientStore.error
+});
 
 export default connect(mapStateToProps, { fetchClients, newBalance })(
   NewBalance

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { Row, Col, Card, CardHeader } from 'reactstrap';
 
@@ -9,17 +8,16 @@ import { newPlan } from '../../../actions/admin';
 class NewPlan extends Component {
   state = { alertVisible: false };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | New Plan';
   }
 
   onSubmintNewPlan = async values => {
-    try {
-      await this.props.newPlan(values);
-      this.props.history.push('/admin/plans/view');
-    } catch (err) {
+    await this.props.newPlan(values);
+    if (this.props.errors.status === 400 || this.props.errors.status === 401) {
       this.setState({ alertVisible: true });
-      throw new SubmissionError(this.props.error);
+    } else {
+      this.props.history.push('/admin/plans/view');
     }
   };
 
@@ -34,7 +32,7 @@ class NewPlan extends Component {
           <Col xs="12" md={{ size: 6, offset: 3 }}>
             <Card>
               <CardHeader>
-                <i className="fa fa-plus" aria-hidden="true" /> New Plan (خطة
+                <i className="fa fa-plus" aria-hidden="true" />New Plan (خطة
                 جديدة)
               </CardHeader>
               <PlanForm
@@ -51,8 +49,9 @@ class NewPlan extends Component {
   }
 }
 
-const mapStateToProps = ({ planStore: { loading, error } }) => {
-  return { loading, error };
-};
+const mapStateToProps = ({ planStore: { loading, errors } }) => ({
+  loading,
+  errors
+});
 
 export default connect(mapStateToProps, { newPlan })(NewPlan);

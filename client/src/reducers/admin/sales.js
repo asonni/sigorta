@@ -6,25 +6,25 @@ import {
 
 const initState = {
   sales: {},
-  error: null,
+  errors: {},
   loading: false
 };
 
 export default (state = initState, { type, payload }) => {
   switch (type) {
     case FETCH_SALES_PENDING:
-      return { ...state, loading: true, error: null };
+      return { ...state, loading: true, errors: {} };
 
     case FETCH_SALES_FULFILLED:
       return {
         ...state,
         sales: payload.data,
         loading: false,
-        error: null
+        errors: {}
       };
 
     case FETCH_SALES_REJECTED:
-      return { ...state, loading: false, error: payload };
+      return { ...state, loading: false, errors: payload };
 
     default:
       return state;

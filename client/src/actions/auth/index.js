@@ -45,6 +45,7 @@ export const logoutUser = () => {
   return { type: UNAUTH_USER };
 };
 
-export const authMessage = message => {
-  return { type: AUTH_MESSAGE, payload: message };
-};
+export const authMessage = message => ({
+  type: AUTH_MESSAGE,
+  payload: message
+});

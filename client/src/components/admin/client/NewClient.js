@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { Row, Col, Card, CardHeader } from 'reactstrap';
 
@@ -9,21 +8,10 @@ import { fetchUsers, newClinet } from '../../../actions/admin';
 class NewClient extends Component {
   state = { alertVisible: false };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | New Clinet';
     this.props.fetchUsers();
   }
-
-  onSubmintNewClient = async values => {
-    const { newClinet, history, clientError } = this.props;
-    try {
-      await newClinet(values);
-      history.push('/admin/clients/view');
-    } catch (err) {
-      this.setState({ alertVisible: true });
-      throw new SubmissionError(clientError);
-    }
-  };
 
   onAlertDismiss = () => {
     this.setState({ alertVisible: false });
@@ -45,40 +33,48 @@ class NewClient extends Component {
     </span>
   );
 
+  onSubmintNewClient = async values => {
+    await this.props.newClinet(values);
+    if (
+      this.props.clientError.status === 400 ||
+      this.props.clientError.status === 401
+    ) {
+      this.setState({ alertVisible: true });
+    } else {
+      this.props.history.push('/admin/clients/view');
+    }
+  };
+
   render() {
     return (
-      <div className="animated fadeIn">
-        <Row>
-          <Col xs="12" md={{ size: 6, offset: 3 }}>
-            <Card>
-              <CardHeader>
-                <i className="fa fa-plus" aria-hidden="true" /> New Clinet (زبون
-                جديد)
-              </CardHeader>
-              <ClientForm
-                {...this.props}
-                loading={this.props.usersLoading}
-                onSubmit={this.onSubmintNewClient}
-                renderUsers={this.renderUsers()}
-                itemComponent={this.itemComponent}
-                onAlertDismiss={this.onAlertDismiss}
-                alertVisible={this.state.alertVisible}
-              />
-            </Card>
-          </Col>
-        </Row>
-      </div>
+      <Row className="animated fadeIn">
+        <Col xs="12" md={{ size: 6, offset: 3 }}>
+          <Card>
+            <CardHeader>
+              <i className="fa fa-plus" aria-hidden="true" />New Clinet (زبون
+              جديد)
+            </CardHeader>
+            <ClientForm
+              {...this.props}
+              loading={this.props.usersLoading}
+              onSubmit={this.onSubmintNewClient}
+              renderUsers={this.renderUsers()}
+              itemComponent={this.itemComponent}
+              onAlertDismiss={this.onAlertDismiss}
+              alertVisible={this.state.alertVisible}
+            />
+          </Card>
+        </Col>
+      </Row>
     );
   }
 }
 
-const mapStateToProps = ({ clientStore, userStore }) => {
-  return {
-    clientError: clientStore.error,
-    users: userStore.users,
-    usersLoading: userStore.loading,
-    usersError: userStore.error
-  };
-};
+const mapStateToProps = ({ clientStore, userStore }) => ({
+  clientError: clientStore.errors,
+  users: userStore.users,
+  usersLoading: userStore.loading,
+  usersError: userStore.errors
+});
 
 export default connect(mapStateToProps, { newClinet, fetchUsers })(NewClient);

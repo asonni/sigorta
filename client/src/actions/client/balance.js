@@ -21,7 +21,7 @@ export const fetchBalances = () => async dispatch => {
       }
     );
     dispatch({ type: FETCH_BALANCES_FULFILLED, payload: response });
-  } catch ({ error }) {
-    dispatch({ type: FETCH_BALANCES_REJECTED, payload: error });
+  } catch ({ response }) {
+    dispatch({ type: FETCH_BALANCES_REJECTED, payload: response });
   }
 };

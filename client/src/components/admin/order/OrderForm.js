@@ -6,9 +6,7 @@ import { Row, Col, Alert, Button, CardBody, CardFooter } from 'reactstrap';
 
 import validate from './validate';
 import {
-  ErrorMessage,
   renderInputField,
-  AuthorizedMessage,
   renderNationalities,
   renderDropdownField,
   renderDateTimePickerField
@@ -26,7 +24,6 @@ class OrderForm extends Component {
     // Load Contact Asynchronously
     const { order } = nextProps;
     if (order && order._id !== this.props.order._id) {
-      console.log(order);
       const {
         client,
         plan,
@@ -58,18 +55,27 @@ class OrderForm extends Component {
       clientsError,
       onAlertDismiss
     } = this.props;
-    if ((orderError || clientsError || plansError) === undefined) {
+    if (
+      (clientsError && clientsError.status === 401) ||
+      (plansError && plansError.status === 401)
+    ) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          <AuthorizedMessage />
+          You are not authorized to do this action
         </Alert>
       );
     }
-
-    if (orderError || clientsError || plansError) {
+    if (orderError && orderError.status === 400) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          <ErrorMessage />
+          {orderError.message}
+        </Alert>
+      );
+    }
+    if (orderError && orderError.status === 401) {
+      return (
+        <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
+          {orderError.message}
         </Alert>
       );
     }
@@ -102,6 +108,7 @@ class OrderForm extends Component {
             <h6>
               <strong>Price</strong>:{' '}
               <NumberFormat
+                decimalScale={2}
                 value={price}
                 displayType={'text'}
                 thousandSeparator
@@ -109,6 +116,7 @@ class OrderForm extends Component {
               />{' '}
               | <strong>Total Price</strong>:{' '}
               <NumberFormat
+                decimalScale={2}
                 value={totalPrice}
                 displayType={'text'}
                 thousandSeparator
@@ -116,6 +124,7 @@ class OrderForm extends Component {
               />{' '}
               | <strong>Total Price After Discount</strong>:{' '}
               <NumberFormat
+                decimalScale={2}
                 value={totalPriceAfterDiscount}
                 displayType={'text'}
                 thousandSeparator

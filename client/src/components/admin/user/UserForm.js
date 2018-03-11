@@ -11,16 +11,10 @@ import {
 } from 'reactstrap';
 
 import validate from './validate';
-import {
-  ErrorMessage,
-  renderInputField,
-  AuthorizedMessage
-} from '../../common';
+import { renderInputField } from '../../common';
 
 class UserForm extends PureComponent {
-  state = {
-    popoverOpen: false
-  };
+  state = { popoverOpen: false };
 
   componentWillReceiveProps(nextProps) {
     // Load Contact Asynchronously
@@ -38,19 +32,18 @@ class UserForm extends PureComponent {
   };
 
   renderAlerts = () => {
-    const { alertVisible, onAlertDismiss, error } = this.props;
-    if (error === undefined) {
+    const { alertVisible, onAlertDismiss, errors } = this.props;
+    if (errors && errors.status === 401) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          <AuthorizedMessage />
+          You are not authorized to do this action
         </Alert>
       );
     }
-
-    if (error) {
+    if (errors && errors.status === 400) {
       return (
         <Alert color="danger" isOpen={alertVisible} toggle={onAlertDismiss}>
-          <ErrorMessage />
+          {errors.message}
         </Alert>
       );
     }

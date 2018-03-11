@@ -15,21 +15,31 @@ import {
 } from 'reactstrap';
 import ShowOrder from './ShowOrder';
 import DeleteBalance from './DeleteBalance';
-import { LoadingContent, ErrorMessage } from '../../common';
+import { LoadingContent, ErrorMessage, AuthorizedMessage } from '../../common';
 import { fetchBalances } from '../../../actions/admin';
 
 export class ViewBalances extends Component {
   state = {
+    balance: {},
     activePage: 1,
     itemsCountPerPage: 10,
     totalItemsCount: 450,
-    pageRangeDisplayed: 5
+    pageRangeDisplayed: 5,
+    showDeleteModal: false
   };
 
-  componentWillMount() {
+  componentDidMount() {
     document.title = 'Sigorta | View Balances';
     this.props.fetchBalances();
   }
+
+  onOpenDeleteModal = balance => {
+    this.setState({ balance, showDeleteModal: true });
+  };
+
+  onCloseDeleteModal = () => {
+    this.setState({ showDeleteModal: false });
+  };
 
   onChangePage = activePage => {
     this.setState({ activePage });
@@ -48,6 +58,7 @@ export class ViewBalances extends Component {
             <td className="text-center">
               <strong>
                 <NumberFormat
+                  decimalScale={2}
                   value={balance}
                   displayType={'text'}
                   thousandSeparator
@@ -62,11 +73,15 @@ export class ViewBalances extends Component {
             <td className="text-center">
               <ButtonGroup size="sm">
                 {order && <ShowOrder orderID={order} />}
-                <DeleteBalance
-                  balanceId={_id}
-                  balance={balance}
-                  balanceTransaction={transaction}
-                />
+                <Button
+                  color="danger"
+                  onClick={() =>
+                    this.onOpenDeleteModal({ _id, balance, transaction })
+                  }
+                >
+                  <i className="fa fa-trash" aria-hidden="true" />
+                  <span className="hidden-xs-down">&nbsp;Delete</span>
+                </Button>
               </ButtonGroup>
             </td>
           </tr>
@@ -75,7 +90,7 @@ export class ViewBalances extends Component {
     });
 
   renderBalances = () => {
-    const { balances, loading, error } = this.props;
+    const { balances, loading, errors } = this.props;
     // const {
     //   activePage,
     //   itemsCountPerPage,
@@ -85,12 +100,12 @@ export class ViewBalances extends Component {
     if (loading) {
       return <LoadingContent />;
     }
-    if (error) {
+    if (errors.status === 400) {
       return <ErrorMessage />;
     }
-    // if (errors.authenticated === false) {
-    //   return <AuthorizedMessage />;
-    // }
+    if (errors.status === 401) {
+      return <AuthorizedMessage />;
+    }
     if (balances.length === 0) {
       return (
         <div className="text-center">
@@ -129,9 +144,10 @@ export class ViewBalances extends Component {
   };
 
   render() {
+    const { balance, showDeleteModal } = this.state;
     return (
-      <div className="animated fadeIn">
-        <Row>
+      <Fragment>
+        <Row className="animated fadeIn">
           <Col xs="12" lg="12">
             <Card>
               <CardHeader>
@@ -157,13 +173,20 @@ export class ViewBalances extends Component {
             </Card>
           </Col>
         </Row>
-      </div>
+        <DeleteBalance
+          balance={balance}
+          showDeleteModal={showDeleteModal}
+          onCloseDeleteModal={this.onCloseDeleteModal}
+        />
+      </Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ balanceStore: { balances, loading, error } }) => {
-  return { balances, loading, error };
-};
+const mapStateToProps = ({ balanceStore: { balances, loading, errors } }) => ({
+  balances,
+  loading,
+  errors
+});
 
 export default connect(mapStateToProps, { fetchBalances })(ViewBalances);
