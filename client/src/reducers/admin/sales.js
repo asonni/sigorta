@@ -24,7 +24,11 @@ export default (state = initState, { type, payload }) => {
       };
 
     case FETCH_SALES_REJECTED:
-      return { ...state, loading: false, errors: payload };
+      return {
+        ...state,
+        loading: false,
+        errors: { status: 400, message: payload }
+      };
 
     default:
       return state;

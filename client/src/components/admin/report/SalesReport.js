@@ -67,6 +67,7 @@ export class SalesReport extends Component {
   };
 
   onSubmintFetchSales = async values => {
+    this.setState({ alertVisible: false });
     await this.props.fetchSales(values);
     if (this.props.errors.status === 400 || this.props.errors.status === 401) {
       this.setState({ alertVisible: true });
@@ -140,7 +141,12 @@ export class SalesReport extends Component {
                       </Fragment>
                     )}
                   </Button>{' '}
-                  <Button size="sm" color="secondary" type="reset">
+                  <Button
+                    size="sm"
+                    color="secondary"
+                    type="button"
+                    onClick={this.props.reset}
+                  >
                     <i className="fa fa-ban" /> Cancel
                   </Button>
                 </CardFooter>

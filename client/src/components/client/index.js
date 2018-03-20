@@ -19,9 +19,9 @@ class Client extends Component {
   render() {
     return (
       <div className="app">
-        <Header {...this.props} />
+        <Header />
         <div className="app-body">
-          <Sidebar {...this.props} />
+          <Sidebar />
           <main className="main">
             <Breadcrumb />
             <Container fluid>

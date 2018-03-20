@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Nav, NavbarBrand, NavbarToggler } from 'reactstrap';
 import ConfirmLogout from './ConfirmLogout';
 // import HeaderNotificationsDropdown from './HeaderNotificationsDropdown';
@@ -49,4 +50,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);
