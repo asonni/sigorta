@@ -7,7 +7,7 @@ import validate from './validate';
 import { renderInputField } from '../../common';
 
 class PlanForm extends Component {
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // Load Contact Asynchronously
     const { plan } = nextProps;
     if (plan && plan._id !== this.props.plan._id) {

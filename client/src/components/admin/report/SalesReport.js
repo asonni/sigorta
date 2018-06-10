@@ -30,7 +30,7 @@ export class SalesReport extends Component {
     document.title = 'Sigorta | Sales Report';
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.sales !== this.props.sales) {
       printSalesTable(nextProps.sales);
     }

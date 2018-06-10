@@ -11,7 +11,7 @@ import {
 } from '../../common';
 
 class ClientForm extends Component {
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // Load Contact Asynchronously
     const { client } = nextProps;
     if (client && client._id !== this.props.client._id) {
@@ -25,6 +25,19 @@ class ClientForm extends Component {
       });
     }
   }
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   console.log(nextProps.client, prevState);
+  //   // Load Contact Asynchronously
+  //   const { client } = nextProps;
+  //   // Initialize form only once
+  //   nextProps.initialize({
+  //     _id: client._id,
+  //     name: client.name,
+  //     discount: client.discount,
+  //     limit: client.limit,
+  //     user: client.user ? client.user._id : null
+  //   });
+  // }
 
   renderAlerts = () => {
     const {

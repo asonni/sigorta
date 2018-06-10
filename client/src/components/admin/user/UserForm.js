@@ -16,7 +16,7 @@ import { renderInputField } from '../../common';
 class UserForm extends PureComponent {
   state = { popoverOpen: false };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // Load Contact Asynchronously
     const { user } = nextProps;
     if (user && user._id !== this.props.user._id) {

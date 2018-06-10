@@ -21,8 +21,8 @@ class ViewUsers extends PureComponent {
   state = {
     user: {},
     activePage: 1,
-    itemsCountPerPage: 10,
     totalItemsCount: 450,
+    itemsCountPerPage: 10,
     pageRangeDisplayed: 5,
     showDeleteModal: false
   };

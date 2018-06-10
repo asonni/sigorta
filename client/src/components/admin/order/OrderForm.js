@@ -20,7 +20,7 @@ class OrderForm extends Component {
     numberOfYears: 0,
     totalPriceAfterDiscount: 0
   };
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // Load Contact Asynchronously
     const { order } = nextProps;
     if (order && order._id !== this.props.order._id) {
